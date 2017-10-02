@@ -4,18 +4,18 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 // import store from 'vuex'
-// import store from './store'
-import Vuex from 'Vuex'
+import store from './store'
+//import Vuex from 'Vuex'
 
 Vue.config.productionTip = false
 
-Vue.use(Vuex)
+// Vue.use(Vuex)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  store,  //Inject state store into this and all child components.
+  store, //Inject state store into this and all child components.
   template: '<App/>',
   components: { App }
 })
