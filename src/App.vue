@@ -276,7 +276,7 @@
   import LeftMenu from './components/LeftMenu'
   
   export default {
-    name: 'app',
+    name: 'app',    
     components: {
       LeftMenu
     }
