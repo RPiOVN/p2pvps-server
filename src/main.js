@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 // import store from 'vuex'
 import store from './store'
-//import Vuex from 'Vuex'
+// import Vuex from 'Vuex'
 
 Vue.config.productionTip = false
 
@@ -15,7 +15,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  store, //Inject state store into this and all child components.
+  store, // Inject state store into this and all child components.
   template: '<App/>',
   components: { App }
 })
