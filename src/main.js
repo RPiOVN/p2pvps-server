@@ -3,9 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import store from 'vuex'
+
+// Original file layout for Vues/store was taken from CoPilot:
+// https://github.com/misterGF/CoPilot
+// Very similar example linked to from the Vuex documentation:
+// https://vuex.vuejs.org/en/structure.html
+// Which points to the store example:
+// https://github.com/vuejs/vuex/tree/dev/examples/shopping-cart/store
 import store from './store'
-// import Vuex from 'Vuex'
 
 Vue.config.productionTip = false
 
