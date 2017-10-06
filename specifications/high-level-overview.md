@@ -4,8 +4,8 @@ set of server and client software.
 
 The client software is targeted for Raspberry Pi's minicomputers, but can be operated on
 any device that is capable of running Docker. The focus of the client software is to:
-* Create a basic Linux environment.
-* Establish a reverse SSH connection with the server, to provide a command line interface.
+* Create a basic Linux environment with a command line interface (CLI).
+* Establish a reverse SSH connection with the server, to provide the CLI to the renter.
 
 The server software is targeted for cloud VPS servers like Digital Ocean, AWS, etc. The focus of
 the server software is to:
@@ -41,6 +41,8 @@ interested in contributing, please let us know:
 * Encryption
 * Deployment Packages (pre-configured scripts for setting up apps like webservers, file sharing, etc.)
 * Testing
+
+![Simple server client diagram](images/simple-diagram.jpg?raw=true "Simple server client diagram")
 
 # Server Overview
 The primary purpose of the server software is to orchastrate the network of devices and facilitate financial transations. 
