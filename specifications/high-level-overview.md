@@ -78,22 +78,22 @@ high level features:
 
 # High Level System Overview
 The sections below give additional details on how the system-as-a-whole works. Lower level specifications will
-be captured in the respective specification document for Client, Server, and Marketplace.
+be captured in the respective specification document for [Client](client-specification.md), Server, and Marketplace.
 
 ## Network Orchestration
 A client device registers with a server by making a REST API call and passing a server-generated key (GUID). 
 Upon recieving a valid registration call, the server opens new ports, generates login details, and returns this 
 information to the client. 
-The client then launched a Docker container with a minimal Linux environment. The container makes
+The client then launches a Docker container with a minimal Linux environment. The container makes
 reverse SSH connections to forward its local ports to the server's new ports, tunneling through any firewalls, and creating 
 a command line interface accessible to the renter.
 
-The server operates a minimal SSH server running inside a Docker container and another [LocalTunnel server](https://github.com/localtunnel/server) 
+The Server operates a minimal SSH server running inside a Docker container and another [LocalTunnel server](https://github.com/localtunnel/server) 
 running inside it's own Docker container.
-This SSH shell allows connection to the command line interface via SSH (port 22).
+This SSH shell allows connection to the client device command line interface via SSH.
 The LocalTunnel server also forwards port 80 (http) and port 443 (https) from the client device. A subdomain is created
 on the server allowing access to these three ports. This allows clients to connect to the command line on the device and also
-serve web pages and web apps.
+serve web pages and web apps from a human-readable URL.
 
 ## Financial Transactions
 The first payment method for transacting device rentals will be the Paypal Contracts API. As soon as possible, 
@@ -102,9 +102,9 @@ advantage of allowing server owners to create semi-anonymous markets.
 
 Renters will fill out a form to register their device, be given a key, and
 then install the software on the client hardware along with the key. Rental of devices will be billed by the hour.
-When a device is registered, its hardware (memory, CPU, hard-drive space) will be verified. It will then be added
-to the marketplace and labeled as available for rent. The renters can set the hourly rate they are willing to rent the
-device for.
+When a device is registered, its hardware (memory, CPU, hard-drive space) will be verified. 
+Owners can then place the device for rent on the marketplace, or simply reserve it for personal use.
+The device owner can set the hourly rate they are willing to rent the device for on the marketplace.
 
 When a renter agrees to the rental contract, the device is taken off the market. A random username and password will
 be generated and sent to the renter, and the device will be dedicated for their use. As long as the device is connected
