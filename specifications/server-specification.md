@@ -52,4 +52,6 @@ one another.
 ## Testing
 Testing of server code will use the same test-suite as the Marketplace. Namely the test configuration set up
 by the original [vue-template/webpack repository](https://github.com/vuejs-templates/webpack).
+Namely, Mocha will be used for unit tests and Karma will be used for end-to-end testing. We badly need
+a contributor to help us setup and maintain a suite of testing scripts and set up Continuous Integration testing.
 
