@@ -20,7 +20,7 @@ A simple diagram of a P2P VPS Marketplace:
 ![Simple server client diagram](images/simple-diagram.jpg?raw=true "Simple server client diagram")
 
 
-# Client Overview
+## Client Overview
 The purpose of the client side software is to create a virtual private server (**VPS**) environment similar to those hosted
 by cloud companies like Digital Ocean or AWS. This is achieved on an IoT device by running a Linux command line inside
 a Docker container. Small, indexpensive, distributed hardware like Raspberry Pi minicomputers now posses the
@@ -49,7 +49,7 @@ interested in contributing, please let us know:
 * Testing
 
 
-# Server Overview
+## Server Overview
 The primary purpose of the server software is to orchastrate the network of devices and facilitate financial transations. 
 Its secondary purpose is to connect with other servers, in order to establish a peer-to-peer (P2P) marketplace, 
 with no central point of failure. These goals are achieved by splitting the server into two software stacks:
@@ -76,16 +76,21 @@ high level features:
 * Testing
 
 
-
+# High Level System Overview
+The sections below give additional details on how the system-as-a-whole works. Lower level specifications will
+be captured in the respective specification document for Client, Server, and Marketplace.
 
 ## Network Orchestration
-A client device registers with a server by making an API call and passing a server-generated key. Upon recieving a valid
-registration call, the server opens a new ports and returns this information to the client. The client then makes
+A client device registers with a server by making a REST API call and passing a server-generated key (GUID). Upon recieving a valid
+registration call, the server opens new ports, generates login details, and returns this information to the client. 
+The client then makes
 reverse SSH connections to forward its local ports to the server's new ports, tunneling through any firewalls, creating 
 a command line interface accessible to the renter.
 
-At the same time, a minimal Linux shell (inside a Docker container) with an SSH server is created on the server. This shell allows connection to the
-command line interface via SSH (port 22), and also opens port 80 (http) and port 443 (https). A subdomain is created
+The server operates a minimal SSH server running inside a Docker container and another [LocalTunnel server](https://github.com/localtunnel/server) 
+running inside it's own Docker container.
+This SSH shell allows connection to the command line interface via SSH (port 22).
+The LocalTunnel server also forwards port 80 (http) and port 443 (https) from the client device. A subdomain is created
 on the server allowing access to these three ports. This allows clients to connect to the command line on the device and also
 serve web pages and web apps.
 
