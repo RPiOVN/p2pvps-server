@@ -16,6 +16,7 @@ the server software is to:
 
 
 A simple diagram of a P2P VPS Marketplace:
+
 ![Simple server client diagram](images/simple-diagram.jpg?raw=true "Simple server client diagram")
 
 
