@@ -124,31 +124,26 @@ By creating a federation of marketplaces, the overall network has no single poin
 ![Federated network of servers](images/federated-diagram.jpg?raw=true "Federated network of servers")
 
 
-# Client Server Handshaking
+
+## Client Server Handshaking
 Below are a series of steps specifiying how the Server and Client (Raspberry Pi or other IoT device) will initiate a
 connection to the Server in order to allow global internet connections to the Client behind any arbitrary firewalls and network devices.
 
-1. The Rentee logs into their account on the Server to register the Client device. They recieve a Hash the Client
+1. The device Owner logs into their account on the Server to register the Client device. They recieve a hash the Client
 uses to identify itself to the Server.
 
-2. The Rentee copies the Hash into a .json file on the Client and starts the Client software.
+2. The Owner copies the hash into a .json file on the Client and starts the Client software.
 
-3. The Client software makes an API call to the Server. It passes in the Hash and the Server responds with
-a computer-generated username, password, and three port numbers. These three port numbers will be used for
-SSH, HTTP, and HTTPS connections. The client creates three reverse SSH connections, forwarding Client ports 22, 80, and 443
-to the three assigned ports on the Server.
+3. The Client software makes a REST API call to the Server. It passes in the hash and the Server responds with
+a computer-generated username, password, and a port number. The port number is used to establish an reverse SSH
+tunnel to the Client device. A subdomain is also set up on the server using [LocalTunnel](https://github.com/localtunnel/server) 
+to forward ports 80 (http) and 443 (https) from the Client device to the new subdomain on the Server.
 
-4. After receiving the API call, but before responding, the server creates a minimal Ubuntu Docker image with 
-three ports linked to the Server's
-host system and a username and password corresponding to the ones given to the Client.
+4. When a Renter rents the device, they are emailed the username and password for the device.
 
-5. The Server updates it's Nginx configuration file to create a new subdomain with ports 22, 80, and 443 forwarded
-to the assigned ports.
-
-6. When a Renter rents the device, they are emailed the username and password for the device.
-
-7. When the Renter cancels their agreement, the Docker image and Nginx configuration are deleted from the server.
+5. When the Renter cancels their agreement, the ports and subdomains are released by the server. 
+The Client software destroys the Docker container the Renter was using and wipes any peristant storage.
 The Client re-registers itself back into the marketplace by repeating the process from Step 3.
 
-It is not possible to make a reverse SSH call without giving the Client shell access to the Server. By restricting
+Note: It is not possible to make a reverse SSH call without giving the Client shell access to the Server. By restricting
 the connection to a minimal Ubuntu Docker image, the server can be better protected against malicious users.
