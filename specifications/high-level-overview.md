@@ -48,6 +48,7 @@ interested in contributing, please let us know:
 * Deployment Packages (pre-configured scripts for setting up apps like webservers, file sharing, etc.)
 * Testing
 
+See more details in the [Client Specification](client-specification.md).
 
 ## Server Overview
 The primary purpose of the server software is to orchastrate the network of devices and facilitate financial transations. 
@@ -64,6 +65,8 @@ It is composed of the following high-level User Interfaces/Features:
 * Marketplace
 * Testing
 
+See more details in the [Server Specification](server-specification.md).
+
 *The Server* is the collection of files necessary to create the website (content), the database models, and the REST APIs
 needed for the Client software and the Marketplace software to communicate and coordinate. It is composed of the following
 high level features:
@@ -75,10 +78,12 @@ high level features:
 * Bitcoin Transactions
 * Testing
 
+See more details in the [Marketplace Specification](marketplace-specification.md).
 
 # High Level System Overview
 The sections below give additional details on how the system-as-a-whole works. Lower level specifications will
-be captured in the respective specification document for [Client](client-specification.md), Server, and Marketplace.
+be captured in the respective specification document for [Client](client-specification.md), 
+[Server](server-specification.md), and [Marketplace](marketplace-specification.md).
 
 ## Network Orchestration
 A client device registers with a server by making a REST API call and passing a server-generated key (GUID). 
