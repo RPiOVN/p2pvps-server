@@ -1,28 +1,38 @@
-# vue-connextcms-site-template
+# P2P VPS - Server
 
-> A Vue.js based site template for ConnextCMS
+## What is P2P VPS?
+P2P VPS aspires to create a peer-to-peer (P2P) marketplace offering Virtal Private Servers (VPS), similar to 
+[Digital Ocean](http://digitalocean.com) or [Vultr](http://vultr.com). This would also be similar
+to co-location services like [Raspberry Pi Hosting](https://raspberry-hosting.com/en) or 
+[Mythic Beasts](https://www.mythic-beasts.com/order/rpi).
+However, instead of using a data center,
+the marketplace would use an array of psudo-anonymous IoT devices (like the [Raspberry Pi](https://www.raspberrypi.org/))
+hosted by people participating in the marketplace. Anyone
+with an internet connection and a device capable of running [Docker](https://www.docker.com/) can rent
+that device in the P2P VPS marketplace.
 
-This repository was generated from the [vuejs-template/webpack](https://github.com/vuejs-templates/webpack#vue-webpack-boilerplate) template.
-It generates a Vue.js SPA [site template](https://github.com/skagitpublishing/site-template-connextcms) for
-[ConnextCMS](http://connextcms.com/) based on the [AdminLTE](https://almsaeedstudio.com/) dashboard.
-It borrows inspiration from the [CoPilot](https://github.com/misterGF/CoPilot) project, but is not associated with it.
+While [the applications of such a network](https://raspberry-hosting.com/en/applications) are similar, 
+the P2P VPS marketplace will never have the speed or reliabilty of the commercial outfits linked above.
+Instead, the focus of P2P VPS is to create a decentralized network of anonymous web servers,
+capable of delivering websites or web apps, in order to prevent censorship and promote free speech.
 
-AdminLTE is an *awesome* Bootstrap-based dashboard. This repository packages the basic AdminLTE dashboard inside several
-Vue.js components and then further processes the build output so that it's ready to copy to an installation of ConnextCMS as a site template.
-ConnextCMS/KeystoneJS can be used to serve and manage the content of your site, and the Vue.js app is available at the
-path `/appdashboard`. Each part (ConnextCMS and the Vue.js SPA) runs independently. This project is intended to speed 
-up development for people who need a CMS to easily manage website content and also need an area of the site
-set aside for a sophisticated, modern single page application (SPA) using Vue.js.
+Members participating in the marketplace can earn cryptocurrency by renting out their device, while
+helping to create a more decentralized internet at the same time.
+That's the focus of the P2P VPS network. In this way, the P2P VPS software is censhorship-fighting
+software similar to, but very different from, [TOR](https://www.torproject.org/).
 
-The Vue.js components in the site template are composed of the following:
-* LeftMenu.vue
-* ActiveView.vue
-* contentHeader.vue
-* activeContent.vue
-* views/dashboard.vue
+## About This Repository
+This repository is the server-side software needed to host a P2P VPS marketplace on your own server.
+The repository was customized from a forked copy of the [vue-connextcms-site-template](https://github.com/skagitpublishing/vue-connextcms-site-template)
+repository. The P2P VPS software is composed of three software packages:
 
-They are arranged in the browser as illustrated in [this Wire Frame](https://wireframe.cc/njHhlF):
-![vue component layout](component-layout.jpg?raw=true "vue component layout")
+1. *The Client* software which runs on the IoT device and allows the device to be rented.
+2. *The Server* software which includes the database models, REST APIs, and website content.
+3. *The Marketplace* which is a Vue.js client-side application which facilitates transactions and administration of devices.
+
+[The Client software can be found here](https://github.com/RPiOVN/rpibroker). This repository contains *The Server* and *The Marketplace* software.
+
+
 
 ## Build Setup
 For detailed explanation on how the build commands work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
@@ -82,7 +92,7 @@ address of your server.
 ## License
 (The MIT License)
 
-Copyright (c) 2017 [Skagit Publishing](http://skagitconnext.com/)
+Copyright (c) 2017 Chris Troutner and [RPiOVN](http://rpiovn.org)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
