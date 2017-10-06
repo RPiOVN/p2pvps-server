@@ -14,6 +14,11 @@ the server software is to:
 * Handle payment processing.
 * Establish connection with other servers.
 
+
+A simple diagram of a P2P VPS Marketplace:
+![Simple server client diagram](images/simple-diagram.jpg?raw=true "Simple server client diagram")
+
+
 # Client Overview
 The purpose of the client side software is to create a virtual private server (**VPS**) environment similar to those hosted
 by cloud companies like Digital Ocean or AWS. This is achieved on an IoT device by running a Linux command line inside
@@ -42,7 +47,6 @@ interested in contributing, please let us know:
 * Deployment Packages (pre-configured scripts for setting up apps like webservers, file sharing, etc.)
 * Testing
 
-![Simple server client diagram](images/simple-diagram.jpg?raw=true "Simple server client diagram")
 
 # Server Overview
 The primary purpose of the server software is to orchastrate the network of devices and facilitate financial transations. 
