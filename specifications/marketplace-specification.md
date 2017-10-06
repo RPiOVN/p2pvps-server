@@ -11,6 +11,9 @@ high-level features:
 The sections below detail the specifications for each of these features:
 
 ## Owned Device Management
+![Owned Devices](images/owned-devices-mockup.JPG?raw=true "Owned Devices Mock Up")
+
+A mockup of the owned devices view is displayed above. 
 
 ## Rented Device Management
 
