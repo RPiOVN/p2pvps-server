@@ -81,10 +81,11 @@ The sections below give additional details on how the system-as-a-whole works. L
 be captured in the respective specification document for Client, Server, and Marketplace.
 
 ## Network Orchestration
-A client device registers with a server by making a REST API call and passing a server-generated key (GUID). Upon recieving a valid
-registration call, the server opens new ports, generates login details, and returns this information to the client. 
-The client then makes
-reverse SSH connections to forward its local ports to the server's new ports, tunneling through any firewalls, creating 
+A client device registers with a server by making a REST API call and passing a server-generated key (GUID). 
+Upon recieving a valid registration call, the server opens new ports, generates login details, and returns this 
+information to the client. 
+The client then launched a Docker container with a minimal Linux environment. The container makes
+reverse SSH connections to forward its local ports to the server's new ports, tunneling through any firewalls, and creating 
 a command line interface accessible to the renter.
 
 The server operates a minimal SSH server running inside a Docker container and another [LocalTunnel server](https://github.com/localtunnel/server) 
