@@ -26,11 +26,21 @@ This repository is the server-side software needed to host a P2P VPS marketplace
 The repository was customized from a forked copy of the [vue-connextcms-site-template](https://github.com/skagitpublishing/vue-connextcms-site-template)
 repository. The P2P VPS software is composed of three software packages:
 
-1. *The Client* software which runs on the IoT device and allows the device to be rented.
-2. *The Server* software which includes the database models, REST APIs, and website content.
+1. *The Client* software runs on the IoT device and allows the device to be rented.
+2. *The Server* software includes the database models, REST APIs, and website content.
 3. *The Marketplace* which is a Vue.js client-side application which facilitates transactions and administration of devices.
 
-[The Client software can be found here](https://github.com/RPiOVN/rpibroker). This repository contains *The Server* and *The Marketplace* software.
+[The Client software can be found here](https://github.com/RPiOVN/rpibroker). 
+This repository contains *The Server* and *The Marketplace* software.
+
+### File Layout
+* The `site-template-connextcms/` directory contains the ConnextCMS site template files needed to create database models
+and REST APIs required for the Clients and Marketplace to coordinate and persist data. For more information, see the
+Readme for [ConnextCMS Site Templates](https://github.com/skagitpublishing/site-template-connextcms).
+
+* The rest of this readme describes the build options for developing *The Marketplace*, which is a Vue.js application
+bundled through Webpack. For additional details, see the [vue-connextcms-site-template](https://github.com/skagitpublishing/vue-connextcms-site-template)
+repository.
 
 
 
