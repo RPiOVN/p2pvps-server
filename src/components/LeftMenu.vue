@@ -223,10 +223,10 @@ export default {
     }
   },
   methods: {
-    showDashboard: function ( ) {
+    showDashboard: function () {
       console.log('Dashboard link was clicked.')
     },
-    showMarketplace: function( ) {
+    showMarketplace: function () {
       console.log('Marketplace link was click.')
     }
   }
