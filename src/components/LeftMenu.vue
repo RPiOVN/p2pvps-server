@@ -28,10 +28,10 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li>
-          <a href="#">Dashboard</a>
+          <a href="#" v-on:click="showDashboard">Dashboard</a>
         </li>
         <li>
-          <a href="#">Marketplace</a>
+          <a href="#" v-on:click="showMarketplace">Marketplace</a>
         </li>
         <li>
           <a href="#">Owned Devices</a>
@@ -220,6 +220,14 @@ export default {
   data () {
     return {
       msg: 'This is the left menu'
+    }
+  },
+  methods: {
+    showDashboard: function () {
+      console.log('Dashboard link was clicked.');
+    },
+    showMarketplace: function() {
+      console.log('Marketplace link was click.');
     }
   }
 }
