@@ -28,6 +28,9 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li>
+          <a href="#">Dashboard</a>
+        </li>
+        <li>
           <a href="#">Marketplace</a>
         </li>
         <li>

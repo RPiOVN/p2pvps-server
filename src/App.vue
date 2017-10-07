@@ -279,6 +279,14 @@
     name: 'app',
     components: {
       LeftMenu
+    },
+    data: {
+      menuCtl: {  // Controls which views are being displayed.
+        dashboard: true,
+        ownedDevices: false,
+        rentedDevices: false,
+        marketplace: false
+      }
     }
   }
 </script>

@@ -1,22 +1,24 @@
 <template>
-  <div style="border: 1px solid green;">
-    <dashboard></dashboard>
-  </div>
+  <section class="content container">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-sm-12">
+        <p>This is the owned devices view</p>
+      </div>
+     
+    </div>
+    <!-- /.row (main row) -->
+
+  </section>
 </template>
 
 <script>
-  import dashboard from './views/dashboard'
-  import ownedDevices from './views/ownedDevices.vue'
-  
   export default {
-    name: 'active-content',
+    name: 'ownedDevices',
     data () {
       return {
-        msg: 'This is the active content.'
+        msg: 'This is the owned devices view.'
       }
-    },
-    components: {
-      dashboard
     }
   }
 </script>
