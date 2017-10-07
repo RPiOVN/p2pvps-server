@@ -8,5 +8,11 @@ export default {
     messages: [{1: 'test', 2: 'test'}],
     notifications: [],
     tasks: []
+  },
+  menuState: {
+    dashboard: true,
+    ownedDevices: false,
+    rentedDevices: false,
+    marketplace: false
   }
 }
