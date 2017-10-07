@@ -16,7 +16,8 @@
       }
     },
     components: {
-      dashboard
+      dashboard,
+      ownedDevices
     }
   }
 </script>
