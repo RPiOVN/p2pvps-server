@@ -1,5 +1,8 @@
 <template>
   <div style="border: 1px solid green;">
+    <ul>
+      <li v-if="store.menuState.dashboard">Dashboard</li>
+    </ul>
     <dashboard></dashboard>
   </div>
 </template>
