@@ -7,6 +7,8 @@
 <script>
   import dashboard from './views/dashboard'
   import ownedDevices from './views/ownedDevices.vue'
+  import rentedDevices from './views/rentedDevices.vue'
+  import marketplace from './views/marketplace.vue'
   
   export default {
     name: 'active-content',
@@ -17,7 +19,9 @@
     },
     components: {
       dashboard,
-      ownedDevices
+      ownedDevices,
+      rentedDevices,
+      marketplace
     }
   }
 </script>
