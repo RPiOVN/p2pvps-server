@@ -25,8 +25,8 @@
       marketplace
     },
     computed: {
-      dashboard() {
-        return store.menuState.dashboard
+      dashboard () {
+        return this.$store.menuState.dashboard
       }
     }
   }
