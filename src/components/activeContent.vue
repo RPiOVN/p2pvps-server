@@ -1,8 +1,6 @@
 <template>
   <div style="border: 1px solid green;">
-    <ul>
-      <li v-if="store.menuState.dashboard">Dashboard</li>
-    </ul>
+    <p v-if="{{ dashboard }}">The dashboard is being shown</p>
     <dashboard></dashboard>
   </div>
 </template>
@@ -25,6 +23,11 @@
       ownedDevices,
       rentedDevices,
       marketplace
+    },
+    computed: {
+      dashboard() {
+        return store.menuState.dashboard
+      }
     }
   }
 </script>
