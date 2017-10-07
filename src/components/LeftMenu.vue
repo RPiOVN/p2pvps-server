@@ -28,16 +28,16 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li>
-          <a href="#" v-on:click="showDashboard">Dashboard</a>
+          <router-link to="/"><a href="#" v-on:click="showDashboard">Dashboard</a></router-link>
         </li>
         <li>
-          <a href="#" v-on:click="showMarketplace">Marketplace</a>
+          <router-link to="/marketplace"><a href="#" v-on:click="showMarketplace">Marketplace</a></router-link>
         </li>
         <li>
-          <a href="#">Owned Devices</a>
+          <router-link to="/ownedDevices"><a href="#" v-on:click="showOwnedDevices">Owned Devices</a></router-link>
         </li>
         <li>
-          <a href="#">Rental Devices</a>
+          <a href="#" v-on:click="showRentedDevices">Rented Devices</a>
         </li>
         <li class="active treeview">
           <a href="#">
@@ -225,9 +225,43 @@ export default {
   methods: {
     showDashboard: function () {
       console.log('Dashboard link was clicked.')
+      this.hideAllViews()
+
+      var newMenuState = this.$store.state.menuState
+      newMenuState.dashboard = true
+      this.$store.commit('SET_MENU', newMenuState)
     },
     showMarketplace: function () {
       console.log('Marketplace link was click.')
+      this.hideAllViews()
+
+      var newMenuState = this.$store.state.menuState
+      newMenuState.marketplace = true
+      this.$store.commit('SET_MENU', newMenuState)
+    },
+    showOwnedDevices: function () {
+      console.log('showOwnedDevices link was clicked.')
+      this.hideAllViews()
+
+      var newMenuState = this.$store.state.menuState
+      newMenuState.ownedDevices = true
+      this.$store.commit('SET_MENU', newMenuState)
+    },
+    showRentedDevices: function () {
+      console.log('showRentedDevices link was click.')
+      this.hideAllViews()
+
+      var newMenuState = this.$store.state.menuState
+      newMenuState.rentedDevices = true
+      this.$store.commit('SET_MENU', newMenuState)
+    },
+    hideAllViews: function () {
+      var viewState = this.$store.state.menuState
+
+      for (var view in viewState) {
+        viewState[view] = false
+      }
+      this.$store.commit('SET_MENU', viewState)
     }
   }
 }

@@ -1,7 +1,12 @@
 <template>
   <div style="border: 1px solid green;">
-    <p v-if="dashboard()">The dashboard is being shown</p>
-    <dashboard></dashboard>
+
+    <!-- Display views based on the menuState -->
+    <dashboard v-if="this.$store.state.menuState.dashboard"></dashboard>
+    <ownedDevices v-if="this.$store.state.menuState.ownedDevices"></ownedDevices>
+    <rentedDevices v-if="this.$store.state.menuState.rentedDevices"></rentedDevices>
+    <marketplace v-if="this.$store.state.menuState.marketplace"></marketplace>
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 
@@ -28,6 +33,10 @@
     computed: {
       dashboard () {
         return this.$store.menuState.dashboard
+      },
+      getMenuState: function () {
+        // debugger
+        return this.$store.state.menuState.dashboard
       }
     }
   }

@@ -266,22 +266,26 @@
     </header>
 
     <!-- Vue Components -->
+    
     <left-menu></left-menu>
-    <router-view></router-view>
+    <activeView></activeView>
   </div>
 </template>
 
 <script>
   
   import LeftMenu from './components/LeftMenu'
+  import ActiveView from './components/ActiveView.vue'
   
   export default {
     name: 'app',
     components: {
-      LeftMenu
+      LeftMenu,
+      ActiveView
     },
-    data: {
-
+    data: function () {
+      return {
+      }
     }
   }
 </script>
