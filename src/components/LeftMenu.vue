@@ -223,11 +223,11 @@ export default {
     }
   },
   methods: {
-    showDashboard: function () {
-      console.log('Dashboard link was clicked.');
+    showDashboard: function ( ) {
+      console.log('Dashboard link was clicked.')
     },
-    showMarketplace: function() {
-      console.log('Marketplace link was click.');
+    showMarketplace: function( ) {
+      console.log('Marketplace link was click.')
     }
   }
 }
