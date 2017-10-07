@@ -1,6 +1,6 @@
 <template>
   <div style="border: 1px solid green;">
-    <p v-if="dashboard">The dashboard is being shown</p>
+    <p v-if="dashboard()">The dashboard is being shown</p>
     <dashboard></dashboard>
   </div>
 </template>
@@ -16,7 +16,7 @@
     data () {
       return {
         msg: 'This is the active content.',
-        dashboard: true
+        // dashboard: true
       }
     },
     components: {
