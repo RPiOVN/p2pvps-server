@@ -12,7 +12,7 @@ module.exports = function(app) {
 
   // Keystone Views
   app.get('/test', routes.views.test);
-  app.get('/appdashboard', routes.views.appdashboard);
+  // app.get('/appdashboard', routes.views.appdashboard);
   
   
   app.get('/api/portcontrol/list', keystone.middleware.api, routes.api.portcontrol.list);
@@ -34,5 +34,6 @@ module.exports = function(app) {
   
   // NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
-  app.get('/loggedinuser', middleware.requireUser, routes.views.loggedinuser);
+  // app.get('/loggedinuser', middleware.requireUser, routes.views.loggedinuser);
+  app.get('/appdashboard', middleware.requireUser, routes.views.appdashboard);
 }

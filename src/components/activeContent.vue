@@ -1,5 +1,5 @@
 <template>
-  <div style="border: 1px solid green;">
+  <div>
 
     <!-- Display views based on the menuState -->
     <dashboard v-if="this.$store.state.menuState.dashboard"></dashboard>
