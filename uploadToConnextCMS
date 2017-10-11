@@ -2,5 +2,5 @@
 # This script copied the files from the coPilot repo to the test installation
 # of ConnextCMS on my dev server. It allows me to do rapid testing of code
 # chanages.
-
+rm -rf ~/docker-connextcms/theme/site-template-connextcms
 cp -r connextcms-vue-app ~/docker-connextcms/theme/site-template-connextcms
