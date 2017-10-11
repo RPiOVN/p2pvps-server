@@ -14,5 +14,9 @@ export default {
 
   SET_MENU (state, newMenuState) {
     state.menuState = newMenuState
+  },
+
+  SET_OWNED_DEVICES (state, newOwnedDevicesState) {
+    state.ownedDevices = newOwnedDevicesState
   }
 }
