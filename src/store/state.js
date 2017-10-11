@@ -14,5 +14,7 @@ export default {
     ownedDevices: false,
     rentedDevices: false,
     marketplace: false
-  }
+  },
+  ownedDevices: [], // Array of devices owned by this user.
+  rentedDevices: [] // Array of devices rented by this user.
 }

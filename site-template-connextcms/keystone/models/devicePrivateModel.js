@@ -9,10 +9,13 @@ var Types = keystone.Field.Types;
 var DevicePrivateModel = new keystone.List('DevicePrivateModel');
 
 DevicePrivateModel.add({
+  ownerUser: { type: Types.Relationship, ref: 'User' },
   renterUser: { type: Types.Relationship, ref: 'User' },
+  publicData: { type: Types.Relationship, ref: 'DevicePublicModel' },
   serverSSHPort: { type: String },
   deviceUser: { type: String },
   devicePassword: { type: String }
 });
 
+User.defaultColumns = 'ownerUser';
 DevicePrivateModel.register();

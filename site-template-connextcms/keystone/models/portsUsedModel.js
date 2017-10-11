@@ -2,7 +2,7 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 /**
- * User Files Model - an array of JSON strings listing the available files for each user.
+ * This model is used to track the ports in use by the SSH container/server.
  * ==========
  */
 

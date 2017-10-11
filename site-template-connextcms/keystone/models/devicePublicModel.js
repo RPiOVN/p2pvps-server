@@ -10,6 +10,8 @@ var DevicePublicModel = new keystone.List('DevicePublicModel');
 
 DevicePublicModel.add({ 
   ownerUser: { type: Types.Relationship, ref: 'User' },
+  renterUser: { type: Types.Relationship, ref: 'User' },
+  privateData: { type: Types.Relationship, ref: 'DevicePrivateModel' },
 	rentStartDate: { type: String },
   rentStopDate: { type: String },
   deviceName: { type: String },
@@ -25,4 +27,5 @@ DevicePublicModel.add({
   checkinTimeStamp: { type: String }
 });
 
+User.defaultColumns = 'ownerUser';
 DevicePublicModel.register();
