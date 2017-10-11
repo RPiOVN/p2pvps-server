@@ -13,7 +13,7 @@ DevicePrivateModel.add({
   renterUser: { type: Types.Relationship, ref: 'User' },
   publicData: { type: Types.Relationship, ref: 'DevicePublicModel' },
   serverSSHPort: { type: String },
-  deviceUser: { type: String },
+  deviceUserName: { type: String },
   devicePassword: { type: String }
 });
 
