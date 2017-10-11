@@ -75,7 +75,7 @@ npm test
 
 ## Installation
 Follow the instructions below to generate a ConnextCMS site template and serve your new site template through ConnextCMS.
-It is assumed you are building on server running Ubuntu Linux.
+It is assumed you are building on a server running Ubuntu Linux.
 
 1. Install [docker-connextcms](https://github.com/skagitpublishing/docker-connextcms). The scripts in this repository
 assume that the `docker-connextcms` repository is cloned in your non-root user home directory, e.g. `~`
@@ -102,7 +102,7 @@ address of your server.
 ## License
 (The MIT License)
 
-Copyright (c) 2017 Chris Troutner and [RPiOVN](http://rpiovn.org)
+Copyright (c) 2017 [Chris Troutner](http://christroutner.com) and [RPiOVN](http://rpiovn.org)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

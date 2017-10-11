@@ -17,7 +17,28 @@ Most data about a device is assumed to be public. Specifically private things li
 user account of the renter is kept in the private DB model. Security checks are done to ensure only admins,
 device owners, or active device renters can access the private model.
 
-The preferred method of updating data in the database is to use the REST API. 
+* Updating data in the database should only be done through REST API calls. Complex database models and complex manipulation
+of those models tends to lead to bugs. Keeping functions small, modular, and testible via REST API calls prevents
+hard to debug bugs.
+
+* Rest APIs for this server are based on KeystoneJS API calls used by ConnextCMS and based on 
+[this gist by Jed Watson](https://gist.github.com/JedWatson/9741171#file-routes-index-js-L24). The include the following
+basic CRUD commands. All API calls outside this standard will be listed separately.
+  * `/list` - list all items in the collection.
+  * `/create` - create a new item in the database.
+  * `/:id` - return details of the database item based on its GUID.
+  * `/:id/update` - update a specific item in the database.
+  * `/:id/delete` - remove a specific item from the database.
+  
+* The following APIs have been created for the server:
+  * `/api/devicePublicData/*` - used to work with public data for a Client device.
+  * `/api/devicePublicData/register` - used by Client devices to register themselves with the server.
+  * `/api/devicePublicData/listById/:id` - used to list all devices associated with a user account (GUID).
+  
+  * `/api/devicePrivateData/*` - used to work with private data for a Client device. This data is only accessible to admins,
+  device owners, or device renters.
+  
+  * `/api/portControl/*` - used by the Client device to coordinate available SSH ports on the server.
 
 ## Website and Content Management System (CMS)
 Content will be managed with [ConnextCMS](http://connextcms.com), an extension for [KeystoneJS](http://keystonejs.com). 
