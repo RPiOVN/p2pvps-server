@@ -5,9 +5,9 @@ export default {
 
       $.get('/api/devicePrivateData/list', '', function (privateData) {
         var devicePrivateData = privateData.collection
-
-        debugger
 /*
+        debugger
+
         // Loop through all the priate models and match them up with public models.
         for(var i=0; i < devicePrivateData.length; i++) {
           var publicId = devicePrivateData[i].
