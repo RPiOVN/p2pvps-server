@@ -21,7 +21,7 @@ device owners, or active device renters can access the private model.
 of those models tends to lead to bugs. Keeping functions small, modular, and testible via REST API calls prevents
 hard to debug bugs.
 
-* Rest APIs for this server are based on KeystoneJS API calls used by ConnextCMS and based on 
+* REST APIs for this server are based on KeystoneJS API calls used by ConnextCMS and based on 
 [this gist by Jed Watson](https://gist.github.com/JedWatson/9741171#file-routes-index-js-L24). The include the following
 basic CRUD commands. All API calls outside this standard will be listed separately.
   * `/list` - list all items in the collection.
@@ -34,6 +34,7 @@ basic CRUD commands. All API calls outside this standard will be listed separate
   * `/api/devicePublicData/*` - used to work with public data for a Client device.
   * `/api/devicePublicData/register` - used by Client devices to register themselves with the server.
   * `/api/devicePublicData/listById/:id` - used to list all devices associated with a user account (GUID).
+  
   
   * `/api/devicePrivateData/*` - used to work with private data for a Client device. This data is only accessible to admins,
   device owners, or device renters.
