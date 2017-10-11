@@ -75,17 +75,17 @@
     
     <!-- These are global variables created when KeystoneJS data is passed in to the rendered file -->
     <script type="text/javascript">
-      {{#if superusers}}
-        var superusers = {{{JSON superusers}}};
-      {{else}}
-        var superusers = "";
-      {{/if}}
-        
-      {{#if user}}
-        var userdata = {{{JSON user}}}
-      {{else}}
-        var userdata = {};
-      {{/if}}
+        {{#if superusers}}
+          var superusers = {{{JSON superusers}}};
+        {{else}}
+          var superusers = "";
+        {{/if}}
+
+        {{#if user}}
+          var userdata = {{{JSON user}}}
+        {{else}}
+          var userdata = {};
+        {{/if}}
     </script>
     
   </body>

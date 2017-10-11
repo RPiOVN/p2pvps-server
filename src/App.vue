@@ -286,6 +286,10 @@
     data: function () {
       return {
       }
+    },
+    mounted: function () {
+      // Retrieve device data from the server and save it to the Vuex store.
+      this.$store.dispatch('getDeviceData')
     }
   }
 </script>

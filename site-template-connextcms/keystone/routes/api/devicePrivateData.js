@@ -1,7 +1,7 @@
 var keystone = require('keystone');
 
 
-var DevicePrivateModel = keystone.list('DevicePublicModel');
+var DevicePrivateModel = keystone.list('DevicePrivateModel');
 
 /**
  * List Devices
