@@ -27,5 +27,5 @@ DevicePublicModel.add({
   checkinTimeStamp: { type: String }
 });
 
-User.defaultColumns = 'ownerUser';
+DevicePublicModel.defaultColumns = 'ownerUser';
 DevicePublicModel.register();

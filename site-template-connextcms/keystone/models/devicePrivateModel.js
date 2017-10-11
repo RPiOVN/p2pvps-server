@@ -17,5 +17,5 @@ DevicePrivateModel.add({
   devicePassword: { type: String }
 });
 
-User.defaultColumns = 'ownerUser';
+DevicePrivateModel.defaultColumns = 'ownerUser';
 DevicePrivateModel.register();
