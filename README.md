@@ -18,7 +18,7 @@ capable of delivering websites or web apps, in order to prevent censorship and p
 
 Members participating in the marketplace can earn cryptocurrency by renting out their device, while
 helping to create a more decentralized internet at the same time.
-That's the focus of the P2P VPS network. In this way, the P2P VPS software is censhorship-fighting
+That's the focus of the P2P VPS network. In this way, the P2P VPS software is censorship-fighting
 software similar to, but very different from, [TOR](https://www.torproject.org/).
 
 ## About This Repository
