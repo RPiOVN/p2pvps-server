@@ -25,9 +25,9 @@ module.exports = function(app) {
   app.all('/api/devicePublicData/:id/update', keystone.middleware.api, routes.api.devicePublicData.update);
   app.get('/api/devicePublicData/:id/remove', keystone.middleware.api, routes.api.devicePublicData.remove);
   app.all('/api/devicePublicData/:id/register', keystone.middleware.api, routes.api.devicePublicData.register);
-  app.get('/api/devicePublicData/listById/:id', keystone.middleware.api, routes.api.devicePublicData.listById);
+  app.get('/api/devicePublicData/listById', keystone.middleware.api, routes.api.devicePublicData.listById);
   
-  app.get('/api/devicePrivateData/list', keystone.middleware.api, routes.api.devicePrivateData.list);
+  app.get('/api/devicePrivateData/listById', keystone.middleware.api, routes.api.devicePrivateData.listById);
   app.all('/api/devicePrivateData/create', keystone.middleware.api, routes.api.devicePrivateData.create);
   app.all('/api/devicePrivateData/:id/update', keystone.middleware.api, routes.api.devicePrivateData.update);
   app.get('/api/devicePrivateData/:id/remove', keystone.middleware.api, routes.api.devicePrivateData.remove);

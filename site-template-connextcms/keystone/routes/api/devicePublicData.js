@@ -9,22 +9,19 @@ var DevicePublicModel = keystone.list('DevicePublicModel');
  * List Devices
  */
 exports.list = function(req, res) {
-	DevicePublicModel.model.find(function(err, items) {
-		
-        console.log('User ID: '+req.user.get('id'));
-        console.log('Owner ID: '+items[0].get('ownerUser'));
-      
-		if (err) return res.apiError('database error', err);
-		
-		res.apiResponse({
-			collection: items
-		});
-		
-	});
+  DevicePublicModel.model.find(function(err, items) {
+
+    if (err) return res.apiError('database error', err);
+
+    res.apiResponse({
+        collection: items
+    });
+
+  });
 }
 
 /*
- *
+ * List any device models associated with this user, both Owner and Renter.
  */
 exports.listById = function(req, res) {
   
@@ -70,11 +67,8 @@ exports.listById = function(req, res) {
 
   });
   
-  
-  
-
-  
 }
+
 
 /**
  * Create DevicePrivateModel
