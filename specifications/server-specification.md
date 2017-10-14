@@ -33,7 +33,7 @@ basic CRUD commands. All API calls outside this standard will be listed separate
 * The following APIs have been created for the server:
   * `/api/devicePublicData/*` - used to work with public data for a Client device.
   * `/api/devicePublicData/register` - used by Client devices to register themselves with the server.
-  * `/api/devicePublicData/listById/:id` - used to list all devices associated with a user account (GUID).
+  * `/api/devicePublicData/listById/:id` - used to list all devices associated with a user account (GUID); both as renter or owner.
   
   
   * `/api/devicePrivateData/*` - used to work with private data for a Client device. This data is only accessible to admins,
