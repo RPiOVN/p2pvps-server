@@ -12,7 +12,7 @@ DevicePublicModel.add({
   ownerUser: { type: Types.Relationship, ref: 'User' },
   renterUser: { type: Types.Relationship, ref: 'User' },
   privateData: { type: Types.Relationship, ref: 'DevicePrivateModel' },
-	rentStartDate: { type: String },
+  rentStartDate: { type: String },
   rentStopDate: { type: String },
   deviceName: { type: String },
   deviceDesc: { type: String },
