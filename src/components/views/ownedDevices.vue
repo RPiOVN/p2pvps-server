@@ -1,17 +1,37 @@
 <template>
   <section class="content">
     <div class="container">
-
-      <div class="row">
-        <div class="col-md-12">
-          <button type="button" class="btn btn-success" id="addNewDeviceBtn" style="margin-top: 10px; margin-bottom: 20px;">+ Add New Device</button>
-        </div>
-      </div>
+      <device-listing-item></device-listing-item>
 
       <hr style="border-top: 2px solid #000;">
 
+      <div class="row">
+        <div class="col-md-12">
+          <button v-on:click="showForm = !showForm" type="button" class="btn btn-success" id="addNewDeviceBtn" style="margin-top: 10px; margin-bottom: 20px;">+ Add New Device</button>
+        </div>
+      </div>
+      
+      <transition name="fade">
+        <div v-if="showForm" class="row addNewDeviceForm">
+          <div class="col-sm-12">
+            <form>
+              <div class="form-group">
+                <label for="deviceName">Device Name</label>
+                <input type="text" class="form-control" id="deviceName" placeholder="">
+              </div>
+              <div class="form-group">
+                <label for="deviceDescription">Description</label>
+                <textarea class="form-control" id="deviceDescription" rows="6"></textarea>
+              </div>
+
+              <button type="button" class="btn btn-default" id="submitButton">Submit</button>
+            </form>
+          </div>
+        </div>
+      </transition>
+      
     </div>
-    <device-listing-item></device-listing-item>
+
   </section>
 </template>
 
@@ -22,11 +42,14 @@
     name: 'ownedDevices',
     data () {
       return {
-        msg: 'This is the owned devices view.'
+        msg: 'This is the owned devices view.',
+        showForm: false
       }
     },
     components: {
       deviceListingItem
+    },
+    methods: {
     }
   }
 </script>

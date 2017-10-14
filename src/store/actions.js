@@ -3,10 +3,10 @@ export default {
   // getDeviceData retrieves device data from the server and populates the Vuex store
   // with the data.
   getDeviceData (context) {
-    $.get('/api/devicePublicData/list', '', function (publicData) {
+    $.get('/api/devicePublicData/listById', '', function (publicData) {
       var devicePublicData = publicData.collection
 
-      $.get('/api/devicePrivateData/list', '', function (privateData) {
+      $.get('/api/devicePrivateData/listById', '', function (privateData) {
         var devicePrivateData = privateData.collection
         var ownedDevices = context.state.ownedDevices
 
