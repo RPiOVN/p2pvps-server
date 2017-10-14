@@ -20,6 +20,7 @@ exports.list = function(req, res) {
   });
 }
 
+
 /*
  * List any device models associated with this user, both Owner and Renter.
  */
@@ -295,6 +296,17 @@ exports.register = function(req, res) {
 	});
 }
 
+// Simple stand-alone function for users to retrieve their ID when logged in, or notify if they are not logged in.
+exports.getUserId = function(req, res) {
+  //Get the users ID
+  try {
+    var userId = req.user.get('id').toString();
+    return res.apiResponse({ userId: userId });
+  } catch(err) {
+    //Error handling.
+    return res.apiError('error', 'Could not retrieve user ID. You must be logged in to use this API.');
+  }
+}
 
 /**** BEGIN PROMISE AND UTILITY FUNCTIONS ****/
 

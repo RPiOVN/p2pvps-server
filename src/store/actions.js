@@ -1,5 +1,11 @@
 export default {
 
+  getId (context) {
+    $.get('/api/getUserId', '', function (data) {
+      context.commit('SET_USER_ID', data.userId)
+    })
+  },
+
   // getDeviceData retrieves device data from the server and populates the Vuex store
   // with the data.
   getDeviceData (context) {
@@ -10,7 +16,7 @@ export default {
         var devicePrivateData = privateData.collection
         var ownedDevices = context.state.ownedDevices
 
-        // Loop through all the priate models and match them up with public models.
+        // Loop through all the private models and match them up with public models.
         for (var i = 0; i < devicePrivateData.length; i++) {
           var publicId = devicePrivateData[i].publicData
 

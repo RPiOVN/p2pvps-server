@@ -20,6 +20,9 @@ module.exports = function(app) {
   app.all('/api/portcontrol/:id/update', keystone.middleware.api, routes.api.portcontrol.update);
   app.get('/api/portcontrol/:id/remove', keystone.middleware.api, routes.api.portcontrol.remove);
   
+  //Simple stand-alone function for users to retrieve their ID when logged in, or notify if they are not logged in.
+  app.get('/api/getUserId', keystone.middleware.api, routes.api.devicePublicData.getUserId);
+  
   app.get('/api/devicePublicData/list', keystone.middleware.api, routes.api.devicePublicData.list);
   app.all('/api/devicePublicData/create', keystone.middleware.api, routes.api.devicePublicData.create);
   app.all('/api/devicePublicData/:id/update', keystone.middleware.api, routes.api.devicePublicData.update);

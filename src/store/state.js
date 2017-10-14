@@ -7,7 +7,8 @@ export default {
   userInfo: {
     messages: [{1: 'test', 2: 'test'}],
     notifications: [],
-    tasks: []
+    tasks: [],
+    GUID: ''
   },
   menuState: {
     dashboard: true,

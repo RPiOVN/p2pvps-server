@@ -288,6 +288,9 @@
       }
     },
     mounted: function () {
+      // Retrieve the GUID for the currently logged in user
+      this.$store.dispatch('getId')
+
       // Retrieve device data from the server and save it to the Vuex store.
       this.$store.dispatch('getDeviceData')
     }

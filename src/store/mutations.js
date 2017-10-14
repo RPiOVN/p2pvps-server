@@ -18,5 +18,9 @@ export default {
 
   SET_OWNED_DEVICES (state, newOwnedDevicesState) {
     state.ownedDevices = newOwnedDevicesState
+  },
+
+  SET_USER_ID (state, userId) {
+    state.userInfo.GUID = userId
   }
 }
