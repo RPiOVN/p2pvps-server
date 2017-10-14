@@ -37,7 +37,8 @@ basic CRUD commands. All API calls outside this standard will be listed separate
   
   
   * `/api/devicePrivateData/*` - used to work with private data for a Client device. This data is only accessible to admins,
-  device owners, or device renters.
+  device owners, or device renters. `/list` endpoint not implemented for this API.
+  * `/api/devicePrivateData/listById/:id` - used to list all devices associated with a user account (GUID); both as renter or owner.
   
   * `/api/portControl/*` - used by the Client device to coordinate available SSH ports on the server.
 
