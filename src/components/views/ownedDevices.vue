@@ -1,7 +1,7 @@
 <template>
   <section class="content">
     <div class="container">
-      <device-listing-item></device-listing-item>
+      <device-listing-item v-for="device in devices" :key="device._id" v-bind:device="device"></device-listing-item>
 
       <hr style="border-top: 2px solid #000;">
 
@@ -17,14 +17,14 @@
             <form>
               <div class="form-group">
                 <label for="deviceName">Device Name</label>
-                <input type="text" class="form-control" id="deviceName" placeholder="">
+                <input v-model="deviceName" type="text" class="form-control" id="deviceName" placeholder="">
               </div>
               <div class="form-group">
                 <label for="deviceDescription">Description</label>
-                <textarea class="form-control" id="deviceDescription" rows="6"></textarea>
+                <textarea v-model="deviceDesc" class="form-control" id="deviceDescription" rows="6"></textarea>
               </div>
 
-              <button type="button" class="btn btn-default" id="submitButton">Submit</button>
+              <button type="button" class="btn btn-default" id="submitButton" v-on:click="addDevice()">Submit</button>
             </form>
           </div>
         </div>
@@ -43,13 +43,81 @@
     data () {
       return {
         msg: 'This is the owned devices view.',
-        showForm: false
+        showForm: false,
+        deviceName: '',
+        deviceDesc: ''
       }
     },
     components: {
       deviceListingItem
     },
+
+    computed: {
+      devices () {
+        return this.$store.state.ownedDevices
+      }
+    },
+
     methods: {
+      addDevice: function () {
+        // debugger
+
+        // Maintain scope inside the callback functions
+        var ownerId = this.$store.state.userInfo.GUID
+        var thisStore = this.$store
+
+        // Error Handling
+        if ((this.deviceName === '') || (this.deviceDesc === '')) {
+          console.log('Launch modal.')
+          return
+        }
+
+        // Register a new public device model on the server.
+        var deviceModel = {
+          ownerUser: ownerId,
+          deviceName: this.deviceName,
+          deviceDesc: this.deviceDesc
+        }
+        $.post('/api/devicePublicData/create', deviceModel, function (data) {
+          // debugger
+          var newPublicModel = data.collection
+
+          // Register a new private device model on the server.
+          var privateModel = {
+            ownerUser: ownerId,
+            publicData: newPublicModel._id
+          }
+          $.post('/api/devicePrivateData/create', privateModel, function (data) {
+            // debugger
+            var newPrivateModel = data.collection
+
+            // Update the public model with the privateModel ID
+            newPublicModel.privateData = newPrivateModel._id
+            $.post('/api/devicePublicData/' + newPublicModel._id + '/update', newPublicModel, function (data) {
+              // debugger
+
+              // Refresh the Store.
+              if (thisStore.state.userInfo.GUID !== 'Not Logged In') {
+                thisStore.dispatch('getDeviceData')
+              }
+            })
+            .fail(function (jqxhr, textStatus, error) {
+              console.error('API call to /api/devicePublicData/' + newPublicModel._id + '/update unsuccessful. Error: ' + jqxhr.responseJSON.detail)
+            })
+          })
+          .fail(function (jqxhr, textStatus, error) {
+            console.error('API call to /api/devicePrivateData/create unsuccessful. Error: ' + jqxhr.responseJSON.detail)
+          })
+        })
+        .fail(function (jqxhr, textStatus, error) {
+          console.error('API call to /api/devicePublicData/create unsuccessful. Error: ' + jqxhr.responseJSON.detail)
+        })
+
+        // Hide the form
+        this.showForm = false
+        this.deviceName = ''
+        this.deviceDesc = ''
+      }
     }
   }
 </script>

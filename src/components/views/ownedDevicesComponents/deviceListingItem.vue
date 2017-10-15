@@ -6,7 +6,12 @@
 
       <!-- Template scaffold -->
       <div class="row deviceScaffold" style="margin: 10px; border-radius: 25px; border: 1px solid black;">
-        <h3>Device ID: <span class="deviceId"></span> <span class="pull-right"><button class="btn btn-danger deviceDelete" style="margin-right: 30px;">Delete</button></span></h3>
+        <h3>Device ID: 
+          <span class="deviceId">{{ device._id }}</span> 
+          <span class="pull-right">
+            <button class="btn btn-danger deviceDelete" style="margin-right: 30px;" v-on:click="showDeleteModal()">Delete</button>
+          </span>
+        </h3>
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="nice-border">
             <h4><strong>Status:</strong> <span style="color: red;" class="deviceConnectionStatus">Not Connected</span></h4>
@@ -15,10 +20,10 @@
           <div class="nice-border">
             <h4><u>Device Specs:</u></h4>
             <ul>
-              <li><strong>Memory:</strong> <span class="deviceMemory"></span></li>
-              <li><strong>Disk Space:</strong> <span class="deviceDiskSpace"></span></li>
-              <li><strong>Internet Speed:</strong> <span class="deviceInternetSpeed"></span></li>
-              <li><strong>Processor: <span class="deviceProcessor"></span></strong></li>
+              <li><strong>Memory:</strong> <span class="deviceMemory">{{ device.memory }}</span></li>
+              <li><strong>Disk Space:</strong> <span class="deviceDiskSpace">{{ device.diskSpace }}</span></li>
+              <li><strong>Internet Speed:</strong> <span class="deviceInternetSpeed">{{ device.internetSpeed }}</span></li>
+              <li><strong>Processor: <span class="deviceProcessor">{{ device.processor }}</span></strong></li>
             </ul>
           </div>
         </div>
@@ -26,10 +31,10 @@
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="nice-border" style="min-height: 230px;">
             <div>
-              <h4><u>Name:</u> <span class="deviceName"></span></h4>
+              <h4><u>Name:</u> <span class="deviceName">{{ device.deviceName }}</span></h4>
               <h4><u>Description:</u></h4>
               <div class="deviceDescription">
-                <p></p>
+                <p>{{ device.deviceDesc }}</p>
               </div>
             </div>
           </div>
@@ -60,6 +65,39 @@
     data () {
       return {
         msg: 'This is a listed device item.'
+      }
+    },
+    props: ['device'],
+    methods: {
+      showDeleteModal: function () {
+        // debugger
+
+        var modalState = this.$store.state.modal
+
+        // Display a modal to the user
+        modalState = {
+          show: true,
+          title: 'Are you sure?',
+          body: 'Are you sure you want to delete this device entry?',
+          button1Text: 'No',
+          button1Func: function () { $('.appModal').modal('hide') },
+          button1Show: true,
+          button2Text: 'Yes',
+          button2Func: this.deleteDevice,
+          button2Show: true
+        }
+
+        this.$store.commit('UPDATE_MODAL', modalState)
+      },
+
+      deleteDevice: function () {
+        // debugger
+
+        // Hide the modal
+        $('.appModal').modal('hide')
+
+        // Delete the device on the server
+        this.$store.dispatch('deleteDevice', this.device._id)
       }
     }
   }

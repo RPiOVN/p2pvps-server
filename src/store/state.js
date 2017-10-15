@@ -17,5 +17,16 @@ export default {
     marketplace: false
   },
   ownedDevices: [], // Array of devices owned by this user.
-  rentedDevices: [] // Array of devices rented by this user.
+  rentedDevices: [], // Array of devices rented by this user.
+  modal: {
+    show: false,
+    title: 'Test title',
+    body: '',
+    button1Text: 'Close',
+    button1Func: function () { $('.appModal').modal('hide') },
+    button1Show: true,
+    button2Text: '',
+    button2Func: null,
+    button2Show: true
+  }
 }

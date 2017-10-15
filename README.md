@@ -30,7 +30,7 @@ repository. The P2P VPS software is composed of three software packages:
 2. *The Server* software includes the database models, REST APIs, and website content.
 3. *The Marketplace* which is a Vue.js client-side application which facilitates transactions and administration of devices.
 
-[The Client software can be found here](https://github.com/RPiOVN/rpibroker). 
+[The Client software can be found here](https://github.com/RPiOVN/p2pvps-client). 
 This repository contains *The Server* and *The Marketplace* software.
 
 ### File Layout

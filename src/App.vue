@@ -269,6 +269,7 @@
     
     <left-menu></left-menu>
     <activeView></activeView>
+    <modalView></modalView>
   </div>
 </template>
 
@@ -276,24 +277,43 @@
   
   import LeftMenu from './components/LeftMenu'
   import ActiveView from './components/ActiveView.vue'
+  import ModalView from './components/views/modal.vue'
   
   export default {
     name: 'app',
     components: {
       LeftMenu,
-      ActiveView
+      ActiveView,
+      ModalView
     },
     data: function () {
       return {
+        modalShow: false
       }
     },
+
     mounted: function () {
       // Retrieve the GUID for the currently logged in user
       this.$store.dispatch('getId')
 
-      // Retrieve device data from the server and save it to the Vuex store.
-      this.$store.dispatch('getDeviceData')
+      // var globalThis = this // Save context for this.
+
+      // Start a timer to check when the users GUID has been retrieved. Once it has,
+      // it indicates that the user is logged in. Only after login has been verified,
+      // should the other API calls be made.
+      var loginCheckTimer = setInterval(() => {
+        // Once the GUID state has been updated, stop the interval timer.
+        if (this.$store.state.userInfo.GUID !== '') {
+          clearInterval(loginCheckTimer)
+        }
+
+        // Only call the other APIs once the user has been verified as logged in.
+        if (this.$store.state.userInfo.GUID !== 'Not Logged In') {
+          this.$store.dispatch('getDeviceData')
+        }
+      }, 1000)
     }
+
   }
 </script>
 
