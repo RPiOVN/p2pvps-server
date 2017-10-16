@@ -308,6 +308,29 @@ exports.getUserId = function(req, res) {
   }
 }
 
+// This function allows Clients to check-in and notify the server they are still actively
+// connected to the internet. This should happen every 2 minutes. It updates the checkinTimeStamp
+// of the devicePublicModel
+exports.checkIn = function(req, res) {
+  
+  DevicePublicModel.model.findById(req.params.id).exec(function(err, item) {
+		
+		if (err) return res.apiError('database error', err);
+		if (!item) return res.apiError('not found');
+		
+    var now = new Date();
+    var timeStamp = now.toISOString();
+    
+    item.set('checkinTimeStamp', timeStamp);
+    item.save();
+    
+    res.apiResponse({
+      success: true
+    });
+    
+	});
+}
+
 /**** BEGIN PROMISE AND UTILITY FUNCTIONS ****/
 
 //Get any devicePublicModels where the userId matches the ownerUser entry.
