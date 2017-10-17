@@ -14,7 +14,8 @@
         </h3>
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class="nice-border">
-            <h4><strong>Status:</strong> <span style="color: red;" class="deviceConnectionStatus">Not Connected</span></h4>
+            <h4><strong>Status:</strong> <span v-bind:class="statusText" class="deviceConnectionStatus">{{ clientStatus }}</span></h4>
+            <p><strong>Last Check-In:</strong> {{ formatTimeStamp }}</p>
             <button class="btn btn-primary btn-sm center-block" disabled>Submit to Market</button>
           </div>
           <div class="nice-border">
@@ -23,7 +24,7 @@
               <li><strong>Memory:</strong> <span class="deviceMemory">{{ device.memory }}</span></li>
               <li><strong>Disk Space:</strong> <span class="deviceDiskSpace">{{ device.diskSpace }}</span></li>
               <li><strong>Internet Speed:</strong> <span class="deviceInternetSpeed">{{ device.internetSpeed }}</span></li>
-              <li><strong>Processor: <span class="deviceProcessor">{{ device.processor }}</span></strong></li>
+              <li><strong>Processor:</strong> <span class="deviceProcessor">{{ device.processor }}</span></li>
             </ul>
           </div>
         </div>
@@ -64,11 +65,48 @@
     name: 'deviceListingItem',
     data () {
       return {
-        msg: 'This is a listed device item.'
+        msg: 'This is a listed device item.',
+        statusText: 'text-red' // 0 = red, 1 = yellow, 2 = green
       }
     },
     props: ['device'],
+
+    computed: {
+
+      // Format the time stamp into an easy to read format.
+      formatTimeStamp: function () {
+        var timeStamp = new Date(this.device.checkinTimeStamp)
+        return timeStamp.toLocaleString()
+      },
+
+      // Format the client status, based on the time stamp.
+      clientStatus: function () {
+        // Convert all times to milliseconds
+        var now = new Date()
+        now = now.getTime()
+        var timeStamp = new Date(this.device.checkinTimeStamp)
+        timeStamp = timeStamp.getTime()
+        var twoMin = 1000 * 60 * 2 // number of milliseconds in two minutes
+
+        var goodThreshold = now - twoMin
+        var mediumThreshold = now - twoMin * 3
+        // var badThreshold = now - twoMin * 5
+
+        if (timeStamp > goodThreshold) {
+          this.statusText = 'text-green'
+          return 'Connected'
+        } else if (timeStamp > mediumThreshold) {
+          this.statusText = 'text-yellow'
+          return 'Delayed'
+        } else {
+          this.statusText = 'text-red'
+          return 'Not Connected'
+        }
+      }
+    },
+
     methods: {
+      // Show the modal when the user clicks on the delete button.
       showDeleteModal: function () {
         // debugger
 
@@ -121,5 +159,16 @@
   }
   .nice-border p {
     font-size: 16px;
+  }
+  
+  /* Text color */
+  .text-red {
+    color: red;
+  }
+  .text-yellow {
+    color: yellow;
+  }
+  .text-green {
+    color: green;
   }
 </style>

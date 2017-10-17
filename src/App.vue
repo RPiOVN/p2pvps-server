@@ -288,7 +288,8 @@
     },
     data: function () {
       return {
-        modalShow: false
+        modalShow: false,
+        deviceUpdateTimer: null
       }
     },
 
@@ -309,7 +310,14 @@
 
         // Only call the other APIs once the user has been verified as logged in.
         if (this.$store.state.userInfo.GUID !== 'Not Logged In') {
+          // Request device information right away.
           this.$store.dispatch('getDeviceData')
+
+          // Also set up an interval timer to refresh device info
+          this.deviceUpdateTimer = setInterval(() => {
+            this.$store.dispatch('getDeviceData')
+            console.log('Device data updated')
+          }, 30000)
         }
       }, 1000)
     }
