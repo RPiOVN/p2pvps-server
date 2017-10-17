@@ -317,7 +317,7 @@
           this.deviceUpdateTimer = setInterval(() => {
             this.$store.dispatch('getDeviceData')
             console.log('Device data updated')
-          }, 30000)
+          }, 120000)
         }
       }, 1000)
     }
