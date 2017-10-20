@@ -5,6 +5,9 @@
 
 echo Preparing to copy into myCMS directory...
 
+# Copy the keystone.js file
+cp keystone/core/keystone.js ~/myCMS/
+
 echo Copying Keystone Models
 cp keystone/models/*.js ~/myCMS/models/
 
@@ -16,6 +19,9 @@ cp keystone/routes/views/*.js ~/myCMS/routes/views/
 echo Copying Keystone Views
 cp keystone/templates/views/*.hbs ~/myCMS/templates/views/
 cp keystone/templates/views/layouts/*.hbs ~/myCMS/templates/views/layouts/
+
+# Turn on CORS for the Admin API
+cp keystone/core/createDynamicRouter.js ~/myCMS/node_modules/keystone/admin/server/app/
 
 #Customize the below .json files
 echo Copying settings.json files
