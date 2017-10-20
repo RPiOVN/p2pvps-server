@@ -30,7 +30,7 @@ module.exports = {
     proxyTable: {
       // proxy all requests to the dev server
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://p2pvps.net',
         changeOrigin: true,
         pathRewrite: {
           '^/': ''
