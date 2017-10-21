@@ -60,7 +60,7 @@
 
       // Allows the user to log into the system
       login: function () {
-        debugger
+        // debugger
 
         // Validation
         if ((this.loginEmail === '') || (this.loginPassword === '')) {
@@ -73,7 +73,7 @@
         }
 
         $.post('/keystone/api/session/signin', obj, function (data) {
-          debugger
+          // debugger
         })
       }
     }
