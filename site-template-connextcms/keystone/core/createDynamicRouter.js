@@ -30,8 +30,6 @@ module.exports = function createDynamicRouter (keystone) {
                 router.use('/server-health', require('./createHealthchecksHandler')(keystone));
         }
 
-        router.all('/api*', keystone.middleware.cors);
-
         // Init API request helpers
         router.use('/api', require('../middleware/apiError'));
         router.use('/api', require('../middleware/logError'));
@@ -42,6 +40,8 @@ module.exports = function createDynamicRouter (keystone) {
         router.post('/api/session/signin', require('../api/session/signin'));
         router.post('/api/session/signout', require('../api/session/signout'));
 
+        //router.all('/api*', keystone.middleware.cors);
+  
         // #2: Session Routes
         // Bind auth middleware (generic or custom) to * routes, allowing
         // access to the generic signin page if generic auth is used
