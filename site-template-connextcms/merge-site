@@ -24,8 +24,8 @@ cp keystone/templates/views/layouts/*.hbs ~/myCMS/templates/views/layouts/
 cp keystone/core/createDynamicRouter.js ~/myCMS/node_modules/keystone/admin/server/app/
 
 # Remove the CSRF token requirement in the Keystone Admin API
-cp keystone/core/signin.js ~/myCMS/node_modules/keystone/admin/server/api/session/signin.js
-cp keystone/core/signout.js ~/myCMS/node_modules/keystone/admin/server/api/session/signout.js
+#cp keystone/core/signin.js ~/myCMS/node_modules/keystone/admin/server/api/session/signin.js
+#cp keystone/core/signout.js ~/myCMS/node_modules/keystone/admin/server/api/session/signout.js
 
 #Customize the below .json files
 echo Copying settings.json files
