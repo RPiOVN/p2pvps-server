@@ -19,13 +19,14 @@ module.exports = function createDynamicRouter (keystone) {
         router.use(bodyParser.urlencoded({ extended: true }));
         router.use(multer({ includeEmptyFields: true }));
 
+/*
         router.use(function(req, res, next) { //allow cross origin requests
          res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
             res.header("Access-Control-Allow-Origin", "http://localhost");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             next();
         });
-
+*/
         if (keystone.get('healthchecks')) {
                 router.use('/server-health', require('./createHealthchecksHandler')(keystone));
         }
