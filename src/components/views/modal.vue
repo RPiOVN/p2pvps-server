@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <p>{{this.$store.state.modal.body}}</p>
-          <form>
+          <form v-if="this.$store.state.modal.showLoginForm">
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
               <input type="email" class="form-control" v-model="loginEmail" placeholder="Email">
@@ -72,8 +72,57 @@
           password: this.loginPassword
         }
 
-        $.post('/keystone/api/session/signin', obj, function (data) {
+        $.post('/keystone/api/session/signin', obj, (data) => {
+          // Error handling/validation
+          if (!data.success) {
+            console.log('Error calling /keystone/api/session/signin')
+            return
+          }
+
+          // Get User info.
+          this.$store.dispatch('getId')
+
+          // Dismiss the modal
+          var modal = {
+            show: false,
+            title: 'Please log in',
+            body: 'Loggin failed. Please try again',
+            button1Text: 'Close',
+            button1Func: function () { $('.appModal').modal('hide') },
+            button1Show: true,
+            button2Text: '',
+            button2Func: null,
+            button2Show: false,
+            showLoginForm: false
+          }
+          this.$store.commit('UPDATE_MODAL', modal)
+        })
+        // If sending the data to the server fails:
+        .fail((jqxhr, textStatus, error) => {
           // debugger
+
+          if (error === 'Unauthorized') {
+            // Display a modal to the user
+            var modal = {
+              show: true,
+              title: 'Please log in',
+              body: 'Loggin failed. Please try again',
+              button1Text: 'Close',
+              button1Func: function () { $('.appModal').modal('hide') },
+              button1Show: true,
+              button2Text: '',
+              button2Func: null,
+              button2Show: false,
+              showLoginForm: true
+            }
+            this.$store.commit('UPDATE_MODAL', modal)
+          } else {
+            // var err = textStatus + ', ' + error
+
+            global.modalView.errorModal('Request failed because of: ' + error + '. Error Message: ' + jqxhr.responseText)
+            console.log('Request Failed: ' + error)
+            console.error('Error message: ' + jqxhr.responseText)
+          }
         })
       }
     }

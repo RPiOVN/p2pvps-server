@@ -27,6 +27,7 @@ export default {
     button1Show: true,
     button2Text: '',
     button2Func: null,
-    button2Show: true
+    button2Show: true,
+    showLoginForm: false
   }
 }

@@ -251,7 +251,7 @@
                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                    <a href="#" class="btn btn-default btn-flat" v-on:click="logOut()">Sign out</a>
                   </div>
                 </li>
               </ul>
@@ -290,6 +290,16 @@
       return {
         modalShow: false,
         deviceUpdateTimer: null
+      }
+    },
+
+    methods: {
+      logOut: function () {
+        $.post('/keystone/api/session/signout', '', function (data) {
+          if (!data.success) {
+            console.error('Something went wrong with trying to log out. See App.vue logOut() method.')
+          }
+        })
       }
     },
 

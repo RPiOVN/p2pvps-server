@@ -75,21 +75,5 @@
     <script src="/static/js/morris.js/morris.min.js"></script>
     -->
     
-    <!-- These are global variables created when KeystoneJS data is passed in to the rendered file -->
-    <!-- The code below will cause a syntax error in the dev environment, but it will go away in the production env. -->
-    <script type="text/javascript">
-        {{#if superusers}}
-          var superusers = {{{JSON superusers}}};
-        {{else}}
-          var superusers = "";
-        {{/if}}
-
-        {{#if user}}
-          var userdata = {{{JSON user}}}
-        {{else}}
-          var userdata = {};
-        {{/if}}
-    </script>
-    
   </body>
 </html>

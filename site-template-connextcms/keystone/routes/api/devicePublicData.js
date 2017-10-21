@@ -228,12 +228,12 @@ exports.register = function(req, res) {
       
       var deviceData;
       
-      request('http://localhost:3000/api/portcontrol/create', 
+      request('/api/portcontrol/create', 
       function (error, response, body) {
 
         //If the request was successfull.
         if (!error && response.statusCode == 200) {
-          //debugger;
+          debugger;
 
           //Convert the data from a string into a JSON object.
           var data = JSON.parse(body); //Convert the returned JSON to a JSON string.
