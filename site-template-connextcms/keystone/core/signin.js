@@ -38,3 +38,4 @@ function signin (req, res) {
         });
 }
 
+module.exports = signin;
