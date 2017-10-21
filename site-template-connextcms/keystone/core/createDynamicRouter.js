@@ -19,6 +19,12 @@ module.exports = function createDynamicRouter (keystone) {
         router.use(bodyParser.urlencoded({ extended: true }));
         router.use(multer({ includeEmptyFields: true }));
 
+        // Bind the request to the keystone instance
+        router.use(function (req, res, next) {
+                req.keystone = keystone;
+                next();
+        });
+
 /*
         router.use(function(req, res, next) { //allow cross origin requests
          res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
