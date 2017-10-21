@@ -10,6 +10,18 @@
         </div>
         <div class="modal-body">
           <p>{{this.$store.state.modal.body}}</p>
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" v-model="loginEmail" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" v-model="loginPassword" placeholder="Password">
+            </div>
+            
+            <button type="button" class="btn btn-default" v-on:click="login()">Login</button>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" v-on:click="btn1Func" v-if="this.$store.state.modal.button1Show">{{this.$store.state.modal.button1Text}}</button>
@@ -25,7 +37,9 @@
     name: 'modalView',
     data () {
       return {
-        msg: 'This is the rented devices view.'
+        msg: 'This is the rented devices view.',
+        loginEmail: '',
+        loginPassword: ''
       }
     },
 
@@ -42,6 +56,25 @@
         if (this.$store.state.modal.button2Func !== null) {
           this.$store.state.modal.button2Func()
         }
+      },
+
+      // Allows the user to log into the system
+      login: function () {
+        debugger
+
+        // Validation
+        if ((this.loginEmail === '') || (this.loginPassword === '')) {
+          return
+        }
+
+        var obj = {
+          email: this.loginEmail,
+          password: this.loginPassword
+        }
+
+        $.post('/keystone/api/session/signin', obj, function (data) {
+          debugger
+        })
       }
     }
   }

@@ -35,6 +35,13 @@ module.exports = {
         pathRewrite: {
           '^/': ''
         }
+      },
+      '/keystone': {
+        target: 'http://p2pvps.net',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': ''
+        }
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
