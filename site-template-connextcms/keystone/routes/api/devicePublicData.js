@@ -4,6 +4,7 @@ var Promise = require('node-promise'); //Promises to handle asynchonous callback
 
 
 var DevicePublicModel = keystone.list('DevicePublicModel');
+var DevicePrivateModel = keystone.list('DevicePrivateModel');
 
 /**
  * List Devices
@@ -241,9 +242,16 @@ exports.register = function(req, res) {
           deviceData = data.newDevice;
 
           // Retrieve the devicePrivateModel associated with this device.
+          var privateDeviceId = item.get('id');
+          DevicePrivateModel.model.findById(privateDeviceId).exec(function(err, privModel) {
+            debugger;
             
             // Save the data to the devicePrivateModel.
-          
+            privModel.set('deviceUserName', deviceData.username);
+            privModel.set('devicePassword', deviceData.password);
+            privModel.set('serverSSHPort', deviceData.port);
+            privModel.save();
+          });
           
           res.apiResponse({
             clientData: deviceData
