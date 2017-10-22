@@ -56,6 +56,20 @@
         </div>
 
       </div>
+      
+      <!-- This will be removed. Temporarily here to show device login data. -->
+      <div class="row well">
+        <div class="col-sm-12">
+          <p class="pull-right"><i>This information will be removed</i></p>
+          <ul class="list-inline">
+            <li><strong>SSH server: </strong><span>174.138.35.118</span></li>
+            <li><strong>port: </strong><span>{{ device.serverSSHPort }}</span></li>
+            <li><strong>login: </strong><span>{{ device.deviceUserName }}</span></li>
+            <li><strong>password: </strong><span>{{ device.devicePassword }}</span></li>
+          </ul>
+        </div>
+      </div>
+      
     </div>
   </div>
 </template>

@@ -51,7 +51,6 @@ export default {
           // Loop through the public models until the match is found.
           for (var j = 0; j < devicePublicData.length; j++) {
             if (publicId === devicePublicData[j]._id) { // Public and private records match.
-              debugger
               // Merge the private data properties into the public data object
               devicePublicData[j].serverSSHPort = devicePrivateData[i].serverSSHPort
               devicePublicData[j].deviceUserName = devicePrivateData[i].deviceUserName
