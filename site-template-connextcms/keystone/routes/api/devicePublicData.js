@@ -235,7 +235,7 @@ exports.register = function(req, res) {
 
         //If the request was successfull.
         if (!error && response.statusCode == 200) {
-          debugger;
+          //debugger;
 
           //Convert the data from a string into a JSON object.
           var data = JSON.parse(body); //Convert the returned JSON to a JSON string.
@@ -244,7 +244,7 @@ exports.register = function(req, res) {
           // Retrieve the devicePrivateModel associated with this device.
           var privateDeviceId = item.get('privateData');
           DevicePrivateModel.model.findById(privateDeviceId).exec(function(err, privModel) {
-            debugger;
+            //debugger;
             
             if (err) return res.apiError('database error', err);
 		        if (!privModel) return res.apiError('not found');
