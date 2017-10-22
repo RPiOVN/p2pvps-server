@@ -39,14 +39,14 @@ exports.listById = function(req, res) {
   // Get any models that match the userId as the Owner
   var promiseGetOwnerModels = getOwnerModels(userId);      
   promiseGetOwnerModels.then( function(results) {
-    debugger;
+    //debugger;
 
     ownerItems = results;
     
     // Find all entries that have this user associated as the renter.
     var promiseGetRenterModels = getRenterModels(userId);
     promiseGetRenterModels.then( function(results) {
-      debugger;
+      //debugger;
       
       // Combine and return matching entries.
       ownerItems = ownerItems.concat(results);
@@ -240,6 +240,11 @@ exports.register = function(req, res) {
           var data = JSON.parse(body); //Convert the returned JSON to a JSON string.
           deviceData = data.newDevice;
 
+          // Retrieve the devicePrivateModel associated with this device.
+            
+            // Save the data to the devicePrivateModel.
+          
+          
           res.apiResponse({
             clientData: deviceData
           })

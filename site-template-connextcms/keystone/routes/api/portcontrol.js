@@ -26,7 +26,7 @@ exports.list = function(req, res) {
  * Create ExamplePluginModel
  */
 exports.create = function(req, res) {
-	debugger;
+	//debugger;
   
   console.log('/api/portcontrol/create called');
   
@@ -56,8 +56,6 @@ exports.create = function(req, res) {
 		
 		if (err) return res.apiError('database error', err);
 		
-    debugger;
-    
     //Handle new database by creating first entry.
     if(items.length == 0) {
       
@@ -94,7 +92,6 @@ exports.create = function(req, res) {
       
     }
 
-    debugger;
     //item.set('username', username);
     //item.set('password', password);
     //item.set('port', newPort);
