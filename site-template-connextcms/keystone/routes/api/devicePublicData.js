@@ -228,6 +228,7 @@ exports.register = function(req, res) {
       
       var deviceData;
       
+      // Needs to reference localhost since it's calling itself.
       request('http://localhost:3000/api/portcontrol/create', 
       function (error, response, body) {
 
