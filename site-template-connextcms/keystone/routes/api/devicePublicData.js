@@ -253,11 +253,15 @@ exports.register = function(req, res) {
             
             var msg = '...Error returned from server when requesting log file status. Server returned: '+error.message;
             console.error(msg);
+            
+            res.apiError(msg, error);
 
           //Catch unexpected errors.
           } catch(err) {
             var msg = 'Error in devicePublicData.js/register() while trying to call /api/portcontrol/create. Error: '+err.message;
             console.error(msg);
+            
+            res.apiError(msg, err);
           }
         }
       });

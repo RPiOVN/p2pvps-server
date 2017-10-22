@@ -11,7 +11,7 @@ var PortsUsedModel = keystone.list('PortsUsedModel');
  * List ExamplePluginModels
  */
 exports.list = function(req, res) {
-	DeviceModel.model.find(function(err, items) {
+	DevicePublicModel.model.find(function(err, items) {
 		
 		if (err) return res.apiError('database error', err);
 		
@@ -27,6 +27,8 @@ exports.list = function(req, res) {
  */
 exports.create = function(req, res) {
 	debugger;
+  
+  console.log('/api/portcontrol/create called');
   
   //Ensure the user has a valid CSRF token
 	//if (!security.csrf.validate(req)) {
