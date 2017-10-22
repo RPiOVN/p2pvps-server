@@ -228,7 +228,7 @@ exports.register = function(req, res) {
       
       var deviceData;
       
-      request('/api/portcontrol/create', 
+      request('http://localhost:3000/api/portcontrol/create', 
       function (error, response, body) {
 
         //If the request was successfull.
