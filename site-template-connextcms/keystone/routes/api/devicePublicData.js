@@ -242,7 +242,7 @@ exports.register = function(req, res) {
           deviceData = data.newDevice;
 
           // Retrieve the devicePrivateModel associated with this device.
-          var privateDeviceId = item.get('id');
+          var privateDeviceId = item.get('privateData');
           DevicePrivateModel.model.findById(privateDeviceId).exec(function(err, privModel) {
             debugger;
             
