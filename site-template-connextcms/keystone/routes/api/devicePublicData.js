@@ -246,6 +246,9 @@ exports.register = function(req, res) {
           DevicePrivateModel.model.findById(privateDeviceId).exec(function(err, privModel) {
             debugger;
             
+            if (err) return res.apiError('database error', err);
+		        if (!privModel) return res.apiError('not found');
+            
             // Save the data to the devicePrivateModel.
             privModel.set('deviceUserName', deviceData.username);
             privModel.set('devicePassword', deviceData.password);
