@@ -19,7 +19,7 @@ device owners, or active device renters can access the private model.
 
 * Updating data in the database should only be done through REST API calls. Complex database models and complex manipulation
 of those models tends to lead to bugs. Keeping functions small, modular, and testible via REST API calls prevents
-hard to debug bugs.
+hard-to-find bugs.
 
 * REST APIs for this server are based on KeystoneJS API calls used by ConnextCMS and based on 
 [this gist by Jed Watson](https://gist.github.com/JedWatson/9741171#file-routes-index-js-L24). The include the following
