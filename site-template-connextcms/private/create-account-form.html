@@ -1,0 +1,146 @@
+  <h1>Create an RPiOVN Account</h1>
+
+  <p>If you'd like to contribute time to a project and have it count, you'll need to log your time in <a href="/logwork">the project dashboard</a>, but before you can do that, you'll need an account. Fill out the form below to apply for instant access.</p>
+
+  <h1 id="successMsg" hidden="">&nbsp;</h1>
+  <p id="successMsg2" hidden="">&nbsp;</p>
+
+  <form class="form-horizontal" id="newProjectForm">
+    <p><span class="required">*</span>= required.</p>
+
+    <div class="form-group">
+      <label for="inputName" class="col-sm-3 control-label"><span class="required">*</span>Name:</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" name="inputName" id="inputName" placeholder="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputEmail" class="col-sm-3 control-label"><span class="required">*</span>Email:</label>
+      <div class="col-sm-9">
+        <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="user@server.com">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword1" class="col-sm-3 control-label"><span class="required">*</span>Password:</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" name="inputEmail" id="inputPassword1" placeholder="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPassword2" class="col-sm-3 control-label"><span class="required">*</span>Confirm Password:</label>
+      <div class="col-sm-9">
+        <input type="password" class="form-control" name="inputEmail" id="inputPassword2" placeholder="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="button" class="btn btn-default" id="submitButton">Submit</button>
+      </div>
+    </div>
+
+  </form>
+  <h1 id="successMsg" hidden></h1>
+  <p id="successMsg2" hidden></p>
+  <br>
+  <script type="text/javascript">
+    //Global Variables
+    global = new Object(); //This is where all global variables will be stored.
+
+    var adminEmail = "chris.troutner@gmail.com";
+    
+    $("#submitButton").click(function(event) {
+      //debugger;
+      event.preventDefault();
+
+      if($('#inputPassword1').val() != $('#inputPassword2').val()) {
+        alert('Passwords do not match!');
+        return;
+      }
+
+      /* BEGIN SUBMIT NEW USER ACCOUNT */
+      var userData = new Object();
+      userData.name = $('#inputName').val();
+      userData.email = $('#inputEmail').val();
+      userData.password = $('#inputPassword1').val();
+
+      //Check required inputs
+      if( (userData.name == "") || (userData.email == "") || (userData.password == "") ) {
+        console.log('Invalid/empty input');
+        alert('At least one required input is missing. Please check the form.');
+        return;
+      }
+
+      //Put some code here to check against existing user names.
+
+      //Submit the data to the server.
+      $.post('/api/users/create', userData, function(data) {
+        //debugger;
+
+        //New user account was successfully created
+        if( data.user._id != "" ) {
+          
+          //Send a confirmation email
+          
+          var emailData = new Object();
+          emailData.email = data.user.email+adminEmail; 
+          emailData.from = adminEmail;
+          emailData.subject = "Your P2PVPS.net Account";
+          emailData.html = true;
+          emailData.body = "<!DOCTYPE html><html lang='en'><body>"+
+            "Thank you for signing up as a Alpha Tester on P2PVPS.net<br><br>"+
+            "Your login is your email: "+data.user.email+"<br><br>"+
+            "<a href='http://p2pvps.net/keystone/signin'>You can sign in here</a><br><br>"+
+            "After logging in, you'll be able to access <a href='http://p2pvps.net/appdashboard'>the Marketplace prototype</a> to start renting or selling Virtual Private Servers.<br><br>"
+            "P2P VPS is created and managed by <a href='http://rpiovn.org'>RPiOVN.org</a>. Be sure to introduce yourself and ask questions <a href='https://www.loomio.org/g/2vWqlYVF/rpiovn'>on our Loomio group</a>."
+            "</body></html>";
+          
+          $.get('/api/email/send', emailData, function(data) {
+            if(data.success) {
+              console.log('Success!');
+              alert('Thank you for signing up for a new account! An email confirmation is being sent to you. You can now log in with your email and password.');
+              window.location.href = "/keystone/signin";
+            } else {
+              alert('There was an error emailing you a confirmation email, but your account has been created and you can log in with you email and password.');
+              window.location.href = "/keystone/signin";
+            }
+          })
+          
+          //Failure occured trying to access the /api/email/send API.
+          .fail(function(jqxhr, textStatus, error) {
+            debugger;
+
+            try {
+              alert('There was an error emailing you a confirmation email, but your account has been created and you can log in with you email and password.');
+              window.location.href = "/keystone/signin";
+              console.log( "Request Failed: " + error );
+              console.error('Error message: '+jqxhr.responseText);
+            } catch(err) {
+              console.error('Error trying to retrieve JSON data from server response.');
+            } 
+          });
+        }
+      })
+      
+      //Failure occured trying to access the /api/users/create API
+      .fail(function(jqxhr, textStatus, error) {
+          debugger;
+          
+          try {
+            //global.modalView.errorModal("Request failed because of: "+error+'. Error Message: '+jqxhr.responseText);
+            console.log( "Request Failed: " + error );
+            console.error('Error message: '+jqxhr.responseText);
+            alert('There was a problem with the submission! Please refresh this page and try again.');
+          } catch(err) {
+            console.error('Error trying to retrieve JSON data from server response.');
+          } 
+        });
+
+      /* END SUBMIT NEW USER ACCOUNT */
+
+    });
+
+  </script>
