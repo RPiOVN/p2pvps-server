@@ -7,4 +7,4 @@ cp -r connextcms-vue-app ~/docker-connextcms/theme/site-template-connextcms
 
 # Copy private settings file, which is stored outside this repo.
 echo 'It is OK if the next command fails.'
-cp ~/privatesettings.json ~/docker-connextcms/theme/site-template-connextcms/private/
+cp ~/privatesettings.json ~/docker-connextcms/theme/site-template-connextcms/
