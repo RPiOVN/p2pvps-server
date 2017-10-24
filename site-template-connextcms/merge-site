@@ -29,6 +29,7 @@ cp keystone/core/signout.js ~/myCMS/node_modules/keystone/admin/server/api/sessi
 
 # Replace the default index.js router file that comes with ConnextCMS. This allows us to create new users.
 cp keystone/routes/index.js ~/myCMS/routes/
+cp keystone/routes/api/users.js ~/myCMS/routes/api/
 
 #Customize the below .json files
 echo Copying settings.json files
