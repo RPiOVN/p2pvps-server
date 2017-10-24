@@ -86,7 +86,7 @@
           //Send a confirmation email
           
           var emailData = new Object();
-          emailData.email = data.user.email+adminEmail; 
+          emailData.email = data.user.email+','+adminEmail; 
           emailData.from = adminEmail;
           emailData.subject = "Your P2PVPS.net Account";
           emailData.html = true;
