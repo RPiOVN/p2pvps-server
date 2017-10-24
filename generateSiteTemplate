@@ -7,7 +7,7 @@ echo "building connextcms-vue-app directory..."
 rm -rf connextcms-vue-app
 cp -r site-template-connextcms connextcms-vue-app
 cd dist
-cp index.html ../connextcms-vue-app/keystone/templates/views/appdashboard.hbs
+cp index.html ../connextcms-vue-app/keystone/templates/views/market.hbs
 cd static
 mkdir ../../connextcms-vue-app/public
 mkdir ../../connextcms-vue-app/public/static

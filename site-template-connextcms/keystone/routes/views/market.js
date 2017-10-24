@@ -13,9 +13,9 @@ exports = module.exports = function(req, res) {
         
   
         // Set locals
-        locals.section = 'appdashboard';
+        locals.section = 'market';
 
         // Render the view
-        view.render('appdashboard', {layout: false});
+        view.render('market', {layout: false});
 
 };

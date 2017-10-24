@@ -34,7 +34,7 @@ export default new Router({
       ]
     },
     {
-      path: '/appdashboard',
+      path: '/market',
       name: 'ActiveView',
       component: ActiveView
     }
