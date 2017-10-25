@@ -33,38 +33,6 @@ repository. The P2P VPS software is composed of three software packages:
 [The Client software can be found here](https://github.com/RPiOVN/p2pvps-client). 
 This repository contains *The Server* and *The Marketplace* software.
 
-## Installation
-1. Connect your Pi to the internet. Open a command line via the Terminal 
-program on the desktop or via SSH over your network. Login and change your
-default password. Then update the device with `sudo apt-get update`.
-
-2. Clone this repository with `git clone https://github.com/RPiOVN/p2pvps-client`
-
-3. Navigate to the *simple* shell with `cd p2pvps-client/client/simple`. 
-
-4. Install dependencies with `npm install`.
-
-5. Open `deviceGUID.json` with the command `nano deviceGUID.json`. Replace the example GUID in that file
-with the GUID provided by the Market when you registered your device. Save the file by hitting `Ctl-X`, then
-press `Y`, then `Enter` to save.
-
-**Image Here**
-
-6. Register your device with the server by running `node registerDevice.js`. This will generate the username,
-password, and port that you'll need to log into your device from the internet. It will also generate the files
-to setup shell access to the device using reverse-SSH.
-
-7. Install Docker on the Raspberry Pi with this command: `curl -sSL https://get.docker.com | sh`
-
-*You can read more about Docker on the Raspberry Pi [here](https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/)*
-
-8. Add yourself to the docker group with this command: `sudo usermod -aG docker pi`, then log out, and then back in.
-
-9. Back in the `p2pvps-client/client/simple/` directory, build the Docker container with `./buildImage`. This will take a
-while the first time you run it.
-
-10. Finally, execute the Docker container with `./runImage`.
-
 ### File Layout
 * The `site-template-connextcms/` directory contains the ConnextCMS site template files needed to create database models
 and REST APIs required for the Clients and Marketplace to coordinate and persist data. For more information, see the
