@@ -1,0 +1,1 @@
+This directory conains miscillanious documentation for the P2P VPS server.
