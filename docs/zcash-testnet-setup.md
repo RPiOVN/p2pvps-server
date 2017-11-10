@@ -2,14 +2,14 @@
 
 Steps to setting up a zcash-enable OpenBazaar server running on testnet:
 
-* To start with, you might want to begin with, you might want to [create some swap space](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04).
+* To start with, you should probably [create 2GB of swap space](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-16-04).
 
 1. Get OB server installed by following [these installation instructions](https://github.com/OpenBazaar/openbazaar-go/blob/master/docs/install-linux.md).
 It's assumed that you are running a Ubuntu Linux server. 
 
-2. After verifying that you OpenBazaar server is up and running, shut it down.
+2. After verifying that your OpenBazaar server is up and running, shut it down.
 Delete the `.openBazaar2.0` directory in your home folder (`~`).
-We're going to be setting up zcash and it's good hygene that bitcoin and zcash intermingle as little as possible.
+We're going to be setting up zcash and it's good hygiene that bitcoin and zcash intermingle as little as possible.
 
 3. Go back to your directory where the source code for OpenBazaar server lives.
 For this example it's `~/openBazaarServer/src/github.com/OpenBazaar/openbazaar-go`.
@@ -36,8 +36,6 @@ that you need to edit lives in this directory.
 client. On Windows 10, I used FileZilla to download the file to my computer. Double clicking on the
 .crt file and clicking on *Install Certificate...* will bring up the Certificate Import Wizard.
 
-**Image Here**
-
 8. Click Next to continue through the first prompt. Either option will work. In *Certificate Store*, 
 choose *Place all certificates in the following store* and browse to *Trusted Root Certification
 Authorities*. Clock *OK*, then *Next*, then *Finish*. Click through any additional prompts. 
@@ -56,9 +54,9 @@ Adjust the directions above with the commands recorded in [this document](zcash-
 the command `zcash-cli getinfo`.
 
 12. Create a new wallet with the command `zcash-cli z_getnewaddress`. This will generate a zcash *private*
-address (starts with a z). You won't use this to transfer money. Instead you'll use the *transparaent*
+address (starts with a z). You won't use this to transfer money. Instead you'll use the *transparent*
 address, which can be viewed with `zcash-cli listreceivedbyaddress 0 true`. That is the address you would
-share for recieving coins. OpenBazaar will also generate its own transparent address.
+share for receiving coins. OpenBazaar will also generate its own transparent address.
 
 13. Enable remote access to the server by following the steps [the security doc](https://github.com/OpenBazaar/openbazaar-go/blob/d65a3f5ba438dbb80e39df43a2cce31d0399d637/docs/security.md).
 Again, the `config` file you need to edit is in the `~/openBazaar2.0-testnet/` directory.
@@ -89,18 +87,12 @@ username and password hash in the `JSON-API` section of the config file.
 
 16. Run Open Bazaar and connect it to the zcash testnet with the command `go run openbazaard.go start -t &`
 
-If OpenBazaar server exists as soon as it start, check the logs in `~/openBazaar2.0-testnet/logs/ob.log`
-for clues as the the problem.
+If OpenBazaar server exits as soon as it starts, check the logs in `~/openBazaar2.0-testnet/logs/ob.log`
+for clues as to the cause of the problem.
 
 
 
 
 
-
-
-
-* . Edit the config file
-
-* Edit the config file to reflect the use of zcash
 
 

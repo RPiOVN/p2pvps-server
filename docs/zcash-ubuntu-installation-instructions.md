@@ -13,12 +13,27 @@ sudo apt-get update && sudo apt-get install zcash
 zcash-fetch-params
 mkdir -p ~/.zcash
 
-# Testnet
+# zcash Testnet
 echo "addnode=testnet.z.cash" >~/.zcash/zcash.conf
 echo "rpcuser=yourUsername" >>~/.zcash/zcash.conf
 echo "rpcpassword=yourPassword" >>~/.zcash/zcash.conf
 echo "equihashsolver=tromp" >> ~/.zcash/zcash.conf
 echo "testnet=1"
+
+# Zcash Mainnet
+#echo "addnode=mainnet.z.cash" >~/.zcash/zcash.conf
+#echo "rpcuser=yourUsername" >>~/.zcash/zcash.conf
+#echo "rpcpassword=yourPassword" >>~/.zcash/zcash.conf
+#echo "equihashsolver=tromp" >> ~/.zcash/zcash.conf
+
+# Zcash Testnet with mining set to all cores.
+#echo "addnode=testnet.z.cash" >~/.zcash/zcash.conf
+#echo "rpcuser=yourUsername" >>~/.zcash/zcash.conf
+#echo "rpcpassword=yourPassword" >>~/.zcash/zcash.conf
+#echo "equihashsolver=tromp" >> ~/.zcash/zcash.conf
+#echo "testnet=1"
+#echo "gen=1"
+#echo "genproclimit=-1"
 
 # Add optional lines here to turn on mining
 ```
