@@ -69,7 +69,7 @@ It is composed of the following high-level User Interfaces/Features:
 * Marketplace
 * Testing
 
-See more details in the [Server Specification](server-specification.md).
+See more details in the [Marketplace Specification](marketplace-specification.md).
 
 *The Server* is the collection of files necessary to create the website (content), the database models, and the REST APIs
 needed for the Client software and the Marketplace software to communicate and coordinate. It is composed of the following
@@ -82,7 +82,7 @@ high level features:
 * OpenBazaar Transactions
 * Testing
 
-See more details in the [Marketplace Specification](marketplace-specification.md).
+See more details in the [Server Specification](server-specification.md).
 
 # High Level System Overview
 The sections below give additional details on how the system-as-a-whole works. Lower level specifications will
