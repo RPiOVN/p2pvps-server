@@ -5,7 +5,6 @@ high-level features:
 * Owned Device Management
 * Rented Device Management
 * Marketplace
-* Payment
 * Testing
 
 The sections below detail the specifications for each of these features:
@@ -25,10 +24,6 @@ A mockup of the rented devices view is displayed above.
 
 A mockup of the Marketplace view is displayed above. 
 
-## Payment
-The payment user interface will work in conjunction with the cryptocurrency specifications captured in
-the [Server specifications](server-specification.md). Once more progress has been made on that specification,
-then a user interface mock up can be created.
 
 ## Testing
 Testing of server code will use the same test-suite provided by the 
