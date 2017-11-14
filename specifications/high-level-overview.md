@@ -20,7 +20,7 @@ A simple diagram of a P2P VPS Marketplace:
 ![Simple server client diagram](images/simple-diagram.jpg?raw=true "Simple server client diagram")
 
 ## Definitions
-* *Client* is an IoT device or other computer capable of running Docker and executing the [client software](https://github.com/RPiOVN/p2pvps-client)
+* *Client* or *Device* is an IoT device or other computer capable of running Docker and executing the [client software](https://github.com/RPiOVN/p2pvps-client)
 * *Server* is an internet connected computer capable of running the software in this repository.
 * *Device Owners* are the owners of the Client devices.
 * *Renters* are users who rent the Client device from the Device Owners.
@@ -115,10 +115,10 @@ connect Owners and Renters without having any liability with regard to finanical
 Owners will fill out a form to register their device, be given a key, and
 then install the software on the client hardware along with the key. Rental of devices will be billed by the hour.
 When a device is registered, its hardware (memory, CPU, hard-drive space) will be verified. 
-Owners can then place the device for rent on the marketplace, or simply reserve it for personal use.
+Owners can then place the device for rent on the P2P VPS marketplace, or simply reserve it for personal use.
 The device owner can set the hourly rate they are willing to rent the device for on the marketplace.
 
-When a renter agrees to the rental contract, they purchase the contract on the OpenBazaar network for 
+A renter agrees to the rental contract by purchase the contract on the OpenBazaar network for 
 a fixed length of time.
 The device is then taken off the P2P VPS market. 
 A random username and password generated for the device will be emailed to the renter at that time.
@@ -153,9 +153,11 @@ to forward ports 80 (http) and 443 (https) from the Client device to the new sub
 
 4. When a Renter rents the device, they are emailed the username and password for the device.
 
-5. When the Renter cancels their agreement, the ports and subdomains are released by the server. 
+5. When the rental contract end, the ports and subdomains are released by the server. 
 The Client software destroys the Docker container the Renter was using and wipes any peristant storage.
 The Client re-registers itself back into the marketplace by repeating the process from Step 3.
 
-Note: It is not possible to make a reverse SSH call without giving the Client shell access to the Server. By restricting
+*Note:* It is not possible to make a reverse SSH call without giving the Client shell access to the Server. By restricting
 the connection to a minimal Ubuntu Docker image, the server can be better protected against malicious users.
+One area of improvement is to research a way of establishing an SSH server capable of doing
+reverse tunneling without giving command line access.
