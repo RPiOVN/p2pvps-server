@@ -19,6 +19,11 @@ A simple diagram of a P2P VPS Marketplace:
 
 ![Simple server client diagram](images/simple-diagram.jpg?raw=true "Simple server client diagram")
 
+## Definitions
+* *Client* or *Device* is an IoT device or other computer capable of running Docker and executing the [client software](https://github.com/RPiOVN/p2pvps-client)
+* *Server* is an internet connected computer capable of running the software in this repository.
+* *Device Owners* are the owners of the Client devices.
+* *Renters* are users who rent the Client device from the Device Owners.
 
 ## Client Overview
 The purpose of the client side software is to create a virtual private server (**VPS**) environment similar to those hosted
@@ -32,18 +37,18 @@ This setup has the following advantages:
 when the *renter* is done using it.
 
 * By using reverse SSH to connect to a central server, the *renters* can be provided with a command line interface to the device while
-by-passing network firewalls. This creates network risks that device *owners* need to be aware of.
+by-passing network firewalls. However, this creates network risks that device *owners* need to be aware of.
 
-* Renting out the computing power of the hardware allows hardware *owners* to profit from their hardware and internet connection.
+* Renting out the computing power of the hardware allows hardware *owners* to profit from their hardware and internet connection, while promoting a decentralized internet.
 
 * Creating distributed, semi-anonymouse VPS micro-servers, hosted in peoples homes, has interesting legal ramifications and moves the internet towards
 a more reliable, distributed, and censorless architecture.
 
 The client software is composed of the following high-level features. Each feature needs a manager, so if you are
-interested in contributing, please let us know:
+interested in contributing, [please let us know](http://p2pvps.org):
 
 * Docker container with SSH
-* Persistant Storage
+* Persistant Storage & Encryption
 * Encryption
 * Deployment Packages (pre-configured scripts for setting up apps like webservers, file sharing, etc.)
 * Testing
@@ -59,13 +64,12 @@ with no central point of failure. These goals are achieved by splitting the serv
 *The Marketplace* is a Vue.js web application that allows renters and owners to manage devices and transactions.
 It is composed of the following high-level User Interfaces/Features:
 
-* Payment
 * Owned Device Management
-* Rended Device Management
+* Rented Device Management
 * Marketplace
 * Testing
 
-See more details in the [Server Specification](server-specification.md).
+See more details in the [Marketplace Specification](marketplace-specification.md).
 
 *The Server* is the collection of files necessary to create the website (content), the database models, and the REST APIs
 needed for the Client software and the Marketplace software to communicate and coordinate. It is composed of the following
@@ -75,10 +79,10 @@ high level features:
 * Website and Content Management System (CMS)
 * SSH Tunnel Server
 * HTTP/S Forwarding
-* Bitcoin Transactions
+* OpenBazaar Transactions
 * Testing
 
-See more details in the [Marketplace Specification](marketplace-specification.md).
+See more details in the [Server Specification](server-specification.md).
 
 # High Level System Overview
 The sections below give additional details on how the system-as-a-whole works. Lower level specifications will
@@ -89,32 +93,40 @@ be captured in the respective specification document for [Client](client-specifi
 A client device registers with a server by making a REST API call and passing a server-generated key (GUID). 
 Upon recieving a valid registration call, the server opens new ports, generates login details, and returns this 
 information to the client. 
-The client then launches a Docker container with a minimal Linux environment. The container makes
-reverse SSH connections to forward its local ports to the server's new ports, tunneling through any firewalls, and creating 
+The client then launches a Docker container with a minimal Linux environment. The container makes a
+reverse SSH connection to forward its local SSH port to the server's new port, tunneling through any firewalls, and creating 
 a command line interface accessible to the renter.
 
 The Server operates a minimal SSH server running inside a Docker container and another [LocalTunnel server](https://github.com/localtunnel/server) 
 running inside it's own Docker container.
-This SSH shell allows connection to the client device command line interface via SSH.
+This SSH shell allows connection to the client device via SSH.
 The LocalTunnel server also forwards port 80 (http) and port 443 (https) from the client device. A subdomain is created
-on the server allowing access to these three ports. This allows clients to connect to the command line on the device and also
+on the server allowing access to these three ports. This allows renters to connect to the command line on the 
+client device and also
 serve web pages and web apps from a human-readable URL.
 
 ## Financial Transactions
-The first payment method for transacting device rentals will be the Paypal Contracts API. As soon as possible, 
-transactions with Bitcoin, Etherium, and other cryptocurrencies will me instituted as well. Cryptocurrencies have the
-advantage of allowing server owners to create semi-anonymous markets.
+Transactions between Owners and Renters will take place over the [OpenBazaar](http://openbazaar.org/) (**OB**) network.
+The requires that the buyer and seller each have a local installation of OpenBazaar capable of
+sending a receiving cryptocurrency. Cryptocurrencies have the
+advantage of allowing server owners to create semi-anonymous markets. It also allows P2P VPS servers to
+connect Owners and Renters without having any liability with regard to finanical transactions.
 
-Renters will fill out a form to register their device, be given a key, and
+Owners will fill out a form to register their device, be given a key, and
 then install the software on the client hardware along with the key. Rental of devices will be billed by the hour.
 When a device is registered, its hardware (memory, CPU, hard-drive space) will be verified. 
-Owners can then place the device for rent on the marketplace, or simply reserve it for personal use.
+Owners can then place the device for rent on the P2P VPS marketplace, or simply reserve it for personal use.
 The device owner can set the hourly rate they are willing to rent the device for on the marketplace.
 
-When a renter agrees to the rental contract, the device is taken off the market. A random username and password will
-be generated and sent to the renter, and the device will be dedicated for their use. As long as the device is connected
-to the internet, the renter will be billed at the hourly rate, until they stop the rental contract. At that point the device
-is wiped and re-registered into the marketplace.
+A renter agrees to the rental contract by purchase the contract on the OpenBazaar network for 
+a fixed length of time.
+The device is then taken off the P2P VPS market. 
+A random username and password generated for the device will be emailed to the renter at that time.
+As long as the device is connect to the internet, the device will be dedicated for the renters use.
+Once the length of the contract expires, the client device is reset and placed back on the marketplace.
+In the future, a feature will be developed to allow renters to extend the length of their contract.
+If the client device goes offline and can not fulfill the terms of the contract, an OpenBazaar dispute
+is activated and a moderator can pro-rate and refund part of the transaction to the renter.
 
 ## Federated Servers
 Server software will be able to establish connections with other servers at the desire of the server administrator. 
@@ -141,9 +153,11 @@ to forward ports 80 (http) and 443 (https) from the Client device to the new sub
 
 4. When a Renter rents the device, they are emailed the username and password for the device.
 
-5. When the Renter cancels their agreement, the ports and subdomains are released by the server. 
+5. When the rental contract end, the ports and subdomains are released by the server. 
 The Client software destroys the Docker container the Renter was using and wipes any peristant storage.
 The Client re-registers itself back into the marketplace by repeating the process from Step 3.
 
-Note: It is not possible to make a reverse SSH call without giving the Client shell access to the Server. By restricting
+*Note:* It is not possible to make a reverse SSH call without giving the Client shell access to the Server. By restricting
 the connection to a minimal Ubuntu Docker image, the server can be better protected against malicious users.
+One area of improvement is to research a way of establishing an SSH server capable of doing
+reverse tunneling without giving command line access.

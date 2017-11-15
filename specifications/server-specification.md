@@ -6,14 +6,14 @@ high-level features:
 * Website and Content Management System (CMS)
 * SSH Tunnel Server
 * HTTP/S Forwarding
-* Bitcoin Transactions
+* OpenBazaar Transactions
 * Testing
 
 The sections below detail the specifications for each of these features:
 
 ## Database API
 Each device registered into the marketplace gets a two database models, called `devicePublicModel` and `devicePrivateModel`.
-Most data about a device is assumed to be public. Specifically private things like the SSH port, username, password, and
+Most data about a device is assumed to be public. Specifically, private things like the SSH port, username, password, and
 user account of the renter is kept in the private DB model. Security checks are done to ensure only admins,
 device owners, or active device renters can access the private model.
 
@@ -21,8 +21,10 @@ device owners, or active device renters can access the private model.
 of those models tends to lead to bugs. Keeping functions small, modular, and testible via REST API calls prevents
 hard-to-find bugs.
 
-* REST APIs for this server are based on KeystoneJS API calls used by ConnextCMS and based on 
-[this gist by Jed Watson](https://gist.github.com/JedWatson/9741171#file-routes-index-js-L24). The include the following
+* REST APIs for this server are based on KeystoneJS API calls used by [ConnextCMS](https://github.com/skagitpublishing/connextCMS) 
+and based on 
+[this gist by Jed Watson](https://gist.github.com/JedWatson/9741171#file-routes-index-js-L24). 
+They include the following
 basic CRUD commands. All API calls outside this standard will be listed separately.
   * `/list` - list all items in the collection.
   * `/create` - create a new item in the database.
@@ -52,8 +54,8 @@ The SSH tunnel server will run inside its own Docker container. It is necessary 
 in order to generate the reverse tunnel to the client devices. Keeping the SSH server isolated to it's own
 Docker container reduces the threat of giving out shell access.
 
-It may be possible to allow reverse SSH connections without granding shell access to the server. Exploring this 
-option needs to be a high priority.
+**It may be possible to allow reverse SSH connections without granding shell access to the server. Exploring this 
+option needs to be a high priority.**
 
 ## HTTP/S Forwarding
 The server is also responsible for establishing a subdomain (like **abc**.p2pvps.com) and proxying connections
@@ -64,13 +66,39 @@ While the project is still in its infancy, we can use the [localtunnel.me](http:
 we'll eventually need to set up our own server. The LocalTunnel server software expects to have the server to
 itself, without any competition for ports. Putting it inside a Docker container has proven problematic.
 
-## Bitcoin Transactions
-This area has yet to be explored. But a library or node application or REST API service needs to be established
-to facilitate the use of crypto currency. Bitcoin is fine unless the confirmation of transactions posses a problem
-to establishing rentals in a timely fashion. If it does, then a different cryptocurrency will be used. It would be
-ideal to support multiple cryptocurrencies. It may even be a good idea to spin up a dedicated cloud server just to
-deal with the cryptocurrency applications, and hopefully Dockerize each cryptocurrency and keep them separate from
-one another.
+## OpenBazaar Transactions
+[OpenBazaar](http://openbazaar.org) (**OB**) will be leverages to handle the transactions between Owners and Renters.
+When an Owner submits their device to the P2P VPS Marketplace, the Server will be responsible for generating
+a contract on the OpenBazaar network. Renters then purchase the contract using their own OpenBazaar software. At that point, the login and password
+for the device is emailed to them. 
+
+The server will run an OpenBazaar server, (hopefully) contained in it's own Docker container. 
+
+OB contracts are managed using the `obContract` database model. This model has the following properties:
+
+* `id`: The unique MongoDB UUID for each record.
+* `ListingUri`: The OB URI need to retrieve the specific listing in the OB client
+* `Price`: The price is USD
+* `Experation`: When the contract will expire if not purchased.
+* `Title`: Title used in the listing
+* `Description`: Description used in the listing
+* `imageHash`: An IPFS hash link to an image on the OB network.
+* `Owner`: The GUID of the device owner. This is a MongoDB relationship.
+* `Renter`: The GUID of the device renter.
+* `listingState`: The state of the listing. This is a string with these following possible states:
+  * `Not Listed`: (default) not listed on the OB marketplace
+  * `Listed`: listed on the OB marketplace
+  * `Sold`: off the market, login into sent to the renter
+  * `Released`: off the market, device needs reset and relisting.
+  * `Expired`: the listing has expired on the OB market and needs to be relisted.
+
+In addition to the API endpoints listed in [Database API](#database-api), for managing the
+`obContract` model, the following API endpoints are used for managing OpenBazaar contracts.
+These API endpoints can only be executed by server admins or device owners:
+
+* `createMarketListing/:id` - Creates a new OB market listing for the device.
+* `removeMarketListing/:id` - Remove the listing from the OB marketplace.
+* `updateListing/:id` - Updates the OB listing with data from the `obContract` model associated with the listing.
 
 ## Testing
 Testing of server code will use the same test-suite as the Marketplace. Namely the test configuration set up
