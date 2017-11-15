@@ -1,19 +1,19 @@
 /**
  * This file is where you define your application routes and controllers.
- * 
+ *
  * Start by including the middleware you want to run for every request;
  * you can attach middleware to the pre('routes') and pre('render') events.
- * 
+ *
  * For simplicity, the default setup for route controllers is for each to be
  * in its own file, and we import all the files in the /routes/views directory.
- * 
+ *
  * Each of these files is a route controller, and is responsible for all the
  * processing that needs to happen for the route (e.g. loading data, handling
  * form submissions, rendering the view template, etc).
- * 
+ *
  * Bind each route pattern your application should respond to in the function
  * that is exported from this module, following the examples below.
- * 
+ *
  * See the Express application routing documentation for more information:
  * http://expressjs.com/api.html#app.VERB
  */
@@ -40,24 +40,24 @@ var routes = {
 
 // Setup Route Bindings
 exports = module.exports = function(app) {
-	
+
 	// Views
 	app.get('/', routes.views.index);
 	app.get('/blog/:category?', routes.views.blog);
 	app.get('/blog/post/:post', routes.views.post);
 	app.get('/gallery', routes.views.gallery);
 	app.all('/contact', routes.views.contact);
-  app.get('/page/:page', routes.views.page); 
+  app.get('/page/:page', routes.views.page);
   app.get('/resetpassword', routes.views.resetpassword);
-  
-	
+
+
   //Posts
   app.get('/api/post/list', keystone.middleware.api, routes.api.posts.list);
 	app.all('/api/post/create', keystone.middleware.api, routes.api.posts.create);
 	app.get('/api/post/:id', keystone.middleware.api, routes.api.posts.get);
 	app.all('/api/post/:id/update', keystone.middleware.api, routes.api.posts.update);
 	app.get('/api/post/:id/remove', keystone.middleware.api, routes.api.posts.remove);
-  
+
   //Post Categories
   app.get('/api/postcategory/list', keystone.middleware.api, routes.api.postcategory.list);
 	app.all('/api/postcategory/create', keystone.middleware.api, routes.api.postcategory.create);
@@ -71,7 +71,7 @@ exports = module.exports = function(app) {
 	app.get('/api/page/:id', keystone.middleware.api, routes.api.page.get);
 	app.all('/api/page/:id/update', keystone.middleware.api, routes.api.page.update);
 	app.get('/api/page/:id/remove', keystone.middleware.api, routes.api.page.remove);
-  
+
   //Page Sections
   app.get('/api/pagesection/list', keystone.middleware.api, routes.api.pagesection.list);
 	app.all('/api/pagesection/create', keystone.middleware.api, routes.api.pagesection.create);
@@ -85,61 +85,75 @@ exports = module.exports = function(app) {
   app.all('/api/imageupload/:id/update', keystone.middleware.api, routes.api.imageupload.update);
   app.all('/api/imageupload/create', keystone.middleware.api, routes.api.imageupload.create);
   app.get('/api/imageupload/:id/remove', keystone.middleware.api, routes.api.imageupload.remove);
-  
+
   //File Upload Route
   app.get('/api/fileupload/list', keystone.middleware.api, routes.api.fileupload.list);
   app.get('/api/fileupload/:id', keystone.middleware.api, routes.api.fileupload.get);
   app.all('/api/fileupload/:id/update', keystone.middleware.api, routes.api.fileupload.update);
   app.all('/api/fileupload/create', keystone.middleware.api, routes.api.fileupload.create);
   app.get('/api/fileupload/:id/remove', keystone.middleware.api, routes.api.fileupload.remove);
-  
+
   //Private Pages
   app.get('/api/privatepage/list', keystone.middleware.api, routes.api.privatepage.list);
 	app.all('/api/privatepage/create', keystone.middleware.api, routes.api.privatepage.create);
 	app.get('/api/privatepage/:id', keystone.middleware.api, routes.api.privatepage.get);
 	app.all('/api/privatepage/:id/update', keystone.middleware.api, routes.api.privatepage.update);
 	app.get('/api/privatepage/:id/remove', keystone.middleware.api, routes.api.privatepage.remove);
-  
+
   //Users API
   app.get('/api/users/list', keystone.middleware.api, routes.api.users.list);
   app.get('/api/users/:id', keystone.middleware.api, routes.api.users.get);
   app.all('/api/users/:id/update', keystone.middleware.api, routes.api.users.update);
   app.all('/api/users/create', keystone.middleware.api, routes.api.users.create);
   app.get('/api/users/:id/remove', keystone.middleware.api, routes.api.users.remove);
-  
-  
+
+
   //Front End Widgets
   app.get('/api/frontendwidget/list', keystone.middleware.api, routes.api.frontendwidget.list);
 	app.all('/api/frontendwidget/create', keystone.middleware.api, routes.api.frontendwidget.create);
 	app.get('/api/frontendwidget/:id', keystone.middleware.api, routes.api.frontendwidget.get);
 	app.all('/api/frontendwidget/:id/update', keystone.middleware.api, routes.api.frontendwidget.update);
 	app.get('/api/frontendwidget/:id/remove', keystone.middleware.api, routes.api.frontendwidget.remove);
-  
+
   //Email API
   app.all('/api/email/send', keystone.middleware.api, routes.api.email.send);
   app.get('/api/email/sendlog', keystone.middleware.api, routes.api.email.sendlog);
   app.get('/api/email/resetpassword', keystone.middleware.api, routes.api.email.resetpassword);
-  
+
   //Server Settings JSON file.
   app.get('/api/serversettings/saveprivate', keystone.middleware.api, routes.api.serversettings.saveprivate);
   app.get('/api/serversettings/getprivate', keystone.middleware.api, routes.api.serversettings.getprivate);
   app.get('/api/serversettings/savepublic', keystone.middleware.api, routes.api.serversettings.savepublic);
-  
+
+	// OpenBazaar Interface APIs
+	app.get('/api/ob/createMarketListing/:id', keystone.middleware.api, routes.api.openbazaar.createMarketListing);
+	app.get('/api/ob/removeMarketListing/:id', keystone.middleware.api, routes.api.openbazaar.removeMarketListing);
+	app.get('/api/ob/updateListing/:id', keystone.middleware.api, routes.api.openbazaar.updateListing);
+
+	// obContract API - Note: For prototyping. Not all these APIs will remain available.
+	app.get('/api/obContract/list', keystone.middleware.api, routes.api.obContract.list);
+	app.all('/api/obContract/create', keystone.middleware.api, routes.api.obContract.create);
+	app.get('/api/obContract/:id', keystone.middleware.api, routes.api.obContract.get);
+	app.all('/api/obContract/:id/update', keystone.middleware.api, routes.api.obContract.update);
+	app.get('/api/obContract/:id/remove', keystone.middleware.api, routes.api.obContract.remove);
+
+
   //Plugins
   app.get('/api/plugins/list', keystone.middleware.api, routes.api.plugins.list);
-  
+
+	// Private Views
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
   app.get('/dashboard', middleware.requireUser, routes.views.dashboard);
   app.get('/edituser', middleware.requireUser, routes.views.edituser);
   app.get('/privatepage/:privatepage', middleware.requireUser, routes.views.privatepage);
-  
-  
+
+
   //Dynamically load routes from any plugins.
   fs.readdirSync(__dirname).forEach(function(file) {
 
     var fileExt = file.slice(-3); //Get the file extension
-    
+
     //If the file is .js file
     if( fileExt == ".js" ) {
       //Skip the index and middleware files
@@ -148,23 +162,23 @@ exports = module.exports = function(app) {
       //Any other .js files are assumed to be plugin router files.
       } else {
         var name = file.substr(0, file.indexOf('.'));
-        require('./' + name)(app); 
-      }  
-    
+        require('./' + name)(app);
+      }
+
     //Skip if the file is not a .js file.
     } else {
       return;
-    }      
+    }
   });
-  
+
 };
 
 //This function reads in a the pluginData.json files and adds any routes if finds to this application.
 function getPluginAPIs() {
   debugger;
-  
+
   var promise = new Promise;
-  
+
   //Retrieve a listing of all plugins directories in the plugin folder.
   exec('ls public/plugins/', function(err, stdout, stderr) {
 
@@ -177,21 +191,21 @@ function getPluginAPIs() {
 
     //console.log('stdout = ');
     //console.log(stdout);
-    
+
     //Convert stdout to an array of file names
     var blah = stdout.replace(/\n/g, ','); //Replace all new line characters with commas.
     var fileList = blah.split(','); //Separate the CSV string into an array.
-    
+
     var allPluginData = [];
-    
+
     //debugger;
     //Loop through each file in the directory.
     async.forEachOf(fileList, function(value, key, callback) {
       //debugger;
-      
+
       //Skip blank lines.
       if(value == "") return callback();
-      
+
       //Read in the file.
       fs.readFile('public/plugins/'+value+'/pluginSettings.json', function(err, data) {
 
@@ -200,7 +214,7 @@ function getPluginAPIs() {
           console.log('error trying to read plugin settings file for '+value);
           console.error(err.message);
         }
-        
+
         try {
           debugger;
           //Convert the JSON data in the log file to an object.
@@ -208,36 +222,36 @@ function getPluginAPIs() {
           pluginSettings = JSON.parse(pluginSettings);
 
           allPluginData.push(pluginSettings);
-          
+
         } catch(err) {
           console.error('Problem trying to convert plugin '+value+' pluginSettings.js file to JSON.');
           console.error('Error: '+err.message);
           console.error('Skipping plugin '+value);
         }
-        
+
         callback();
       });
-      
+
     //This function runs when the loop is complete, or if it errors out.
     }, function(err) {
       debugger;
-      
+
       if(err) {
         console.error('Error processing file '+value);
         console.error('Error: '+err.message);
       } else {
         console.log('all plugins successfully read in finished.');
-        
+
         //promise.resolve(allPluginData);
         promise.fulfill(allPluginData);
       }
-      
+
       //return app;
-      
+
     });
-    
-  
+
+
   });
-  
+
   return promise;
 }
