@@ -7,14 +7,21 @@ var DevicePublicModel = keystone.list('DevicePublicModel');
 var DevicePrivateModel = keystone.list('DevicePrivateModel');
 var obContractModel = keystone.List('obContractModel');
 
+
+// Creates a listing on OpenBazaar based on an obContractModel.
+// An obContractModel GUID is passed in the URI.
 exports.createMarketListing = function(req, res) {
   res.apiResponse({success: true});
 }
 
+// Removes a listing on OpenBazaar based on data in an obContractModel.
+// An obContractModel GUID is passed in the URI.
 exports.removeMarketListing = function(req, res) {
   res.apiResponse({success: true});
 }
 
+// Updates a listing on OpenBazaar based on data in an obContractModel.
+// An obContractModel GUID is passed in the URI.
 exports.updateListing = function(req, res) {
   res.apiResponse({success: true});
 }
