@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<!--
+Note: This is a proof of concept for creating a new listing on OpenBazaar 2.0 beta sever v0.10.0.
+Based on this API guide:
+https://api.openbazaar.org/
+Documentation is pretty sparse in the OB repo right now, so this took a lot of hacking and reverse engineering.
+For this example to work, you have to set up your config file. On linux, the config file is locted in ~/openbazaar2.0/
+Here is an example of the JSON_API section of my config file:
+"JSON-API": {
+    "AllowedIPs": [],
+    "Authenticated": false,
+    "CORS": "null",
+    "Enabled": true,
+    "HTTPHeaders": null,
+    "Password": "passwordHashHere",
+    "SSL": false,
+    "SSLCert": "",
+    "SSLKey": "",
+    "Username": "login"
+  },
+-->
+
+<html lang="en">
+<head>
+  <title>Centro API Example</title>
+
+  <link href="../css/bootstrap.min.css" media="all" rel="stylesheet" />
+</head>
+<body>
+
+
+  <section>
+    <div class='container'>
+      <div class="row well well-lg">
+        <div class="col-md-12">
+          <button class="btn btn-default" onclick="createListing()">Run test</button>
+          <br><br>
+          <img id="image2" src="" alt="" width="600px" />
+          <br><br>
+          <img id="image3" src="" alt="" width="600px" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="../js/plugins/bootstrap/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    //Global Variables
+    var serverIP = '192.241.214.57';
+    var serverPort = '4002'
+    var apiCredentials = "";
+
+
+    $(document).ready( function() {
+
+      apiCredentials = getAuth();
+
+      //debugger;
+
+      //createListing();
+
+    });
+
+    function getAuth() {
+      //debugger;
+
+      var clientID = "";
+      var clientSecret = "";
+
+      //Encoding as per Centro API Specification.
+      var combinedCredential = clientID+':'+clientSecret;
+      var base64Credential = window.btoa(combinedCredential);
+      var readyCredential = 'Basic '+base64Credential;
+
+
+      return readyCredential;
+
+    }
+
+    function createListing() {
+      debugger;
+
+      //Error Handling/Validation
+      if(apiCredentials == "") return;
+
+
+      // This code tested and working 10/31/17 with OpenBazaar server v0.10.0
+      var listingData = {
+        coupons: [],
+        refundPolicy: "",
+        shippingOptions: [],
+        termsAndConditions: "",
+        metadata: {
+          contractType: "SERVICE",
+          expiry: "2017-12-31T15:00:31.770Z",
+          format: "FIXED_PRICE",
+          pricingCurrency: "USD"
+        },
+        item: {
+          categories: [],
+          condition: "NEW",
+          description: "This is the listing description",
+          nsfw: false,
+          options: [],
+          price: 153,
+          tags: [],
+          title: "Test Listing 03",
+          images: [{
+            filename: "credit-card-with-shield_1614962.jpg",
+            large: "zb2rhhtQdSwgE3AM16K7LcsgiHkr4ZXZhS5f45sde54VMggK7",
+            medium: "zb2rheZ8fFD5BJ3VxxP8Up6VoiAhVxvUtis1Gz5wEzjoaAUCg",
+            original: "zb2rhfb4edYSwx5rkZocYSbfHjgjiQb6U4G438o8GinSHqZWf",
+            small: "zb2rhb7KNDTpam86rCUxJijwLTeyzpenePHSetiF33hBp4x68",
+            tiny: "zb2rhmDhLrFuPSBosAfqpdaayoD4ttZYvtkDBL6MLP6kiPALU"
+          }],
+          skus: [{
+            quantity: -1
+          }]
+        }
+      };
+
+
+      var settings = {
+        "async": true,
+        "crossDomain": true,
+        //"xhrFields": {withCredentials:true},
+        //"url": "http://localhost:4002/ob/listing",
+        "url": 'http://'+serverIP+':'+serverPort+'/ob/listing',
+        "method": "POST",
+        //"headers": {}
+        "headers": {'Authorization': apiCredentials},
+        data: JSON.stringify(listingData),
+        //contentType: 'application/x-www-form-urlencoded',
+        contentType: 'application/json',
+        success: function(data){
+
+          debugger;
+          console.log('AJAX request succeeded! Repsonse: ');
+          console.log(data);
+        },
+
+        //This error function is called if the POST fails for submitting the file itself.
+        error: function(err) {
+          debugger;
+          console.error('AJAX request failed with following response: '+err.responseText);
+        }
+      }
+      $.ajax(settings);
+
+    }
+
+
+
+  </script>
+
+</body>
+</html>
