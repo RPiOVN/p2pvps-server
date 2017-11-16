@@ -16,8 +16,8 @@ obContractModel.add({
   experation: { type: String },
   title: { type: String },
   description: { type: String },
-  listingUri: : { type: String },
-  imageHash: : { type: String },
+  listingUri: { type: String },
+  imageHash: { type: String },
   listingState: { type: String },
   createdAt: { type: String },
   updatedAt: { type: String }

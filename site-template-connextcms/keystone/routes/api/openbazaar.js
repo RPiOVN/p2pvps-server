@@ -5,6 +5,19 @@ var Promise = require('node-promise'); //Promises to handle asynchonous callback
 
 var DevicePublicModel = keystone.list('DevicePublicModel');
 var DevicePrivateModel = keystone.list('DevicePrivateModel');
+var obContractModel = keystone.List('obContractModel');
+
+exports.createMarketListing = function(req, res) {
+  res.apiResponse({success: true});
+}
+
+exports.removeMarketListing = function(req, res) {
+  res.apiResponse({success: true});
+}
+
+exports.updateListing = function(req, res) {
+  res.apiResponse({success: true});
+}
 
 /**
  * List Devices

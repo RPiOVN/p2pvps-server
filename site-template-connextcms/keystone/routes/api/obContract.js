@@ -98,6 +98,11 @@ exports.create = function(req, res) {
 
 }
 
+exports.get = function(req, res) {
+  res.apiResponse({success: true});
+}
+
+
 /**
  * Update DevicePrivateModel by ID
  */
