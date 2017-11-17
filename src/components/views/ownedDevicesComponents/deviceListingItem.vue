@@ -1,13 +1,13 @@
 <template>
-  
+
   <div class="container">
     <div id="deviceList">
       <!-- Device list will populate this div -->
 
       <!-- Template scaffold -->
       <div class="row deviceScaffold" style="margin: 10px; border-radius: 25px; border: 1px solid black;">
-        <h3>Device ID: 
-          <span class="deviceId">{{ device._id }}</span> 
+        <h3>Device ID:
+          <span class="deviceId">{{ device._id }}</span>
           <span class="pull-right">
             <button class="btn btn-danger deviceDelete" style="margin-right: 30px;" v-on:click="showDeleteModal()">Delete</button>
           </span>
@@ -48,7 +48,7 @@
               <div class="deviceReviews">
                 <p>3/5 - Randy</p>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent odio enim, tempus et venenatis non, sagittis sit amet augue. 
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent odio enim, tempus et venenatis non, sagittis sit amet augue.
                 </p>
               </div>
             </div>
@@ -56,7 +56,7 @@
         </div>
 
       </div>
-      
+
       <!-- This will be removed. Temporarily here to show device login data. -->
       <div class="row well">
         <div class="col-sm-12">
@@ -69,7 +69,7 @@
           </ul>
         </div>
       </div>
-      
+
     </div>
   </div>
 </template>
@@ -157,7 +157,7 @@
       },
 
       submitToMarket: function () {
-        debugger
+        // debugger
 
         var now = new Date()
         var oneMonth = 1000 * 60 * 60 * 24 * 30
@@ -182,19 +182,19 @@
         console.log(obj.title)
 
         var createModelPromise = $.post('/api/obContract/create', obj, function (data) {
-          debugger
+          // debugger
           var retObj = data.collection
           console.log('New model created. ID: ' + retObj._id)
           return retObj
         })
         .fail(function (xhr, status, error) {
-          debugger
+          // debugger
             // error handling
         }).promise()
 
         // Create new OB listing based on the model.
         createModelPromise.then((obContractModel) => {
-          debugger
+          // debugger
         })
       }
     }
@@ -220,7 +220,7 @@
   .nice-border p {
     font-size: 16px;
   }
-  
+
   /* Text color */
   .text-red {
     color: red;

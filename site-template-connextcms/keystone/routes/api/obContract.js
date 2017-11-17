@@ -51,9 +51,18 @@ exports.create = function(req, res) {
 }
 
 exports.get = function(req, res) {
-  res.apiResponse({success: true});
-}
 
+        ImgData.model.findById(req.params.id).exec(function(err, item) {
+
+                if (err) return res.apiError('database error', err);
+                if (!item) return res.apiError('not found');
+
+                res.apiResponse({
+                        collection: item
+                });
+
+        });
+}
 
 /**
  * Update DevicePrivateModel by ID
