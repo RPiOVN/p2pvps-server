@@ -16,7 +16,7 @@
           <div class="nice-border">
             <h4><strong>Status:</strong> <span v-bind:class="statusText" class="deviceConnectionStatus">{{ clientStatus }}</span></h4>
             <p><strong>Last Check-In:</strong> {{ formatTimeStamp }}</p>
-            <button class="btn btn-primary btn-sm center-block" disabled>Submit to Market</button>
+            <button class="btn btn-primary btn-sm center-block" v-bind:disabled="marketBtnDisabled" v-on:click="submitToMarket()">Submit to Market</button>
           </div>
           <div class="nice-border">
             <h4><u>Device Specs:</u></h4>
@@ -80,7 +80,8 @@
     data () {
       return {
         msg: 'This is a listed device item.',
-        statusText: 'text-red' // 0 = red, 1 = yellow, 2 = green
+        statusText: 'text-red', // 0 = red, 1 = yellow, 2 = green
+        marketBtnDisabled: true
       }
     },
     props: ['device'],
@@ -108,12 +109,15 @@
 
         if (timeStamp > goodThreshold) {
           this.statusText = 'text-green'
+          this.marketBtnDisabled = false
           return 'Connected'
         } else if (timeStamp > mediumThreshold) {
           this.statusText = 'text-yellow'
+          this.marketBtnDisabled = true
           return 'Delayed'
         } else {
           this.statusText = 'text-red'
+          this.marketBtnDisabled = true
           return 'Not Connected'
         }
       }
@@ -150,6 +154,48 @@
 
         // Delete the device on the server
         this.$store.dispatch('deleteDevice', this.device._id)
+      },
+
+      submitToMarket: function () {
+        debugger
+
+        var now = new Date()
+        var oneMonth = 1000 * 60 * 60 * 24 * 30
+        var oneMonthFromNow = new Date(now.getTime() + oneMonth)
+
+        // Create new obContract model
+        var obj = {
+          clientDevice: this.device._id,
+          ownerUser: this.$store.state.userInfo.GUID,
+          renterUser: '',
+          price: 15,
+          experation: oneMonthFromNow.toISOString(),
+          title: this.device.deviceName,
+          description: this.device.deviceDescription,
+          listingUri: '',
+          imageHash: '',
+          listingState: 'Listed',
+          createdAt: now.toISOString(),
+          updatedAt: now.toISOString()
+        }
+
+        console.log(obj.title)
+
+        var createModelPromise = $.post('/api/obContract/create', obj, function (data) {
+          debugger
+          var retObj = data.collection
+          console.log('New model created. ID: ' + retObj._id)
+          return retObj
+        })
+        .fail(function (xhr, status, error) {
+          debugger
+            // error handling
+        }).promise()
+
+        // Create new OB listing based on the model.
+        createModelPromise.then((obContractModel) => {
+          debugger
+        })
       }
     }
   }
