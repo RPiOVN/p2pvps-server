@@ -2,7 +2,7 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 /**
- * Device Public Model
+ * OpenBazaar Contract Model
  * ==================
  */
 

@@ -34,7 +34,10 @@ Here is an example of the JSON_API section of my config file:
     <div class='container'>
       <div class="row well well-lg">
         <div class="col-md-12">
-          <button class="btn btn-default" onclick="createListing()">Run test</button>
+          <button class="btn btn-default" onclick="createModel()">Create Model</button>
+          <hr>
+          <br><br>
+          <button class="btn btn-default" onclick="createListing()">Create Listing</button>
           <br><br>
           <img id="image2" src="" alt="" width="600px" />
           <br><br>
@@ -152,7 +155,33 @@ Here is an example of the JSON_API section of my config file:
 
     }
 
+    function createModel() {
+      debugger;
 
+      var obj = {
+        clientDevice: "59f2b79a01b2740133a62c99",
+        ownerUser: "59e5862693e68b0001718f4c",
+        renterUser: "",
+        price: 123,
+        experation: "2017-12-16T15:34:04.530Z",
+        title: "test title",
+        description: "test description",
+        listingUri: "",
+        imageHash: "",
+        listingState: "",
+        createdAt: "2017-11-16T15:34:04.530Z",
+        updatedAt: "2017-11-16T15:34:04.530Z"
+      };
+
+      $.post('/api/obContract/create', obj, function(data) {
+        debugger;
+        console.log('New model created. ID: '+data.collection._id);
+      })
+      .fail(function(xhr, status, error) {
+        debugger;
+          // error handling
+      });
+    }
 
   </script>
 

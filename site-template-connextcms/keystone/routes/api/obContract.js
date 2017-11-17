@@ -5,13 +5,13 @@ var Promise = require('node-promise'); //Promises to handle asynchonous callback
 
 var DevicePublicModel = keystone.list('DevicePublicModel');
 var DevicePrivateModel = keystone.list('DevicePrivateModel');
-var obContractModel = keystone.List('obContractModel');
+var obContractModel = keystone.list('obContractModel');
 
 /**
- * List Devices
+ * List obContractModel
  */
 exports.list = function(req, res) {
-  DevicePublicModel.model.find(function(err, items) {
+  obContractModel.model.find(function(err, items) {
 
     if (err) return res.apiError('database error', err);
 
@@ -25,7 +25,7 @@ exports.list = function(req, res) {
 
 
 /**
- * Create DevicePrivateModel
+ * Create obContractModel
  */
 exports.create = function(req, res) {
 	//debugger;
@@ -35,7 +35,7 @@ exports.create = function(req, res) {
 	//	return res.apiError(403, 'invalid csrf');
 	//}
 
-	var item = new DevicePublicModel.model(),
+	var item = new obContractModel.model(),
 		data = (req.method == 'POST') ? req.body : req.query;
 
 	item.getUpdateHandler(req).process(data, function(err) {
@@ -79,7 +79,7 @@ exports.update = function(req, res) {
   //  return res.apiError(403, 'Not allowed to access this API. Not ConnextCMS Admin')
   //}
 
-	DevicePublicModel.model.findById(req.params.id).exec(function(err, item) {
+	obContractModel.model.findById(req.params.id).exec(function(err, item) {
 
 		if (err) return res.apiError('database error', err);
 		if (!item) return res.apiError('not found');
@@ -125,7 +125,7 @@ exports.remove = function(req, res) {
   }
   */
 
-  DevicePublicModel.model.findById(req.params.id).exec(function (err, item) {
+  obContractModel.model.findById(req.params.id).exec(function (err, item) {
 
 		if (err) return res.apiError('database error', err);
 		if (!item) return res.apiError('not found');

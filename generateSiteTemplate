@@ -16,4 +16,5 @@ cp -r img ../../connextcms-vue-app/public/static/img
 cp -r js ../../connextcms-vue-app/public/static/js
 cp -r fonts ../../connextcms-vue-app/public/static/fonts
 cp -r plugins ../../connextcms-vue-app/public/static/plugins
+cp -r testscripts ../../connextcms-vue-app/public/static/testscripts
 echo "...Done!"
