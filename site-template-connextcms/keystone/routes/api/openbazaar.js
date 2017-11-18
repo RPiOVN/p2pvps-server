@@ -21,68 +21,82 @@ exports.createMarketListing = function(req, res) {
 
     debugger;
 
-    var listingData = {
-     coupons: [],
-     refundPolicy: "",
-     shippingOptions: [],
-     termsAndConditions: "",
-     metadata: {
-       contractType: "SERVICE",
-       expiry: item.get('experation'),
-       format: "FIXED_PRICE",
-       pricingCurrency: "USD"
-     },
-     item: {
-       categories: [],
-       condition: "NEW",
-       description: item.get('description'),
-       nsfw: false,
-       options: [],
-       price: item.get('price'),
-       tags: [],
-       title: item.get('title'),
-       images: [{
-         filename: "credit-card-with-shield_1614962.jpg",
-         large: "zb2rhhtQdSwgE3AM16K7LcsgiHkr4ZXZhS5f45sde54VMggK7",
-         medium: "zb2rheZ8fFD5BJ3VxxP8Up6VoiAhVxvUtis1Gz5wEzjoaAUCg",
-         original: "zb2rhfb4edYSwx5rkZocYSbfHjgjiQb6U4G438o8GinSHqZWf",
-         small: "zb2rhb7KNDTpam86rCUxJijwLTeyzpenePHSetiF33hBp4x68",
-         tiny: "zb2rhmDhLrFuPSBosAfqpdaayoD4ttZYvtkDBL6MLP6kiPALU"
-       }],
-       skus: [{
-         quantity: -1
-       }]
-      }
-    };
+    try {
 
-    var apiCredentials = getAuth();
+      var listingData = {
+       coupons: [],
+       refundPolicy: "",
+       shippingOptions: [],
+       termsAndConditions: "",
+       metadata: {
+         contractType: "SERVICE",
+         expiry: item.get('experation'),
+         format: "FIXED_PRICE",
+         pricingCurrency: "USD"
+       },
+       item: {
+         categories: [],
+         condition: "NEW",
+         description: item.get('description'),
+         nsfw: false,
+         options: [],
+         price: item.get('price'),
+         tags: [],
+         title: item.get('title'),
+         images: [{
+           filename: "credit-card-with-shield_1614962.jpg",
+           large: "zb2rhhtQdSwgE3AM16K7LcsgiHkr4ZXZhS5f45sde54VMggK7",
+           medium: "zb2rheZ8fFD5BJ3VxxP8Up6VoiAhVxvUtis1Gz5wEzjoaAUCg",
+           original: "zb2rhfb4edYSwx5rkZocYSbfHjgjiQb6U4G438o8GinSHqZWf",
+           small: "zb2rhb7KNDTpam86rCUxJijwLTeyzpenePHSetiF33hBp4x68",
+           tiny: "zb2rhmDhLrFuPSBosAfqpdaayoD4ttZYvtkDBL6MLP6kiPALU"
+         }],
+         skus: [{
+           quantity: -1
+         }]
+        }
+      };
 
-    var options = {
-      method: 'POST',
-      uri: 'http://localhost:4002/ob/listing',
-      body: listingData,
-      json: true, // Automatically stringifies the body to JSON
-      headers: {
-        'Authorization': apiCredentials
-      }
-    };
+      var apiCredentials = getOBAuth();
+/*
+      var options = {
+        method: 'POST',
+        uri: 'http://localhost:4002/ob/listing',
+        body: listingData,
+        json: true, // Automatically stringifies the body to JSON
+        headers: {
+          'Authorization': apiCredentials
+        },
+        resolveWithFullResponse: true
+      };
+*/
+      var options = {
+        method: 'GET',
+        uri: 'http://172.17.0.1:4002/ob/config ',
+        //body: listingData,
+        json: true, // Automatically stringifies the body to JSON
+        headers: {
+          'Authorization': apiCredentials
+        },
+        resolveWithFullResponse: true
+      };
 
-    rp(options)
-    .then(function (data) {
+
+      rp(options)
+      .then(function (data) {
+        debugger;
+      })
+      .catch(function (data) {
+        debugger;
+      });
+
+      res.apiResponse({success: true});
+
+    } catch(err) {
       debugger;
-    })
-    .catch(function (data) {
-      debugger;
-    });
-
+      return res.apiError('API error: ', err);
+    }
   });
-
-
-  debugger;
-
-
-
-  res.apiResponse({success: true});
 }
 
 // Removes a listing on OpenBazaar based on data in an obContractModel.
@@ -411,15 +425,16 @@ exports.register = function(req, res) {
 
 /**** BEGIN PROMISE AND UTILITY FUNCTIONS ****/
 
-function getAuth() {
-  //debugger;
+function getOBAuth() {
+  debugger;
 
   var clientID = "yourUsername";
   var clientSecret = "yourPassword";
 
   //Encoding as per Centro API Specification.
   var combinedCredential = clientID+':'+clientSecret;
-  var base64Credential = window.btoa(combinedCredential);
+  //var base64Credential = window.btoa(combinedCredential);
+  var base64Credential = Buffer.from(combinedCredential).toString('base64');
   var readyCredential = 'Basic '+base64Credential;
 
 
