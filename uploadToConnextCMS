@@ -2,10 +2,10 @@
 # This script copied the files from the coPilot repo to the test installation
 # of ConnextCMS on my dev server. It allows me to do rapid testing of code
 # chanages.
-rm -rf ~/docker-connextcms/theme/site-template-connextcms
-cp -r connextcms-vue-app ~/docker-connextcms/theme/site-template-connextcms
+rm -rf ~/docker-connextcms-p2pvps/theme/site-template-connextcms
+cp -r connextcms-vue-app ~/docker-connextcms-p2pvps/theme/site-template-connextcms
 
 # Copy private settings file, which is stored outside this repo.
 echo 'It is OK if the next commands fail.'
-cp ~/privatesettings.json ~/docker-connextcms/theme/site-template-connextcms/
-cp ~/publicsettings.json ~/docker-connextcms/theme/site-template-connextcms/
+cp ~/privatesettings.json ~/docker-connextcms-p2pvps/theme/site-template-connextcms/
+cp ~/publicsettings.json ~/docker-connextcms-p2pvps/theme/site-template-connextcms/

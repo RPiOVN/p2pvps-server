@@ -58,10 +58,10 @@ exports.createMarketListing = function(req, res) {
       };
 
       var apiCredentials = getOBAuth();
-/*
+
       var options = {
         method: 'POST',
-        uri: 'http://localhost:4002/ob/listing',
+        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/listing',
         body: listingData,
         json: true, // Automatically stringifies the body to JSON
         headers: {
@@ -69,10 +69,11 @@ exports.createMarketListing = function(req, res) {
         },
         resolveWithFullResponse: true
       };
-*/
+
+/*
       var options = {
         method: 'GET',
-        uri: 'http://172.17.0.1:4002/ob/config ',
+        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/config ',
         //body: listingData,
         json: true, // Automatically stringifies the body to JSON
         headers: {
@@ -80,7 +81,7 @@ exports.createMarketListing = function(req, res) {
         },
         resolveWithFullResponse: true
       };
-
+*/
 
       rp(options)
       .then(function (data) {
