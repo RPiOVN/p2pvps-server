@@ -52,16 +52,16 @@ exports.create = function(req, res) {
 
 exports.get = function(req, res) {
 
-        ImgData.model.findById(req.params.id).exec(function(err, item) {
+  obContractModel.model.findById(req.params.id).exec(function(err, item) {
 
-                if (err) return res.apiError('database error', err);
-                if (!item) return res.apiError('not found');
+    if (err) return res.apiError('database error', err);
+    if (!item) return res.apiError('not found');
 
-                res.apiResponse({
-                        collection: item
-                });
+    res.apiResponse({
+      collection: item
+    });
 
-        });
+  });
 }
 
 /**

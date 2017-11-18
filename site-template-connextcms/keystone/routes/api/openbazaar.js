@@ -1,16 +1,87 @@
 var keystone = require('keystone');
 var request = require('request');
 var Promise = require('node-promise'); //Promises to handle asynchonous callbacks.
+var rp = require('request-promise');
 
 
 var DevicePublicModel = keystone.list('DevicePublicModel');
 var DevicePrivateModel = keystone.list('DevicePrivateModel');
-var obContractModel = keystone.List('obContractModel');
+var obContractModel = keystone.list('obContractModel');
 
 
 // Creates a listing on OpenBazaar based on an obContractModel.
 // An obContractModel GUID is passed in the URI.
 exports.createMarketListing = function(req, res) {
+  debugger;
+
+  obContractModel.model.findById(req.params.id).exec(function(err, item) {
+
+    if (err) return res.apiError('database error', err);
+    if (!item) return res.apiError('not found');
+
+    debugger;
+
+    var listingData = {
+     coupons: [],
+     refundPolicy: "",
+     shippingOptions: [],
+     termsAndConditions: "",
+     metadata: {
+       contractType: "SERVICE",
+       expiry: item.get('experation'),
+       format: "FIXED_PRICE",
+       pricingCurrency: "USD"
+     },
+     item: {
+       categories: [],
+       condition: "NEW",
+       description: item.get('description'),
+       nsfw: false,
+       options: [],
+       price: item.get('price'),
+       tags: [],
+       title: item.get('title'),
+       images: [{
+         filename: "credit-card-with-shield_1614962.jpg",
+         large: "zb2rhhtQdSwgE3AM16K7LcsgiHkr4ZXZhS5f45sde54VMggK7",
+         medium: "zb2rheZ8fFD5BJ3VxxP8Up6VoiAhVxvUtis1Gz5wEzjoaAUCg",
+         original: "zb2rhfb4edYSwx5rkZocYSbfHjgjiQb6U4G438o8GinSHqZWf",
+         small: "zb2rhb7KNDTpam86rCUxJijwLTeyzpenePHSetiF33hBp4x68",
+         tiny: "zb2rhmDhLrFuPSBosAfqpdaayoD4ttZYvtkDBL6MLP6kiPALU"
+       }],
+       skus: [{
+         quantity: -1
+       }]
+      }
+    };
+
+    var apiCredentials = getAuth();
+
+    var options = {
+      method: 'POST',
+      uri: 'http://localhost:4002/ob/listing',
+      body: listingData,
+      json: true, // Automatically stringifies the body to JSON
+      headers: {
+        'Authorization': apiCredentials
+      }
+    };
+
+    rp(options)
+    .then(function (data) {
+      debugger;
+    })
+    .catch(function (data) {
+      debugger;
+    });
+
+  });
+
+
+  debugger;
+
+
+
   res.apiResponse({success: true});
 }
 
@@ -337,67 +408,23 @@ exports.register = function(req, res) {
 	});
 }
 
-// Simple stand-alone function for users to retrieve their ID when logged in, or notify if they are not logged in.
-exports.getUserId = function(req, res) {
-  //Get the users ID
-  try {
-    var userId = req.user.get('id').toString();
-    return res.apiResponse({ userId: userId });
-  } catch(err) {
-    //Error handling.
-    return res.apiError('error', 'Could not retrieve user ID. You must be logged in to use this API.');
-  }
-}
-
-// This function allows Clients to check-in and notify the server they are still actively
-// connected to the internet. This should happen every 2 minutes. It updates the checkinTimeStamp
-// of the devicePublicModel
-exports.checkIn = function(req, res) {
-
-  DevicePublicModel.model.findById(req.params.id).exec(function(err, item) {
-
-		if (err) return res.apiError('database error', err);
-		if (!item) return res.apiError('not found');
-
-    var now = new Date();
-    var timeStamp = now.toISOString();
-
-    item.set('checkinTimeStamp', timeStamp);
-    item.save();
-
-    res.apiResponse({
-      success: true
-    });
-
-	});
-}
 
 /**** BEGIN PROMISE AND UTILITY FUNCTIONS ****/
 
-//Get any devicePublicModels where the userId matches the ownerUser entry.
-function getOwnerModels(userId) {
-  var promise = new Promise.Promise();
+function getAuth() {
+  //debugger;
 
-  DevicePublicModel.model.find().where('ownerUser', userId).exec(function(err, items) {
-    if (err) promise.reject(err);
-    else promise.resolve(items);
-  });
+  var clientID = "yourUsername";
+  var clientSecret = "yourPassword";
 
-  return promise;
+  //Encoding as per Centro API Specification.
+  var combinedCredential = clientID+':'+clientSecret;
+  var base64Credential = window.btoa(combinedCredential);
+  var readyCredential = 'Basic '+base64Credential;
+
+
+  return readyCredential;
+
 }
-
-
-//Get any devicePublicModels where the userId matches the renterUser entry.
-function getRenterModels(userId) {
-  var promise = new Promise.Promise();
-
-  DevicePublicModel.model.find().where('renterUser', userId).exec(function(err, items) {
-    if (err) promise.reject(err);
-    else promise.resolve(items);
-  });
-
-  return promise;
-}
-
 
 /**** END PROMISE AND UTILITY FUNCTIONS ****/

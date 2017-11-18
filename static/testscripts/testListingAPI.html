@@ -43,6 +43,7 @@ Here is an example of the JSON_API section of my config file:
             </div>
             <button type="button" class="btn btn-default" onclick="getModel()">Get Model</button>
           </form>
+          <button type="button" class="btn btn-default" id="createListingBtn" onclick="createListing()" disabled>Create Listing</button>
           <hr>
           <br><br>
           <button class="btn btn-default" onclick="createListing()">Create Listing</button>
@@ -163,14 +164,38 @@ Here is an example of the JSON_API section of my config file:
 
     }
 
-    function getModel(id) {
+    function getModel() {
       debugger;
 
       var modelId = $('#modelId').val();
 
       if(modelId == "") return;
 
-      $.get('/api/obContract/get')
+      // Retrieve the contract model.
+      var getModelPromise = $.get('/api/obContract/'+modelId, '', function(data) {
+        debugger;
+        console.log('model id: '+data.collection._id);
+        //$('#createListingBtn').prop("disabled", false); // Enable the create listing button.
+        return data.collection;
+      })
+      .fail(function(xhr, status, error) {
+        debugger;
+          // error handling
+      });
+
+      // Post the contract to the OpenBazaar server.
+      getModelPromise.then(function(contractModel) {
+        debugger;
+
+        $.get('/api/ob/createMarketListing/'+modelId, '', function(data) {
+          debugger;
+          
+        })
+        .fail(function(xhr, status, error) {
+          debugger;
+            // error handling
+        });
+      });
     }
 
     function createModel() {
