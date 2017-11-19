@@ -105,9 +105,65 @@ exports.updateListing = function(req, res) {
 
     try {
 
+      var listingData = {
+       slug: item.get('listingSlug'),
+       coupons: [],
+       refundPolicy: "",
+       shippingOptions: [],
+       termsAndConditions: "",
+       metadata: {
+         contractType: "SERVICE",
+         expiry: item.get('experation'),
+         format: "FIXED_PRICE",
+         pricingCurrency: "USD"
+       },
+       item: {
+         categories: [],
+         condition: "NEW",
+         description: item.get('description'),
+         nsfw: false,
+         options: [],
+         price: item.get('price'),
+         tags: [],
+         title: item.get('title')+' ('+item.get('clientDevice')+')',
+         images: [{
+           filename: "pirate-skeleton.jpg",
+           large: "zb2rhkefdSxmv76UAeqscBV4WbDvvzDbHkEfHkqXQJUWLNt4T",
+           medium: "zb2rhYk7MzEQ287fCx62cpcEd1KnS9S3YehzmpwLwv55jLMW7",
+           original: "zb2rhe8p68xzhqVnVBPTELk2Sc9RuPSck3dkyJuRpM7LNfEYf",
+           small: "zb2rhWgwTTAawnnpAvCjfpvmuXsQSPDwf8miZi9E7PxkPvXtz",
+           tiny: "zb2rhbUYPQtLCoqyqiKK1YRdSBHf1w3Gh88tyVdQWvGGQ93vX"
+         }],
+         skus: [{
+           quantity: -1
+         }]
+        }
+      };
 
+      var apiCredentials = getOBAuth();
 
-      res.apiResponse({success: true});
+      var options = {
+        method: 'PUT',
+        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/listing',
+        body: listingData,
+        json: true, // Automatically stringifies the body to JSON
+        headers: {
+          'Authorization': apiCredentials
+        },
+        //resolveWithFullResponse: true
+      };
+
+      rp(options)
+      .then(function (data) {
+        debugger;
+
+        return res.apiResponse({success: true});
+      })
+      .catch(function (err) {
+        debugger;
+        return res.apiError('Error communicating with local OpenBazaar Server!', err);
+      });
+
     } catch(err) {
       debugger;
       return res.apiError('API error: ', err);
@@ -118,7 +174,49 @@ exports.updateListing = function(req, res) {
 // Removes a listing on OpenBazaar based on data in an obContractModel.
 // An obContractModel GUID is passed in the URI.
 exports.removeMarketListing = function(req, res) {
-  res.apiResponse({success: true});
+
+  obContractModel.model.findById(req.params.id).exec(function(err, item) {
+
+    if (err) return res.apiError('database error', err);
+    if (!item) return res.apiError('not found');
+
+    debugger;
+
+    try {
+
+      var apiCredentials = getOBAuth();
+
+      var listingData = {
+        slug: item.get('listingSlug')
+      }
+
+      var options = {
+        method: 'DELETE',
+        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/listing',
+        body: listingData,
+        json: true, // Automatically stringifies the body to JSON
+        headers: {
+          'Authorization': apiCredentials
+        },
+        //resolveWithFullResponse: true
+      };
+
+      rp(options)
+      .then(function (data) {
+        debugger;
+
+        return res.apiResponse({success: true});
+      })
+      .catch(function (err) {
+        debugger;
+        return res.apiError('Error communicating with local OpenBazaar Server!', err);
+      });
+
+    } catch(err) {
+      debugger;
+      return res.apiError('API error: ', err);
+    }
+  });
 }
 
 /**
