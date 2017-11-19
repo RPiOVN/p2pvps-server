@@ -42,14 +42,14 @@ exports.createMarketListing = function(req, res) {
          options: [],
          price: item.get('price'),
          tags: [],
-         title: item.get('title'),
+         title: item.get('title')+' ('+item.get('clientDevice')+')',
          images: [{
-           filename: "credit-card-with-shield_1614962.jpg",
-           large: "zb2rhhtQdSwgE3AM16K7LcsgiHkr4ZXZhS5f45sde54VMggK7",
-           medium: "zb2rheZ8fFD5BJ3VxxP8Up6VoiAhVxvUtis1Gz5wEzjoaAUCg",
-           original: "zb2rhfb4edYSwx5rkZocYSbfHjgjiQb6U4G438o8GinSHqZWf",
-           small: "zb2rhb7KNDTpam86rCUxJijwLTeyzpenePHSetiF33hBp4x68",
-           tiny: "zb2rhmDhLrFuPSBosAfqpdaayoD4ttZYvtkDBL6MLP6kiPALU"
+           filename: "pirate-skeleton.jpg",
+           large: "zb2rhkefdSxmv76UAeqscBV4WbDvvzDbHkEfHkqXQJUWLNt4T",
+           medium: "zb2rhYk7MzEQ287fCx62cpcEd1KnS9S3YehzmpwLwv55jLMW7",
+           original: "zb2rhe8p68xzhqVnVBPTELk2Sc9RuPSck3dkyJuRpM7LNfEYf",
+           small: "zb2rhWgwTTAawnnpAvCjfpvmuXsQSPDwf8miZi9E7PxkPvXtz",
+           tiny: "zb2rhbUYPQtLCoqyqiKK1YRdSBHf1w3Gh88tyVdQWvGGQ93vX"
          }],
          skus: [{
            quantity: -1
@@ -67,32 +67,47 @@ exports.createMarketListing = function(req, res) {
         headers: {
           'Authorization': apiCredentials
         },
-        resolveWithFullResponse: true
+        //resolveWithFullResponse: true
       };
-
-/*
-      var options = {
-        method: 'GET',
-        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/config ',
-        //body: listingData,
-        json: true, // Automatically stringifies the body to JSON
-        headers: {
-          'Authorization': apiCredentials
-        },
-        resolveWithFullResponse: true
-      };
-*/
 
       rp(options)
       .then(function (data) {
         debugger;
+
+        item.set('listingSlug', data.slug);
+        item.set('imageHash', "zb2rhe8p68xzhqVnVBPTELk2Sc9RuPSck3dkyJuRpM7LNfEYf");
+        item.save();
+
+        return res.apiResponse({success: true});
+
       })
-      .catch(function (data) {
+      .catch(function (err) {
         debugger;
+        return res.apiError('Error communicating with local OpenBazaar Server!', err);
       });
+    } catch(err) {
+      debugger;
+      return res.apiError('API error: ', err);
+    }
+  });
+}
+
+// Updates a listing on OpenBazaar based on data in an obContractModel.
+// An obContractModel GUID is passed in the URI.
+exports.updateListing = function(req, res) {
+
+  obContractModel.model.findById(req.params.id).exec(function(err, item) {
+
+    if (err) return res.apiError('database error', err);
+    if (!item) return res.apiError('not found');
+
+    debugger;
+
+    try {
+
+
 
       res.apiResponse({success: true});
-
     } catch(err) {
       debugger;
       return res.apiError('API error: ', err);
@@ -103,12 +118,6 @@ exports.createMarketListing = function(req, res) {
 // Removes a listing on OpenBazaar based on data in an obContractModel.
 // An obContractModel GUID is passed in the URI.
 exports.removeMarketListing = function(req, res) {
-  res.apiResponse({success: true});
-}
-
-// Updates a listing on OpenBazaar based on data in an obContractModel.
-// An obContractModel GUID is passed in the URI.
-exports.updateListing = function(req, res) {
   res.apiResponse({success: true});
 }
 
