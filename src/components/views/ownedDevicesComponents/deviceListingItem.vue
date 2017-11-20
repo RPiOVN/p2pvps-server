@@ -183,9 +183,14 @@
 
         var createModelPromise = $.post('/api/obContract/create', obj, function (data) {
           // debugger
-          var retObj = data.collection
-          console.log('New model created. ID: ' + retObj._id)
-          return retObj
+          var obContractModel = data.collection
+
+          // Update the devicePublicModel with the obContractModel GUID.
+
+          //
+
+          console.log('New model created. ID: ' + obContractModel._id)
+          return obContractModel._id
         })
         .fail(function (xhr, status, error) {
           // debugger

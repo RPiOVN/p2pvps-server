@@ -19,7 +19,7 @@
               <label for="exampleInputPassword1">Password</label>
               <input type="password" class="form-control" v-model="loginPassword" placeholder="Password">
             </div>
-            
+
             <button type="button" class="btn btn-default" v-on:click="login()">Login</button>
           </form>
         </div>
@@ -105,8 +105,8 @@
             // Display a modal to the user
             var modal = {
               show: true,
-              title: 'Please log in',
-              body: 'Loggin failed. Please try again',
+              title: 'Login failed, please try again.',
+              body: '--> LOGIN FAILED <-- Please try again',
               button1Text: 'Close',
               button1Func: function () { $('.appModal').modal('hide') },
               button1Show: true,

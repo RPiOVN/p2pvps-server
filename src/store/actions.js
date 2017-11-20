@@ -1,3 +1,11 @@
+
+/*
+  TODO:
+  -Add persistDevicePublicModel() to persist changes to devicePublicModel to the server.
+  -Add persistObContractModel() to persist changes to the obContractModel to the server.
+  -Add persistDevicePrivateModel() to persist changes to devicePrivateModel to the server.
+*/
+
 export default {
 
   // Get the user ID (GUID). Will present a modal to the user if they are not logged in, but
@@ -83,12 +91,15 @@ export default {
       .fail(function (jqxhr, textStatus, error) {
         console.error('API call to /api/devicePrivateData/listById unsuccessful. Error: ' + jqxhr.responseJSON.detail)
       })
+
+      // TODO download obContractModel data if it's filled out.
     })
     .fail(function (jqxhr, textStatus, error) {
       console.error('API call to /api/devicePublicData/listById unsuccessful. Error: ' + jqxhr.responseJSON.detail)
     })
   },
 
+  // This function deletes a devicePublicModel and devicePrivate model from the server.
   deleteDevice (context, deviceId) {
     // debugger
 
@@ -101,6 +112,8 @@ export default {
         console.error('Unable to delete device with ID ' + deviceId)
         return
       }
+
+      // TODO delete the devicePrivateModel.
 
       // Refresh the Store.
       if (context.state.userInfo.GUID !== 'Not Logged In') {

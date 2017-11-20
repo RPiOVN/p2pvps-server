@@ -8,10 +8,11 @@ var Types = keystone.Field.Types;
 
 var DevicePublicModel = new keystone.List('DevicePublicModel');
 
-DevicePublicModel.add({ 
+DevicePublicModel.add({
   ownerUser: { type: Types.Relationship, ref: 'User' },
   renterUser: { type: Types.Relationship, ref: 'User' },
   privateData: { type: Types.Relationship, ref: 'DevicePrivateModel' },
+  obContract: { type: Types.Relationship, ref: 'obContractModel'},
   rentStartDate: { type: String },
   rentStopDate: { type: String },
   deviceName: { type: String },
