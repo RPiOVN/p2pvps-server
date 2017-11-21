@@ -67,7 +67,7 @@ export default {
 
               // Owner
               if (devicePublicData[j].ownerUser === userId) {
-                debugger
+                // debugger
                 // Add the combined device object to the store object.
                 ownedDevices.push(devicePublicData[j])
               }
@@ -98,13 +98,13 @@ export default {
 
     // TODO download obContractModel data if it's filled out.
     .then(() => {
-      debugger
+      // debugger
 
       for (var i = 0; i < ownedDevices.length; i++) {
         if (ownedDevices[i].obContract) {
-          debugger
+          // debugger
           $.get('/api/devicePublicData/listById', '').then(data => {
-            debugger
+            // debugger
           })
         }
       }
@@ -112,6 +112,7 @@ export default {
   },
 
   // This function deletes a devicePublicModel and devicePrivate model from the server.
+  // TODO Add the ability to delete obContractModel associated with devicePublicModel.
   deleteDevice (context, deviceId) {
     // debugger
 
@@ -134,6 +135,45 @@ export default {
     })
     .fail(function (jqxhr, textStatus, error) {
       console.error('API call to /api/devicePublicData/' + deviceId + '/remove unsuccessful. Error: ' + jqxhr.responseJSON.detail)
+    })
+  },
+
+  // Persist data to the PublicDeviceModel on the server
+  persistPublicDeviceModel (context) {
+    debugger
+
+    var testModel = context.state.ownedDevices[0]
+
+    // Create a publicDeviceModel from data in the store.
+    var tmpModel = {
+      // ownerUser: testModel.ownerUser,
+      // renterUser: '',
+      // privateData: testModel.privateData,
+      // obContract: '',
+      // rentStartDate: '',
+      // rentStopDate: '',
+      deviceName: testModel.deviceName,
+      deviceDesc: testModel.deviceDesc
+      // rentHourlyRate: '',
+      // subdomain: '',
+      // httpPort: '',
+      // sshPort: '',
+      // memory: testModel.memory,
+      // diskSpace: testModel.diskSpace,
+      // processor: testModel.processor,
+      // internetSpeed: testModel.internetSpeed
+      // checkinTimeStamp: testModel.checkinTimeStamp
+    }
+
+    // JSON.stringify(tmpModel, null, 2)
+
+    // Upload the data to the server.
+    $.post('/api/devicePublicData/' + testModel._id + '/update', tmpModel, function (publicData) {
+      debugger
+    })
+    .fail(function (jqxhr, textStatus, error) {
+      console.error('API call to /api/devicePublicData/' + testModel._id + '/update unsuccessful. Error: ' + jqxhr.responseJSON.detail, error)
+      throw error
     })
   }
 }

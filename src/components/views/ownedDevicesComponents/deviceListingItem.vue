@@ -157,8 +157,11 @@
       },
 
       submitToMarket: function () {
-        // debugger
+        debugger
 
+        this.$store.dispatch('persistPublicDeviceModel')
+
+/*
         var now = new Date()
         var oneMonth = 1000 * 60 * 60 * 24 * 30
         var oneMonthFromNow = new Date(now.getTime() + oneMonth)
@@ -200,6 +203,7 @@
         createModelPromise.then((obContractModel) => {
           // debugger
         })
+*/
       }
     }
   }
