@@ -40,6 +40,8 @@ export default {
   // getDeviceData retrieves device data from the server and populates the Vuex store
   // with the data.
   getDeviceData (context) {
+    var ownedDevices = []
+
     // Get *public* device data associated with this user.
     $.get('/api/devicePublicData/listById', '', function (publicData) {
       var devicePublicData = publicData.collection
@@ -47,9 +49,6 @@ export default {
       // Get the matching *private* device data.
       $.get('/api/devicePrivateData/listById', '', function (privateData) {
         var devicePrivateData = privateData.collection
-        // var ownedDevices = context.state.ownedDevices
-        // var rentedDevices = context.state.rentedDevices
-        var ownedDevices = []
         var rentedDevices = []
 
         // Loop through all the private models and match them up with public models.
@@ -68,6 +67,7 @@ export default {
 
               // Owner
               if (devicePublicData[j].ownerUser === userId) {
+                debugger
                 // Add the combined device object to the store object.
                 ownedDevices.push(devicePublicData[j])
               }
@@ -91,11 +91,23 @@ export default {
       .fail(function (jqxhr, textStatus, error) {
         console.error('API call to /api/devicePrivateData/listById unsuccessful. Error: ' + jqxhr.responseJSON.detail)
       })
-
-      // TODO download obContractModel data if it's filled out.
     })
     .fail(function (jqxhr, textStatus, error) {
       console.error('API call to /api/devicePublicData/listById unsuccessful. Error: ' + jqxhr.responseJSON.detail)
+    })
+
+    // TODO download obContractModel data if it's filled out.
+    .then(() => {
+      debugger
+
+      for (var i = 0; i < ownedDevices.length; i++) {
+        if (ownedDevices[i].obContract) {
+          debugger
+          $.get('/api/devicePublicData/listById', '').then(data => {
+            debugger
+          })
+        }
+      }
     })
   },
 

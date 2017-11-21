@@ -186,8 +186,7 @@
           var obContractModel = data.collection
 
           // Update the devicePublicModel with the obContractModel GUID.
-
-          //
+          debugger
 
           console.log('New model created. ID: ' + obContractModel._id)
           return obContractModel._id
