@@ -16,7 +16,7 @@
           <div class="nice-border">
             <h4><strong>Status:</strong> <span v-bind:class="statusText" class="deviceConnectionStatus">{{ clientStatus }}</span></h4>
             <p><strong>Last Check-In:</strong> {{ formatTimeStamp }}</p>
-            <button class="btn btn-primary btn-sm center-block" v-bind:disabled="marketBtnDisabled" v-on:click="submitToMarket()">Submit to Market</button>
+            <button class="btn btn-sm center-block" v-bind:class="marketButtonState" v-bind:disabled="marketBtnDisabled" v-on:click="marketBtnCtl()">{{ marketBtnText }}</button>
           </div>
           <div class="nice-border">
             <h4><u>Device Specs:</u></h4>
@@ -81,7 +81,9 @@
       return {
         msg: 'This is a listed device item.',
         statusText: 'text-red', // 0 = red, 1 = yellow, 2 = green
-        marketBtnDisabled: true
+        marketBtnDisabled: true,
+        marketBtnText: 'Submit to Market',
+        marketButtonState: 'btn-primary'
       }
     },
     props: ['device'],
@@ -96,6 +98,10 @@
 
       // Format the client status, based on the time stamp.
       clientStatus: function () {
+        // debugger
+
+        var statusText = 'Not Connected'
+
         // Convert all times to milliseconds
         var now = new Date()
         now = now.getTime()
@@ -103,23 +109,42 @@
         timeStamp = timeStamp.getTime()
         var twoMin = 1000 * 60 * 2 // number of milliseconds in two minutes
 
-        var goodThreshold = now - twoMin
-        var mediumThreshold = now - twoMin * 3
+        var goodThreshold = now - twoMin * 2
+        var mediumThreshold = now - twoMin * 4
         // var badThreshold = now - twoMin * 5
 
         if (timeStamp > goodThreshold) {
           this.statusText = 'text-green'
-          this.marketBtnDisabled = false
-          return 'Connected'
+          // this.marketBtnDisabled = false
+          statusText = 'Connected'
         } else if (timeStamp > mediumThreshold) {
           this.statusText = 'text-yellow'
-          this.marketBtnDisabled = true
-          return 'Delayed'
+          // this.marketBtnDisabled = true
+          statusText = 'Delayed'
         } else {
           this.statusText = 'text-red'
-          this.marketBtnDisabled = true
-          return 'Not Connected'
+          // this.marketBtnDisabled = true
+          statusText = 'Not Connected'
         }
+
+        // If the device has not been submitted to the market, control if the button is enabled or disabled.
+        if (!this.device.obContract) {
+          if (statusText === 'Connected') {
+            this.marketBtnDisabled = false
+          } else if (statusText === 'Delayed') {
+            this.marketBtnDisabled = true
+          } else {
+            this.marketBtnDisabled = true
+          }
+
+        // If the device has already been submitted to the market
+        } else {
+          this.marketBtnDisabled = false // Enable the button.
+          this.marketButtonState = 'btn-danger' // Turn the button red.
+          this.marketBtnText = 'Remove from Market' // Change the label of the button.
+        }
+
+        return statusText
       }
     },
 
@@ -154,6 +179,14 @@
 
         // Delete the device on the server
         this.$store.dispatch('deleteDevice', this.device._id)
+      },
+
+      marketBtnCtl: function () {
+        if (!this.device.obContract) {
+          this.submitToMarket()
+        } else {
+          console.log('Function fired here that would remove the listing from the market.')
+        }
       },
 
       submitToMarket: function () {
