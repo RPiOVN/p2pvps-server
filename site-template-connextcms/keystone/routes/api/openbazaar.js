@@ -144,7 +144,7 @@ exports.updateListing = function(req, res) {
 
       var options = {
         method: 'PUT',
-        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/listing',
+        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/listing/'+item.get('listingSlug'),
         body: listingData,
         json: true, // Automatically stringifies the body to JSON
         headers: {
@@ -192,7 +192,7 @@ exports.removeMarketListing = function(req, res) {
 
       var options = {
         method: 'DELETE',
-        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/listing',
+        uri: 'http://dockerconnextcmsp2pvps_openbazaar_1:4002/ob/listing/'+item.get('listingSlug'),
         body: listingData,
         json: true, // Automatically stringifies the body to JSON
         headers: {
