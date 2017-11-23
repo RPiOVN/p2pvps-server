@@ -159,9 +159,8 @@
       submitToMarket: function () {
         debugger
 
-        this.$store.dispatch('persistPublicDeviceModel')
+        // if (this.device) return
 
-/*
         var now = new Date()
         var oneMonth = 1000 * 60 * 60 * 24 * 30
         var oneMonthFromNow = new Date(now.getTime() + oneMonth)
@@ -171,10 +170,10 @@
           clientDevice: this.device._id,
           ownerUser: this.$store.state.userInfo.GUID,
           renterUser: '',
-          price: 15,
+          price: 115,
           experation: oneMonthFromNow.toISOString(),
           title: this.device.deviceName,
-          description: this.device.deviceDescription,
+          description: this.device.deviceDesc,
           listingUri: '',
           imageHash: '',
           listingState: 'Listed',
@@ -182,9 +181,8 @@
           updatedAt: now.toISOString()
         }
 
-        console.log(obj.title)
-
-        var createModelPromise = $.post('/api/obContract/create', obj, function (data) {
+        // Generate a new obContract model on the server.
+        var createModelPromise = $.post('/api/obContract/create', obj, (data) => {
           // debugger
           var obContractModel = data.collection
 
@@ -192,18 +190,49 @@
           debugger
 
           console.log('New model created. ID: ' + obContractModel._id)
-          return obContractModel._id
+          return obContractModel
         })
         .fail(function (xhr, status, error) {
-          // debugger
-            // error handling
+          debugger
+          console.error('Error trying to create new obContract model: ', error)
         }).promise()
 
-        // Create new OB listing based on the model.
-        createModelPromise.then((obContractModel) => {
-          // debugger
+        // Update the devicePublicData model with the obContract model ID.
+        createModelPromise.then((obContractModelId) => {
+          debugger
+
+          // var publicModel = this.$store.state.userInfo.GUID
+
+          var publicDeviceModel = this.device
+          publicDeviceModel.obContract = obContractModelId.collection._id
+
+          this.$store.dispatch('persistPublicDeviceModel', publicDeviceModel)
+
+          return obContractModelId
         })
-*/
+
+        // submit the contract to OpenBazaar
+        .then(obContractModel => {
+          var createObListingPromise = $.get('/api/ob/createMarketListing/' + obContractModel.collection._id, '', (data) => {
+            debugger
+
+            if (data.success) console.log('Successfully created OB listing.')
+            else console.log('OB listing creation failed.')
+          })
+          .fail(function (xhr, status, error) {
+            debugger
+            console.error('Error trying to create new OpenBazaar listing: ', error)
+          }).promise()
+
+          createObListingPromise.then(data => {
+            debugger
+          })
+        })
+
+        // .catch(err => {
+        //  debugger
+        //  console.error('Error trying to update device model with obContract model ID: ', err)
+        // })
       }
     }
   }

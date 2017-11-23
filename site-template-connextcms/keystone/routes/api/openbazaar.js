@@ -45,11 +45,11 @@ exports.createMarketListing = function(req, res) {
          title: item.get('title')+' ('+item.get('clientDevice')+')',
          images: [{
            filename: "pirate-skeleton.jpg",
-           large: "zb2rhkefdSxmv76UAeqscBV4WbDvvzDbHkEfHkqXQJUWLNt4T",
-           medium: "zb2rhYk7MzEQ287fCx62cpcEd1KnS9S3YehzmpwLwv55jLMW7",
-           original: "zb2rhe8p68xzhqVnVBPTELk2Sc9RuPSck3dkyJuRpM7LNfEYf",
-           small: "zb2rhWgwTTAawnnpAvCjfpvmuXsQSPDwf8miZi9E7PxkPvXtz",
-           tiny: "zb2rhbUYPQtLCoqyqiKK1YRdSBHf1w3Gh88tyVdQWvGGQ93vX"
+           large: "zb2rheRJhM8S4fo8CycYh9Vfofki3dmfQnbgTrVeuoK1doz6n",
+           medium: "zb2rhXQnaZws5QheZH8DSczWRqzqEURxwPsUe3tpeoojizFYm",
+           original: "zb2rhnR5rHhxY8qtS6HgTzj7nErcSjoYtiWxsbRjcjveeqGNc",
+           small: "zb2rhZeLDZuWtzTzPBWktkrHMt25ukggZEzj5ockcpLWE6chU",
+           tiny: "zb2rhapeTgYHYVyo51J8UiNrLbT8J5cjdk14A3XeFcbXV3coP"
          }],
          skus: [{
            quantity: -1

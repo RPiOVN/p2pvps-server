@@ -139,21 +139,25 @@ export default {
   },
 
   // Persist data to the PublicDeviceModel on the server
-  persistPublicDeviceModel (context) {
+  persistPublicDeviceModel (context, devicePublicModel) {
     debugger
 
-    var testModel = context.state.ownedDevices[0]
+    var obContract = ''
+    if (devicePublicModel.obContract) obContract = devicePublicModel.obContract
+
+    var renterUser = ''
+    if (devicePublicModel.renterUser) obContract = devicePublicModel.renterUser
 
     // Create a publicDeviceModel from data in the store.
     var tmpModel = {
-      // ownerUser: testModel.ownerUser,
-      // renterUser: '',
-      // privateData: testModel.privateData,
-      // obContract: '',
+      ownerUser: devicePublicModel.ownerUser,
+      renterUser: renterUser,
+      privateData: devicePublicModel.privateData,
+      obContract: obContract,
       // rentStartDate: '',
       // rentStopDate: '',
-      deviceName: testModel.deviceName,
-      deviceDesc: testModel.deviceDesc
+      deviceName: devicePublicModel.deviceName,
+      deviceDesc: devicePublicModel.deviceDesc
       // rentHourlyRate: '',
       // subdomain: '',
       // httpPort: '',
@@ -168,11 +172,13 @@ export default {
     // JSON.stringify(tmpModel, null, 2)
 
     // Upload the data to the server.
-    $.post('/api/devicePublicData/' + testModel._id + '/update', tmpModel, function (publicData) {
+    $.post('/api/devicePublicData/' + devicePublicModel._id + '/update', tmpModel, function (publicData) {
       debugger
+      console.log(`devicePublidModel ${publicData.collection._id} updated.`)
     })
     .fail(function (jqxhr, textStatus, error) {
-      console.error('API call to /api/devicePublicData/' + testModel._id + '/update unsuccessful. Error: ' + jqxhr.responseJSON.detail, error)
+      debugger
+      console.error('API call to /api/devicePublicData/' + devicePublicModel._id + '/update unsuccessful. Error: ' + jqxhr.responseJSON.detail, error)
       throw error
     })
   }
