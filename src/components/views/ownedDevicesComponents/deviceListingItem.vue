@@ -190,7 +190,7 @@
       },
 
       submitToMarket: function () {
-        debugger
+        // debugger
 
         // if (this.device) return
 
@@ -219,9 +219,6 @@
           // debugger
           var obContractModel = data.collection
 
-          // Update the devicePublicModel with the obContractModel GUID.
-          debugger
-
           console.log('New model created. ID: ' + obContractModel._id)
           return obContractModel
         })
@@ -232,9 +229,7 @@
 
         // Update the devicePublicData model with the obContract model ID.
         createModelPromise.then((obContractModelId) => {
-          debugger
-
-          // var publicModel = this.$store.state.userInfo.GUID
+          // debugger
 
           var publicDeviceModel = this.device
           publicDeviceModel.obContract = obContractModelId.collection._id
@@ -247,18 +242,18 @@
         // submit the contract to OpenBazaar
         .then(obContractModel => {
           var createObListingPromise = $.get('/api/ob/createMarketListing/' + obContractModel.collection._id, '', (data) => {
-            debugger
+            // debugger
 
             if (data.success) console.log('Successfully created OB listing.')
             else console.log('OB listing creation failed.')
           })
           .fail(function (xhr, status, error) {
-            debugger
+            // debugger
             console.error('Error trying to create new OpenBazaar listing: ', error)
           }).promise()
 
           createObListingPromise.then(data => {
-            debugger
+            // debugger
           })
         })
 

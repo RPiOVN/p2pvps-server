@@ -140,7 +140,7 @@ export default {
 
   // Persist data to the PublicDeviceModel on the server
   persistPublicDeviceModel (context, devicePublicModel) {
-    debugger
+    // debugger
 
     var obContract = ''
     if (devicePublicModel.obContract) obContract = devicePublicModel.obContract
@@ -173,11 +173,11 @@ export default {
 
     // Upload the data to the server.
     $.post('/api/devicePublicData/' + devicePublicModel._id + '/update', tmpModel, function (publicData) {
-      debugger
+      // debugger
       console.log(`devicePublidModel ${publicData.collection._id} updated.`)
     })
     .fail(function (jqxhr, textStatus, error) {
-      debugger
+      // debugger
       console.error('API call to /api/devicePublicData/' + devicePublicModel._id + '/update unsuccessful. Error: ' + jqxhr.responseJSON.detail, error)
       throw error
     })
