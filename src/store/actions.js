@@ -140,7 +140,7 @@ export default {
 
   // Persist data to the PublicDeviceModel on the server
   persistPublicDeviceModel (context, devicePublicModel) {
-    debugger
+    // debugger
 
     var obContract = ''
     if (devicePublicModel.obContract) obContract = devicePublicModel.obContract

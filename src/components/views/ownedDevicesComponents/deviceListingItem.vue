@@ -188,7 +188,7 @@
 
         // Remove the obContract associated with this device.
         } else {
-          debugger
+          // debugger
 
           // Remove the obContract from the devicePublicModel
           var obContractId = this.device.obContract
@@ -199,7 +199,7 @@
 
           // Remove the listing from the OpenBazaar marketplace.
           var removeObListingPromise = $.get('/api/ob/removeMarketListing/' + obContractId, '', (data) => {
-            debugger
+            // debugger
 
             if (data.success) console.log('Successfully removed OB listing.')
             else console.log('OB listing removal failed.')
@@ -211,16 +211,16 @@
 
           // Remove the obContract model from the server.
           removeObListingPromise.then(data => {
-            debugger
+            // debugger
 
             $.get('/api/obContract/' + obContractId + '/remove', '', (data) => {
-              debugger
+              // debugger
 
               if (data.success) console.log('Successfully deleted OB contract model.')
               else console.log('Failed to delete OB contract model on server.')
             })
             .fail(function (xhr, status, error) {
-              debugger
+              // debugger
               console.error('Error trying to delete obContract model: ', error)
             }).promise()
           })
