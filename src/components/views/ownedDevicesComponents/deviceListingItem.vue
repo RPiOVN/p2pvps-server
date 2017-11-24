@@ -182,10 +182,48 @@
       },
 
       marketBtnCtl: function () {
+        // Submit to market if there is no obContract associates with this device.
         if (!this.device.obContract) {
           this.submitToMarket()
+
+        // Remove the obContract associated with this device.
         } else {
-          console.log('Function fired here that would remove the listing from the market.')
+          debugger
+
+          // Remove the obContract from the devicePublicModel
+          var obContractId = this.device.obContract
+          this.device.obContract = ''
+
+          // Persist the data to the server.
+          this.$store.dispatch('persistPublicDeviceModel', this.device)
+
+          // Remove the listing from the OpenBazaar marketplace.
+          var removeObListingPromise = $.get('/api/ob/removeMarketListing/' + obContractId, '', (data) => {
+            debugger
+
+            if (data.success) console.log('Successfully removed OB listing.')
+            else console.log('OB listing removal failed.')
+          })
+          .fail(function (xhr, status, error) {
+            // debugger
+            console.error('Error trying to delete OpenBazaar listing: ', error)
+          }).promise()
+
+          // Remove the obContract model from the server.
+          removeObListingPromise.then(data => {
+            debugger
+
+            $.get('/api/obContract/' + obContractId + '/remove', '', (data) => {
+              debugger
+
+              if (data.success) console.log('Successfully deleted OB contract model.')
+              else console.log('Failed to delete OB contract model on server.')
+            })
+            .fail(function (xhr, status, error) {
+              debugger
+              console.error('Error trying to delete obContract model: ', error)
+            }).promise()
+          })
         }
       },
 
