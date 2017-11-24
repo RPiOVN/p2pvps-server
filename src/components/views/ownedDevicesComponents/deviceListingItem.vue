@@ -223,7 +223,7 @@
           return obContractModel
         })
         .fail(function (xhr, status, error) {
-          debugger
+          // debugger
           console.error('Error trying to create new obContract model: ', error)
         }).promise()
 
