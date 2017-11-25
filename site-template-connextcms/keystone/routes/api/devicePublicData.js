@@ -169,7 +169,7 @@ exports.getId = function(req, res) {
   }
   */
 
-  DevicePublicModel.model.findById(req.params.id).exec(function (err, item) {
+  DevicePublicModel.model.findById(req.params.id).exec(function(err, item) {
 
 		if (err) return res.apiError('database error', err);
 		if (!item) return res.apiError('not found');
