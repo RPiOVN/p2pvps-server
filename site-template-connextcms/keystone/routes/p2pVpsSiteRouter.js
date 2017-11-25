@@ -5,7 +5,7 @@ var importRoutes = keystone.importer(__dirname);
 // Import Route Controllers
 var routes = {
 	views: importRoutes('./views'),
-	api: importRoutes('./api') 
+	api: importRoutes('./api')
 };
 
 module.exports = function(app) {
@@ -13,16 +13,16 @@ module.exports = function(app) {
   // Keystone Views
   app.get('/test', routes.views.test);
   // app.get('/appdashboard', routes.views.appdashboard);
-  
-  
+
+
   app.get('/api/portcontrol/list', keystone.middleware.api, routes.api.portcontrol.list);
   app.all('/api/portcontrol/create', keystone.middleware.api, routes.api.portcontrol.create);
   app.all('/api/portcontrol/:id/update', keystone.middleware.api, routes.api.portcontrol.update);
   app.get('/api/portcontrol/:id/remove', keystone.middleware.api, routes.api.portcontrol.remove);
-  
+
   //Simple stand-alone function for users to retrieve their ID when logged in, or notify if they are not logged in.
   app.get('/api/getUserId', keystone.middleware.api, routes.api.devicePublicData.getUserId);
-  
+
   app.get('/api/devicePublicData/list', keystone.middleware.api, routes.api.devicePublicData.list);
   app.all('/api/devicePublicData/create', keystone.middleware.api, routes.api.devicePublicData.create);
   app.all('/api/devicePublicData/:id/update', keystone.middleware.api, routes.api.devicePublicData.update);
@@ -30,13 +30,13 @@ module.exports = function(app) {
   app.all('/api/devicePublicData/:id/register', keystone.middleware.api, routes.api.devicePublicData.register);
   app.get('/api/devicePublicData/listById', keystone.middleware.api, routes.api.devicePublicData.listById);
   app.get('/api/deviceCheckIn/:id', keystone.middleware.api, routes.api.devicePublicData.checkIn);
-  
+
   app.get('/api/devicePrivateData/listById', keystone.middleware.api, routes.api.devicePrivateData.listById);
   app.all('/api/devicePrivateData/create', keystone.middleware.api, routes.api.devicePrivateData.create);
   app.all('/api/devicePrivateData/:id/update', keystone.middleware.api, routes.api.devicePrivateData.update);
   app.get('/api/devicePrivateData/:id/remove', keystone.middleware.api, routes.api.devicePrivateData.remove);
-  
-  
+  app.get('/api/devicePrivateData/:id', keystone.middleware.api, routes.api.devicePrivateData.getId);
+
   // NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
   // app.get('/loggedinuser', middleware.requireUser, routes.views.loggedinuser);

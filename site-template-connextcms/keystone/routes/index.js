@@ -126,11 +126,13 @@ exports = module.exports = function(app) {
   app.get('/api/serversettings/savepublic', keystone.middleware.api, routes.api.serversettings.savepublic);
 
 	// OpenBazaar Interface APIs
+	// TODO: move these APIs to p2pVpsSiteRouter.js
 	app.get('/api/ob/createMarketListing/:id', keystone.middleware.api, routes.api.openbazaar.createMarketListing);
 	app.get('/api/ob/removeMarketListing/:id', keystone.middleware.api, routes.api.openbazaar.removeMarketListing);
 	app.get('/api/ob/updateListing/:id', keystone.middleware.api, routes.api.openbazaar.updateListing);
 
 	// obContract API - Note: For prototyping. Not all these APIs will remain available.
+	// TODO: move these APIs to p2pVpsSiteRouter.js
 	app.get('/api/obContract/list', keystone.middleware.api, routes.api.obContract.list);
 	app.all('/api/obContract/create', keystone.middleware.api, routes.api.obContract.create);
 	app.get('/api/obContract/:id', keystone.middleware.api, routes.api.obContract.get);
