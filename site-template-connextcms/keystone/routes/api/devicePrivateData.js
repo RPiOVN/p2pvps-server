@@ -128,7 +128,7 @@ exports.update = function(req, res) {
 
 
 /**
- * Delete DevicePrivateModel by ID
+ * Get DevicePrivateModel by ID
  */
 exports.getId = function(req, res) {
 
