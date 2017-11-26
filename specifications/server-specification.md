@@ -5,14 +5,15 @@ high-level features:
 * Database API
 * Website and Content Management System (CMS)
 * SSH Tunnel Server
-* HTTP/S Forwarding
+* LocalTunnel HTTP/S Forwarding
 * OpenBazaar Transactions
+* Listing Manager
 * Testing
 
 The sections below detail the specifications for each of these features:
 
 ## Database API
-Each device registered into the marketplace gets a two database models, called `devicePublicModel` and `devicePrivateModel`.
+Each device registered into the marketplace gets two database models, called `devicePublicModel` and `devicePrivateModel`.
 Most data about a device is assumed to be public. Specifically, private things like the SSH port, username, password, and
 user account of the renter is kept in the private DB model. Security checks are done to ensure only admins,
 device owners, or active device renters can access the private model.
