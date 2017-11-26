@@ -161,7 +161,7 @@ to forward ports 80 (http) and 443 (https) from the Client device to the new sub
 
 4. When a Renter rents the device, they are emailed the username and password for the device.
 
-5. When the rental contract end, the ports and subdomains are released by the server. 
+5. When the rental contract ends, the ports and subdomains are released by the server. 
 The Client software destroys the Docker container the Renter was using and wipes any peristant storage.
 The Client re-registers itself back into the marketplace by repeating the process from Step 3.
 
