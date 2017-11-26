@@ -131,6 +131,7 @@ In the future, a feature will be developed to allow renters to extend the length
 If the client device goes offline and can not fulfill the terms of the contract, an OpenBazaar dispute
 is activated and a moderator can pro-rate and refund part of the transaction to the renter.
 
+This workflow diagram illustrates how transactions initiated and managed:
 ![Transaction Worflow](images/workflow.jpg?raw=true "Transaction Worflow")
 
 
