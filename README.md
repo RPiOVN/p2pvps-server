@@ -12,7 +12,7 @@ with an internet connection and a device capable of running [Docker](https://www
 that device in the P2P VPS marketplace.
 
 While [the applications of such a network](https://raspberry-hosting.com/en/applications) are similar, 
-the P2P VPS marketplace will never have the speed or reliabilty of the commercial outfits linked above.
+the P2P VPS marketplace will never have the speed or reliabilityof the commercial outfits linked above.
 Instead, the focus of P2P VPS is to create a decentralized network of anonymous web servers,
 capable of delivering websites or web apps, in order to prevent censorship and promote free speech.
 
@@ -28,7 +28,7 @@ repository. The P2P VPS software is composed of three software packages:
 
 1. *The Client* software runs on the IoT device and allows the device to be rented.
 2. *The Server* software includes the database models, REST APIs, and website content.
-3. *The Marketplace* which is a Vue.js client-side application which facilitates transactions and administration of devices.
+3. *The Marketplace* which a Vue.js client-side application which facilitates transactions and administration of devices.
 
 [The Client software can be found here](https://github.com/RPiOVN/p2pvps-client). 
 This repository contains *The Server* and *The Marketplace* software.
@@ -39,9 +39,13 @@ and REST APIs required for the Clients and Marketplace to coordinate and persist
 Readme for [ConnextCMS Site Templates](https://github.com/skagitpublishing/site-template-connextcms).
 
 * The rest of this readme describes the build options for developing *The Marketplace*, which is a Vue.js application
-bundled through Webpack. For additional details, see the [vue-connextcms-site-template](https://github.com/skagitpublishing/vue-connextcms-site-template)
+bundled through Webpack. The code for this application lives in the `src` directory.
+For additional details, see the [vue-connextcms-site-template](https://github.com/skagitpublishing/vue-connextcms-site-template)
 repository.
 
+* The [specifications directory](specifications) contains specification documents illustrating how the P2P VPS server works.
+
+* The [docs directory](docs) contains miscellaneousdocumentation. 
 
 
 ## Build Setup
