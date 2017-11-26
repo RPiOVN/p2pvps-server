@@ -1,5 +1,5 @@
 The best way to start is to read through the [specification documents](specifications/high-level-overview.md).
-Next, introduce yourself on our [Gitter Channel](https://gitter.im/RPiOVN/Lobby).
+Next, introduce yourself on our [Slack Channel](https://join.slack.com/t/p2pvps/shared_invite/enQtMjc4MTgxMTc5NDE0LWI0MjkwNzRjMDE5ZWNlNDg5NDVhNzJlZjg5YTY4ODU0ZWZhZjIwYTk0ZDU2YzEyMTYwMDVkY2NiYmFkYjkzYjQ).
 Finally, review the Trello boards and look for a task you can take on. 
 The Trello boards are split up into the primary areas of the P2P VPS system:
 
