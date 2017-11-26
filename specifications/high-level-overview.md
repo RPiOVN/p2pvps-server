@@ -1,17 +1,18 @@
 # Overview
-This document contains a high-level technical overview of the rpibroker suit of software. The suit consists of a
+This document contains a high-level technical overview of the P2P VPS suit of software. The suit consists of a
 set of server and client software. 
 
 The client software is targeted for Raspberry Pi's minicomputers, but can be operated on
 any device that is capable of running Docker. The focus of the client software is to:
 * Create a basic Linux environment with a command line interface (CLI).
 * Establish a reverse SSH connection with the server, to provide the CLI to the renter.
+* Establish a LocalTunnel connection to the server so the device can server webpages, accessible from the general internet.
 
-The server software is targeted for cloud VPS servers like Digital Ocean, AWS, etc. The focus of
+The server software is targeted for cloud VPS servers like Digital Ocean, Vultr, AWS, etc running Ubuntu Linux. The focus of
 the server software is to:
-* Register incomming connections from client devices.
-* Connect device *renters* with device *owners*.
-* Handle payment processing.
+* Register incoming connections from client devices.
+* Create listing on the OpenBazaar network to allow Client devices to be rented.
+* Manage OpenBazaar listings and ensure rented devices fulfill the terms of their rental contracts.
 * Establish connection with other servers.
 
 
@@ -47,16 +48,18 @@ a more reliable, distributed, and censorless architecture.
 The client software is composed of the following high-level features. Each feature needs a manager, so if you are
 interested in contributing, [please let us know](http://p2pvps.org):
 
+* Governor
 * Docker container with SSH
-* Persistant Storage & Encryption
-* Encryption
+* Persistant Storage
+  * Encryption
 * Deployment Packages (pre-configured scripts for setting up apps like webservers, file sharing, etc.)
 * Testing
 
 See more details in the [Client Specification](client-specification.md).
 
 ## Server Overview
-The primary purpose of the server software is to orchastrate the network of devices and facilitate financial transations. 
+The primary purpose of the server software is to orchastrate the network of devices and facilitate financial 
+transations via OpenBazaar. 
 Its secondary purpose is to connect with other servers, in order to establish a peer-to-peer (P2P) marketplace, 
 with no central point of failure. These goals are achieved by splitting the server into two software stacks:
 *The Marketplace* and the *The Server*.
@@ -65,8 +68,6 @@ with no central point of failure. These goals are achieved by splitting the serv
 It is composed of the following high-level User Interfaces/Features:
 
 * Owned Device Management
-* Rented Device Management
-* Marketplace
 * Testing
 
 See more details in the [Marketplace Specification](marketplace-specification.md).
@@ -78,8 +79,9 @@ high level features:
 * Database API
 * Website and Content Management System (CMS)
 * SSH Tunnel Server
-* HTTP/S Forwarding
+* LocalTunnel HTTP/S Forwarding
 * OpenBazaar Transactions
+* Listing Manager
 * Testing
 
 See more details in the [Server Specification](server-specification.md).
@@ -106,8 +108,9 @@ client device and also
 serve web pages and web apps from a human-readable URL.
 
 ## Financial Transactions
-Transactions between Owners and Renters will take place over the [OpenBazaar](http://openbazaar.org/) (**OB**) network.
-The requires that the buyer and seller each have a local installation of OpenBazaar capable of
+Transactions between Owners and Renters will take place over the [OpenBazaar](http://openbazaar.org/) 
+(**OB**) network.
+This requires that the buyer and seller each have a local installation of OpenBazaar capable of
 sending a receiving cryptocurrency. Cryptocurrencies have the
 advantage of allowing server owners to create semi-anonymous markets. It also allows P2P VPS servers to
 connect Owners and Renters without having any liability with regard to finanical transactions.
@@ -120,7 +123,7 @@ The device owner can set the hourly rate they are willing to rent the device for
 
 A renter agrees to the rental contract by purchase the contract on the OpenBazaar network for 
 a fixed length of time.
-The device is then taken off the P2P VPS market. 
+The device is then taken off the P2P VPS OpenBazaar store. 
 A random username and password generated for the device will be emailed to the renter at that time.
 As long as the device is connect to the internet, the device will be dedicated for the renters use.
 Once the length of the contract expires, the client device is reset and placed back on the marketplace.
@@ -128,9 +131,13 @@ In the future, a feature will be developed to allow renters to extend the length
 If the client device goes offline and can not fulfill the terms of the contract, an OpenBazaar dispute
 is activated and a moderator can pro-rate and refund part of the transaction to the renter.
 
+![Transaction Worflow](images/workflow.jpg?raw=true "Transaction Worflow")
+
+
 ## Federated Servers
 Server software will be able to establish connections with other servers at the desire of the server administrator. 
-This connection will allow a server to add devices to its marketplace that are managed by these third-party servers.
+This API will allow P2P VPS servers to link to one another. The link will appear on their website as a designated
+place. A link to the servers OpenBazaar store will also appear on their OpenBazaar store page.
 By creating a federation of marketplaces, the overall network has no single point of failure. 
 
 ![Federated network of servers](images/federated-diagram.jpg?raw=true "Federated network of servers")

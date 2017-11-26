@@ -2,7 +2,7 @@
 This document contains the specifications for the Client software. The Client software is defined by the following
 high-level features:
 
-* Govener
+* Governor
 * Docker container with SSH
 * Persistant Storage
   * Encryption
@@ -11,14 +11,14 @@ high-level features:
 
 The sections below detail the specifications for each of these features:
 
-## Govener
-The primary purpose of the govener software is to manage the Docker container and communicate with the
+## Governor
+The primary purpose of the governor software is to manage the Docker container and communicate with the
 P2P VPS server. It plays the following roles:
 * It reads the deviceGUID.json file and registers the Client device with the P2P VPS server.
 * It builds the Docker container with information returned by the server after registration.
 * It launches the Docker container after being built.
-* It sents a heartbeat signal to the P2P VPS server every 10 minutes. The server responds with an experation date.
-* When experation date is reached, the govener software stops the Docker container and wipes the flash drive.
+* It sents a heartbeat signal to the P2P VPS server every 10 minutes. The server responds with an expiration date.
+* When expirationdate is reached, the governorsoftware stops the Docker container and wipes the flash drive.
 It then reregisters itself with the P2P VPS marketplace.
 
 ## Docker Container
@@ -32,17 +32,17 @@ The port is used to establish a reverse SSH tunnel to the Docker container. The 
 used to create a user account for the Docker container. This email and password will be emailed to the
 renter when they purchase the rental contract on the OpenBazaar network.
 
-When the contract is terminated, the Docker container is destroyed and all persistant data wiped.
+When the contract is terminated, the Docker container is destroyed and all persistentdata wiped.
 A new Docker container with new login credentials is generated for the next renter.
 
-## Persistant Storage
-Persistant storage can take many forms, but a USB flash drive will be encouraged, as SD cards have shown
+## PersistentStorage
+Persistentstorage can take many forms, but a USB flash drive will be encouraged, as SD cards have shown
 reliability issues. Most IoT devices, like the Raspberry Pi can boot off an SD card. Extra storage can
-easily be accomidated through USB flash drives or even USB external hard drives. 128GB Flash drives will
+easily be accommodatedthrough USB flash drives or even USB external hard drives. 128GB Flash drives will
 be the standard due to their availability and low prices.
 
 Part of the installation instructions for client software will include commands for mounting a USB flash
-drive and setting it up for persistant storage with Docker.
+drive and setting it up for persistentstorage with Docker.
 
 ### Encryption
 Encryption managed by the device owner has been explored, but found ineffective. It will be best to put the
@@ -50,7 +50,7 @@ responsibility and encryption keys in the hands of the renter. Owners will be un
 encrypted drives. However, instructions for setting up LUKS encryption inside the renters Docker container
 will be provided by this project.
 
-This is an excellent guide that can be adapted to encrypt persistant storage in a Docker container:
+This is an excellent guide that can be adapted to encrypt persistentstorage in a Docker container:
 https://launchbylunch.com/posts/2014/Jan/13/encrypting-docker-on-digitalocean/
 
 ## Deployment Packages
