@@ -4,10 +4,8 @@ high-level features:
 
 * Database API
 * Website and Content Management System (CMS)
-* SSH Tunnel Server
-* LocalTunnel HTTP/S Forwarding
 * OpenBazaar Transactions
-* Listing Manager
+* Port Control
 * Testing
 
 The sections below detail the specifications for each of these features:
@@ -50,25 +48,9 @@ Content will be managed with [ConnextCMS](http://connextcms.com), an extension f
 This covers the scope of blog posts, the home page, about page, and other web pages.
 *The Marketplace* will be a single-page app (SPA) using Vue.js, which is outside the scope of this document.
 
-## SSH Tunnel Server
-The SSH tunnel server will run inside its own Docker container. It is necessary to give user-level shell access
-in order to generate the reverse tunnel to the client devices. Keeping the SSH server isolated to it's own
-Docker container reduces the threat of giving out shell access.
-
-**It may be possible to allow reverse SSH connections without granding shell access to the server. Exploring this 
-option needs to be a high priority.**
-
-## HTTP/S Forwarding
-The server is also responsible for establishing a subdomain (like **abc**.p2pvps.com) and proxying connections
-from port 80 (HTTP) or port 442 (HTTPS) to the rented device. The easiest way to do this is by leveraging
-a [LocalTunnel Server](https://github.com/localtunnel/server). 
-
-While the project is still in its infancy, we can use the [localtunnel.me](http://localtunnel.me) server, but
-we'll eventually need to set up our own server. The LocalTunnel server software expects to have the server to
-itself, without any competition for ports. Putting it inside a Docker container has proven problematic.
 
 ## OpenBazaar Transactions
-[OpenBazaar](http://openbazaar.org) (**OB**) will be leverages to handle the transactions between Owners and Renters.
+[OpenBazaar](http://openbazaar.org) (**OB**) will be leveraged to handle the transactions between Owners and Renters.
 When an Owner submits their device to the P2P VPS Marketplace, the Server will be responsible for generating
 a contract on the OpenBazaar network. Renters then purchase the contract using their own OpenBazaar software. At that point, the login and password
 for the device is emailed to them. 
@@ -100,6 +82,10 @@ These API endpoints can only be executed by server admins or device owners:
 * `createMarketListing/:id` - Creates a new OB market listing for the device.
 * `removeMarketListing/:id` - Remove the listing from the OB marketplace.
 * `updateListing/:id` - Updates the OB listing with data from the `obContract` model associated with the listing.
+
+## Port Control
+This is a Database API that is used to manage a list of available SSH ports for making reverse SSH tunnel connections
+between the Server and Client devices.
 
 ## Testing
 Testing of server code will use the same test-suite as the Marketplace. Namely the test configuration set up
