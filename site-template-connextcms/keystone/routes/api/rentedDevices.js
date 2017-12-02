@@ -31,8 +31,11 @@ exports.add = function (req, res) {
       const rentedDevicesModel = items[0]
       let rentedDevicesList = rentedDevicesModel.get('rentedDevices')
 
-      rentedDevicesList.push(deviceId)
-      rentedDevicesModel.set('rentedDevices', rentedDevicesList)
+      // Prevent duplicates. Remove the device from the list in case is already exists.
+      let newArray = rentedDevicesList.filter(i => i !== deviceId)
+
+      newArray.push(deviceId)
+      rentedDevicesModel.set('rentedDevices', newArray)
       rentedDevicesModel.save()
     }
 
