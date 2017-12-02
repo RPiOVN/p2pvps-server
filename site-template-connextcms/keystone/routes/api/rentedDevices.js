@@ -41,7 +41,7 @@ exports.add = function (req, res) {
 }
 
 /**
- * Delete ExamplePluginModel by ID
+ * Remove a deviceId from the rented devices list.
  */
 exports.remove = function (req, res) {
   try {
@@ -63,6 +63,7 @@ exports.remove = function (req, res) {
 
         // Remove the deviceId from the array.
         let newArray = rentedDevicesList.filter(i => i !== deviceId)
+        // Source: https://stackoverflow.com/questions/3954438/how-to-remove-item-from-array-by-value
 
         rentedDevicesModel.set('rentedDevices', newArray)
         rentedDevicesModel.save()
