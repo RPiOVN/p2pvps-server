@@ -6,7 +6,7 @@ const RentedDevices = keystone.list('RentedDevices')
   Add deviceId to the list of rented devices.
 */
 exports.add = function (req, res) {
-  debugger
+  // debugger
 
   // const deviceId = req.method === 'POST' ? req.body : req.query
   const deviceId = req.params.id
@@ -15,7 +15,7 @@ exports.add = function (req, res) {
 
   // Retrieve the list of rented devices from the database.
   RentedDevices.model.find(function (err, items) {
-    debugger
+    // debugger
     if (err) return res.apiError('database error', err)
 
     // Handle new database by creating first entry.
@@ -47,7 +47,7 @@ exports.add = function (req, res) {
  */
 exports.remove = function (req, res) {
   try {
-    debugger
+    // debugger
 
     // const deviceId = req.method === 'POST' ? req.body : req.query
     const deviceId = req.params.id
@@ -56,7 +56,7 @@ exports.remove = function (req, res) {
 
     // Retrieve the list of rented devices from the database.
     RentedDevices.model.find(function (err, items) {
-      debugger
+      // debugger
       if (err) return res.apiError('database error', err)
 
       if (items.length === 0) {
