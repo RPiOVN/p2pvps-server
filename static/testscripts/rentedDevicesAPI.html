@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<!--
+This is a proof of concept script for testing the new Add and Remove APIs for
+the rented devices list model.
+-->
+
+<html lang="en">
+<head>
+  <title>OpenBazaar Listing Tests</title>
+
+  <link href="../css/bootstrap.min.css" media="all" rel="stylesheet" />
+</head>
+<body>
+
+
+  <section>
+    <div class='container'>
+      <div class="row well well-lg">
+        <div class="col-md-12">
+          <br>
+          <form>
+            <div class="form-group">
+              <label for="modelId">Device ID:</label>
+              <input type="text" class="form-control" id="modelId" placeholder="5a0efb528024c9002a2956ae">
+            </div>
+            <button type="button" class="btn btn-default" onclick="addDevice()">Add Device ID</button>
+            <button type="button" class="btn btn-default" onclick="remoteDevice()">Remove Device ID</button>
+          </form>
+          <button type="button" class="btn btn-default" id="createListingBtn" onclick="createListing()" disabled>Create Listing</button>
+          <hr>
+          <br><br>
+          <img id="image2" src="" alt="" width="600px" />
+          <br><br>
+          <img id="image3" src="" alt="" width="600px" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="../js/plugins/bootstrap/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    //Global Variables
+    var serverIP = 'localhost';
+    var serverPort = '4002'
+    var apiCredentials = "";
+
+
+    $(document).ready( function() {
+
+      apiCredentials = getAuth();
+
+    });
+
+    function getAuth() {
+      //debugger;
+
+      var clientID = "";
+      var clientSecret = "";
+
+      //Encoding as per Centro API Specification.
+      var combinedCredential = clientID+':'+clientSecret;
+      var base64Credential = window.btoa(combinedCredential);
+      var readyCredential = 'Basic '+base64Credential;
+
+
+      return readyCredential;
+
+    }
+
+
+
+
+    // This function generates an obContractModel.
+    function createModel() {
+      debugger;
+
+      var obj = {
+        clientDevice: "59f2b79a01b2740133a62c99",
+        ownerUser: "59e5862693e68b0001718f4c",
+        renterUser: "",
+        price: 123,
+        experation: "2017-12-16T15:34:04.530Z",
+        title: "test title",
+        description: "test description",
+        listingUri: "",
+        imageHash: "",
+        listingState: "",
+        createdAt: "2017-11-16T15:34:04.530Z",
+        updatedAt: "2017-11-16T15:34:04.530Z"
+      };
+
+      $.post('/api/obContract/create', obj, function(data) {
+        debugger;
+        console.log('New model created. ID: '+data.collection._id);
+      })
+      .fail(function(xhr, status, error) {
+        debugger;
+          // error handling
+      });
+    }
+
+    // This function retrieves an obContractModel from the server.
+    // It then submits calls the createListing() API that lists the model on the OpenBazaar network.
+    function getModel() {
+      debugger;
+
+      var modelId = $('#modelId').val();
+
+      if(modelId == "") return;
+
+      // Retrieve the contract model.
+      var getModelPromise = $.get('/api/obContract/'+modelId, '', function(data) {
+        debugger;
+        console.log('model id: '+data.collection._id);
+        //$('#createListingBtn').prop("disabled", false); // Enable the create listing button.
+        return data.collection;
+      })
+      .fail(function(xhr, status, error) {
+        debugger;
+          // error handling
+      });
+
+      // Post the contract to the OpenBazaar server.
+      getModelPromise.then(function(contractModel) {
+        debugger;
+
+        $.get('/api/ob/createMarketListing/'+modelId, '', function(data) {
+          debugger;
+
+        })
+        .fail(function(xhr, status, error) {
+          debugger;
+            // error handling
+        });
+      });
+    }
+
+    function updateListing() {
+      debugger;
+
+      var modelId = $('#modelId').val();
+
+      if(modelId == "") return;
+
+      $.get('/api/ob/updateListing/'+modelId, '', function(data) {
+        debugger;
+
+      })
+      .fail(function(xhr, status, error) {
+        debugger;
+          // error handling
+      });
+    }
+
+    function removeListing() {
+      debugger;
+
+      var modelId = $('#modelId').val();
+
+      if(modelId == "") return;
+
+      $.get('/api/ob/removeMarketListing/'+modelId, '', function(data) {
+        debugger;
+
+      })
+      .fail(function(xhr, status, error) {
+        debugger;
+          // error handling
+      });
+    }
+
+  </script>
+
+</body>
+</html>
