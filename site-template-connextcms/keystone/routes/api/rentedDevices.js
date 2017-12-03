@@ -85,3 +85,14 @@ exports.remove = function (req, res) {
     return res.apiError('error', err)
   }
 }
+
+// Return an array of all the DeviceIDs stored in the rentedDevices model.
+exports.list = function (req, res) {
+  RentedDevices.model.find(function (err, items) {
+    if (err) return res.apiError('database error', err)
+
+    res.apiResponse({
+      collection: items
+    })
+  })
+}

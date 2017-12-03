@@ -38,6 +38,7 @@ module.exports = function (app) {
 
   app.all('/api/rentedDevices/add/:id', keystone.middleware.api, routes.api.rentedDevices.add)
   app.all('/api/rentedDevices/remove/:id', keystone.middleware.api, routes.api.rentedDevices.remove)
+  app.all('/api/rentedDevices/list', keystone.middleware.api, routes.api.rentedDevices.list)
 
   // NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
