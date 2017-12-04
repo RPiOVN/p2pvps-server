@@ -1,6 +1,6 @@
 var keystone = require('keystone')
 var request = require('request')
-var Promise = require('node-promise') // Promises to handle asynchonous callbacks.
+// var Promise = require('node-promise') // Promises to handle asynchonous callbacks.
 
 var DevicePublicModel = keystone.list('DevicePublicModel')
 var DevicePrivateModel = keystone.list('DevicePrivateModel')
@@ -394,32 +394,34 @@ exports.getExpiration = function (req, res) {
 
 // Get any devicePublicModels where the userId matches the ownerUser entry.
 function getOwnerModels (userId) {
-  var promise = new Promise.Promise()
-
-  DevicePublicModel.model
+  // var promise = new Promise.Promise()
+  return new Promise(function (resolve, reject) {
+    DevicePublicModel.model
     .find()
     .where('ownerUser', userId)
     .exec(function (err, items) {
-      if (err) promise.reject(err)
-      else promise.resolve(items)
+      if (err) reject(err)
+      else resolve(items)
     })
 
-  return promise
+  // return promise
+  });
 }
 
 // Get any devicePublicModels where the userId matches the renterUser entry.
 function getRenterModels (userId) {
-  var promise = new Promise.Promise()
+  return new Promise(function (resolve, reject) {
+  // var promise = new Promise.Promise()
 
-  DevicePublicModel.model
+    DevicePublicModel.model
     .find()
     .where('renterUser', userId)
     .exec(function (err, items) {
-      if (err) promise.reject(err)
-      else promise.resolve(items)
+      if (err) reject(err)
+      else resolve(items)
     })
-
-  return promise
+  });
+  // return promise
 }
 
 // This function communicates with Port Control to release the port.
