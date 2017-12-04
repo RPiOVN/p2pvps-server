@@ -240,9 +240,9 @@ exports.register = function (req, res) {
   //  return res.apiError(403, 'Not allowed to access this API. Not ConnextCMS Admin')
   // }
 
-  DevicePublicModel.model.findById(req.params.id).exec(function (err, item) {
+  DevicePublicModel.model.findById(req.params.id).exec(function (err, devicePublicModel) {
     if (err) return res.apiError('database error', err)
-    if (!item) return res.apiError('not found')
+    if (!devicePublicModel) return res.apiError('not found')
 
     let data = req.method === 'POST' ? req.body : req.query
 
@@ -253,98 +253,84 @@ exports.register = function (req, res) {
       const thirtyDays = DEFAULT_EXPIRATION;
       const expiration = new Date(now.getTime() + thirtyDays)
 
-      item.set('memory', data.memory)
-      item.set('diskSpace', data.diskSpace)
-      item.set('processor', data.processor)
-      item.set('internetSpeed', data.internetSpeed)
-      item.set('checkinTimeStamp', data.checkinTimeStamp)
-      item.set('expiration', expiration)
-      item.save()
+      devicePublicModel.set('memory', data.memory)
+      devicePublicModel.set('diskSpace', data.diskSpace)
+      devicePublicModel.set('processor', data.processor)
+      devicePublicModel.set('internetSpeed', data.internetSpeed)
+      devicePublicModel.set('checkinTimeStamp', data.checkinTimeStamp)
+      devicePublicModel.set('expiration', expiration)
+      devicePublicModel.save()
 
-      var deviceData
+      var deviceData;
 
-      // Needs to reference localhost since it's calling itself.
-      request('http://localhost:3000/api/portcontrol/create', function (error, response, body) {
-        // If the request was successfull.
-        if (!error && response.statusCode === 200) {
-          // debugger;
+      // Get the private data associated with this public model.
+      var privateDeviceId = devicePublicModel.get('privateData')
+      DevicePrivateModel.model.findById(privateDeviceId).exec(function (err, privModel) {
+        debugger;
 
-          // Convert the data from a string into a JSON object.
-          var data = JSON.parse(body) // Convert the returned JSON to a JSON string.
-          deviceData = data.newDevice
+        // Validation & Error handling.
+        if (err) return res.apiError('database error', err)
+        if (!privModel) return res.apiError('not found')
 
-          // Retrieve the devicePrivateModel associated with this device.
-          var privateDeviceId = item.get('privateData')
-          DevicePrivateModel.model.findById(privateDeviceId).exec(function (err, privModel) {
+        // If a previous port was being used, release it.
+        let usedPort = privModel.get('serverSSHPort');
+        if (usedPort) {
+          debugger;
+          // Release the used port.
+        }
+
+        // Request new port, login, and password from Port Control.
+        // Needs to reference localhost since it's calling itself.
+        request('http://localhost:3000/api/portcontrol/create', function (error, response, body) {
+          // If the request was successfull.
+          if (!error && response.statusCode === 200) {
             // debugger;
 
-            if (err) return res.apiError('database error', err)
-            if (!privModel) return res.apiError('not found')
+            // Convert the data from a string into a JSON object.
+            var data = JSON.parse(body) // Convert the returned JSON to a JSON string.
+            deviceData = data.newDevice;
 
             // Save the data to the devicePrivateModel.
-            privModel.set('deviceUserName', deviceData.username)
-            privModel.set('devicePassword', deviceData.password)
-            privModel.set('serverSSHPort', deviceData.port)
+            privModel.set('deviceUserName', deviceData.username);
+            privModel.set('devicePassword', deviceData.password);
+            privModel.set('serverSSHPort', deviceData.port);
             privModel.save()
-          })
 
-          res.apiResponse({
-            clientData: deviceData
-          })
+            res.apiResponse({
+              clientData: deviceData
+            });
 
-          console.log('API call to portcontrol succeeded!')
+            console.log('API call to portcontrol succeeded!')
 
           // Server returned an error.
-        } else {
-          // debugger;
+          } else {
+            debugger;
 
-          try {
-            var msg =
-              '...Error returned from server when requesting log file status. Server returned: ' +
-              error.message
-            console.error(msg)
+            try {
+              var msg =
+                'Call to Port Control failed. Server returned: ' +
+                error.message
+              console.error(msg)
 
-            res.apiError(msg, error)
+              res.apiError(msg, error)
 
-            // Catch unexpected errors.
-          } catch (err) {
-            msg =
-              'Error in devicePublicData.js/register() while trying to call /api/portcontrol/create. Error: ' +
-              err.message
-            console.error(msg)
+              // Catch unexpected errors.
+            } catch (err) {
+              msg =
+                'Error in devicePublicData.js/register() while trying to call /api/portcontrol/create. Error: ' +
+                err.message
+              console.error(msg)
 
-            res.apiError(msg, err)
+              res.apiError(msg, err)
+            }
           }
-        }
-      })
-
-      // Save data to the devicePrivateModel
-
-      // Return the data to the client.
-      // var obj = {};
-      // obj.username = 'test123';
-      // obj.password = 'password123';
-      // obj.port = 'port123';
-      // obj.username = data.username;
-      // obj.password = data.password;
-      // obj.port = data.port;
-    } catch (err) {
-      debugger
-
-      console.error('Error while trying to process registration data: ', err)
-    }
-
-    /*
-     item.getUpdateHandler(req).process(data, function(err) {
-
-     if (err) return res.apiError('create error', err);
-
-      res.apiResponse({
-        collection: item
+        })
       });
+    } catch (err) {
+      debugger;
 
-    });
-    */
+      console.error('Error while trying to process registration data: ', err);
+    }
   })
 }
 
