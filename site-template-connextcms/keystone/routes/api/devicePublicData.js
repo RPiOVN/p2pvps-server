@@ -265,7 +265,7 @@ exports.register = function (req, res) {
 
       // Get the private data associated with this public model.
       var privateDeviceId = devicePublicModel.get('privateData')
-      DevicePrivateModel.model.findById(privateDeviceId).exec(function (err, privModel) {
+      DevicePrivateModel.model.findById(privateDeviceId).exec(async function (err, privModel) {
         debugger;
 
         // Validation & Error handling.
@@ -277,7 +277,7 @@ exports.register = function (req, res) {
         if (usedPort) {
           debugger;
           // Release the used port.
-          releasePort(usedPort);
+          await releasePort(usedPort);
         }
 
         // Request new port, login, and password from Port Control.
