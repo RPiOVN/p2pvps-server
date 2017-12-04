@@ -13,9 +13,7 @@ module.exports = function (app) {
   app.get('/test', routes.views.test)
   // app.get('/appdashboard', routes.views.appdashboard);
 
-  app.get('/api/portcontrol/list', keystone.middleware.api, routes.api.portcontrol.list)
   app.all('/api/portcontrol/create', keystone.middleware.api, routes.api.portcontrol.create)
-  app.all('/api/portcontrol/:id/update', keystone.middleware.api, routes.api.portcontrol.update)
   app.get('/api/portcontrol/:id/remove', keystone.middleware.api, routes.api.portcontrol.remove)
 
   // Simple stand-alone function for users to retrieve their ID when logged in, or notify if they are not logged in.
