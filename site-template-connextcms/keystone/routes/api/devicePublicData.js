@@ -27,51 +27,70 @@ exports.listById = function (req, res) {
     var userId = req.user.get('id').toString()
   } catch (err) {
     // Error handling.
-    return res.apiError('error', 'Could not retrieve user ID. You must be logged in to use this API.')
+    return res.apiError(
+      'error',
+      'Could not retrieve user ID. You must be logged in to use this API.'
+    )
   }
 
   var ownerItems
 
   // Get any models that match the userId as the Owner
   var promiseGetOwnerModels = getOwnerModels(userId)
-  promiseGetOwnerModels.then(function (results) {
-    // debugger;
-
-    ownerItems = results
-
-    // Find all entries that have this user associated as the renter.
-    var promiseGetRenterModels = getRenterModels(userId)
-    promiseGetRenterModels.then(function (results) {
+  promiseGetOwnerModels.then(
+    function (results) {
       // debugger;
 
-      // Combine and return matching entries.
-      ownerItems = ownerItems.concat(results)
+      ownerItems = results
 
-      // Return the collection of matching items
-      res.apiResponse({
-        collection: ownerItems
-      })
-    }, function (error) {
-      console.error('Error resolving promise for /routes/api/devicePublicData.js/getRenterModels(' + userId + '). Error:', error)
-    })
-  }, function (error) {
-    console.error('Error resolving promise for /routes/api/devicePublicData.js/getOwnerModels(' + userId + '). Error:', error)
-  })
+      // Find all entries that have this user associated as the renter.
+      var promiseGetRenterModels = getRenterModels(userId)
+      promiseGetRenterModels.then(
+        function (results) {
+          // debugger;
+
+          // Combine and return matching entries.
+          ownerItems = ownerItems.concat(results)
+
+          // Return the collection of matching items
+          res.apiResponse({
+            collection: ownerItems
+          })
+        },
+        function (error) {
+          console.error(
+            'Error resolving promise for /routes/api/devicePublicData.js/getRenterModels(' +
+              userId +
+              '). Error:',
+            error
+          )
+        }
+      )
+    },
+    function (error) {
+      console.error(
+        'Error resolving promise for /routes/api/devicePublicData.js/getOwnerModels(' +
+          userId +
+          '). Error:',
+        error
+      )
+    }
+  )
 }
 
 /**
  * Create DevicePrivateModel
  */
 exports.create = function (req, res) {
-	// debugger;
+  // debugger;
 
   // Ensure the user has a valid CSRF token
-	// if (!security.csrf.validate(req)) {
-	//	return res.apiError(403, 'invalid csrf');
-	// }
+  // if (!security.csrf.validate(req)) {
+  //  return res.apiError(403, 'invalid csrf');
+  // }
 
-  var item = new DevicePublicModel.model(),
-    data = (req.method == 'POST') ? req.body : req.query
+  let item = new DevicePublicModel.model()
+  let data = req.method === 'POST' ? req.body : req.query
 
   item.getUpdateHandler(req).process(data, function (err) {
     if (err) return res.apiError('error', err)
@@ -87,9 +106,9 @@ exports.create = function (req, res) {
  */
 exports.update = function (req, res) {
   // Ensure the user has a valid CSRF token
-	// if (!security.csrf.validate(req)) {
-	//	return res.apiError(403, 'invalid csrf');
-	// }
+  // if (!security.csrf.validate(req)) {
+  //  return res.apiError(403, 'invalid csrf');
+  // }
 
   // Ensure the user making the request is a Keystone Admin
   // var isAdmin = req.user.get('isAdmin');
@@ -109,7 +128,7 @@ exports.update = function (req, res) {
     if (err) return res.apiError('database error', err)
     if (!item) return res.apiError('not found')
 
-    var data = (req.method == 'POST') ? req.body : req.query
+    var data = req.method === 'POST' ? req.body : req.query
 
     item.getUpdateHandler(req).process(data, function (err) {
       if (err) return res.apiError('create error', err)
@@ -126,9 +145,9 @@ exports.update = function (req, res) {
  */
 exports.getId = function (req, res) {
   // Ensure the user has a valid CSRF token
-	// if (!security.csrf.validate(req)) {
-	//	return res.apiError(403, 'invalid csrf');
-	// }
+  // if (!security.csrf.validate(req)) {
+  //  return res.apiError(403, 'invalid csrf');
+  // }
 
   // Ensure the user making the request is a Keystone Admin
   // var isAdmin = req.user.get('isAdmin');
@@ -161,9 +180,9 @@ exports.getId = function (req, res) {
  */
 exports.remove = function (req, res) {
   // Ensure the user has a valid CSRF token
-	// if (!security.csrf.validate(req)) {
-	//	return res.apiError(403, 'invalid csrf');
-	// }
+  // if (!security.csrf.validate(req)) {
+  //  return res.apiError(403, 'invalid csrf');
+  // }
 
   // Ensure the user making the request is a Keystone Admin
   // var isAdmin = req.user.get('isAdmin');
@@ -199,10 +218,13 @@ exports.remove = function (req, res) {
  * This API is called by the RPi client to register a new device.
  */
 exports.register = function (req, res) {
+  // const DEFAULT_EXPIRATION = 60000 * 60 * 24 * 30; // Thirty Days
+  const DEFAULT_EXPIRATION = 60000 * 60; // One Hour
+
   // Ensure the user has a valid CSRF token
-	// if (!security.csrf.validate(req)) {
-	//	return res.apiError(403, 'invalid csrf');
-	// }
+  // if (!security.csrf.validate(req)) {
+  //  return res.apiError(403, 'invalid csrf');
+  // }
 
   // Ensure the user making the request is a Keystone Admin
   // var isAdmin = req.user.get('isAdmin');
@@ -222,13 +244,13 @@ exports.register = function (req, res) {
     if (err) return res.apiError('database error', err)
     if (!item) return res.apiError('not found')
 
-    var data = (req.method == 'POST') ? req.body : req.query
+    let data = req.method === 'POST' ? req.body : req.query
 
     debugger
 
     try {
       const now = new Date()
-      const thirtyDays = 60000 * 60 * 24 * 30
+      const thirtyDays = DEFAULT_EXPIRATION;
       const expiration = new Date(now.getTime() + thirtyDays)
 
       item.set('memory', data.memory)
@@ -242,10 +264,9 @@ exports.register = function (req, res) {
       var deviceData
 
       // Needs to reference localhost since it's calling itself.
-      request('http://localhost:3000/api/portcontrol/create',
-      function (error, response, body) {
+      request('http://localhost:3000/api/portcontrol/create', function (error, response, body) {
         // If the request was successfull.
-        if (!error && response.statusCode == 200) {
+        if (!error && response.statusCode === 200) {
           // debugger;
 
           // Convert the data from a string into a JSON object.
@@ -258,7 +279,7 @@ exports.register = function (req, res) {
             // debugger;
 
             if (err) return res.apiError('database error', err)
-		        if (!privModel) return res.apiError('not found')
+            if (!privModel) return res.apiError('not found')
 
             // Save the data to the devicePrivateModel.
             privModel.set('deviceUserName', deviceData.username)
@@ -273,19 +294,23 @@ exports.register = function (req, res) {
 
           console.log('API call to portcontrol succeeded!')
 
-        // Server returned an error.
+          // Server returned an error.
         } else {
           // debugger;
 
           try {
-            var msg = '...Error returned from server when requesting log file status. Server returned: ' + error.message
+            var msg =
+              '...Error returned from server when requesting log file status. Server returned: ' +
+              error.message
             console.error(msg)
 
             res.apiError(msg, error)
 
-          // Catch unexpected errors.
+            // Catch unexpected errors.
           } catch (err) {
-            var msg = 'Error in devicePublicData.js/register() while trying to call /api/portcontrol/create. Error: ' + err.message
+            msg =
+              'Error in devicePublicData.js/register() while trying to call /api/portcontrol/create. Error: ' +
+              err.message
             console.error(msg)
 
             res.apiError(msg, err)
@@ -310,15 +335,15 @@ exports.register = function (req, res) {
     }
 
     /*
-		item.getUpdateHandler(req).process(data, function(err) {
+     item.getUpdateHandler(req).process(data, function(err) {
 
-			if (err) return res.apiError('create error', err);
+     if (err) return res.apiError('create error', err);
 
-			res.apiResponse({
-				collection: item
-			});
+      res.apiResponse({
+        collection: item
+      });
 
-		});
+    });
     */
   })
 }
@@ -331,7 +356,10 @@ exports.getUserId = function (req, res) {
     return res.apiResponse({ userId: userId })
   } catch (err) {
     // Error handling.
-    return res.apiError('error', 'Could not retrieve user ID. You must be logged in to use this API.')
+    return res.apiError(
+      'error',
+      'Could not retrieve user ID. You must be logged in to use this API.'
+    )
   }
 }
 
@@ -381,10 +409,13 @@ exports.getExpiration = function (req, res) {
 function getOwnerModels (userId) {
   var promise = new Promise.Promise()
 
-  DevicePublicModel.model.find().where('ownerUser', userId).exec(function (err, items) {
-    if (err) promise.reject(err)
-    else promise.resolve(items)
-  })
+  DevicePublicModel.model
+    .find()
+    .where('ownerUser', userId)
+    .exec(function (err, items) {
+      if (err) promise.reject(err)
+      else promise.resolve(items)
+    })
 
   return promise
 }
@@ -393,10 +424,13 @@ function getOwnerModels (userId) {
 function getRenterModels (userId) {
   var promise = new Promise.Promise()
 
-  DevicePublicModel.model.find().where('renterUser', userId).exec(function (err, items) {
-    if (err) promise.reject(err)
-    else promise.resolve(items)
-  })
+  DevicePublicModel.model
+    .find()
+    .where('renterUser', userId)
+    .exec(function (err, items) {
+      if (err) promise.reject(err)
+      else promise.resolve(items)
+    })
 
   return promise
 }
