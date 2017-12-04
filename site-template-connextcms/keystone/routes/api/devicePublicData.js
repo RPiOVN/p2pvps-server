@@ -227,11 +227,16 @@ exports.register = function (req, res) {
     debugger
 
     try {
+      const now = new Date()
+      const thirtyDays = 60000 * 60 * 24 * 30
+      const expiration = new Date(now.getTime() + thirtyDays)
+
       item.set('memory', data.memory)
       item.set('diskSpace', data.diskSpace)
       item.set('processor', data.processor)
       item.set('internetSpeed', data.internetSpeed)
       item.set('checkinTimeStamp', data.checkinTimeStamp)
+      item.set('expiration', expiration)
       item.save()
 
       var deviceData
