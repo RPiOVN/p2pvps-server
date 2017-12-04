@@ -277,6 +277,7 @@ exports.register = function (req, res) {
         if (usedPort) {
           debugger;
           // Release the used port.
+          releasePort(usedPort);
         }
 
         // Request new port, login, and password from Port Control.
@@ -419,6 +420,33 @@ function getRenterModels (userId) {
     })
 
   return promise
+}
+
+// This function communicates with Port Control to release the port.
+function releasePort (port) {
+  return new Promise(function (resolve, reject) {
+    if ((port === undefined) || (port === '')) return reject('Invalid port');
+
+    request(`http://localhost:3000/api/portcontrol/${port}/remove`, function (error, response, body) {
+      // If the request was successfull.
+      if (!error && response.statusCode === 200) {
+        debugger;
+        console.log(`Port ${port} successfully released from Port Control`);
+        resolve(true);
+
+      // Server returned an error.
+      } else {
+        debugger;
+
+        var msg =
+          'Call to Port Control failed. Server returned: ' +
+          error.message
+        console.error(msg)
+
+        return reject(msg);
+      }
+    })
+  });
 }
 
 /** ** END PROMISE AND UTILITY FUNCTIONS ****/
