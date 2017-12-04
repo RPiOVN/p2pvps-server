@@ -86,6 +86,8 @@ exports.remove = function (req, res) {
 
   // Retrieve the list of used ports from the database.
   PortsUsedModel.model.find(function (err, items) {
+    debugger;
+
     if (err) return res.apiError('database error', err);
 
     // Handle new database by creating first entry.
