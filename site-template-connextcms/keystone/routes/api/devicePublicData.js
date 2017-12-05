@@ -273,17 +273,11 @@ exports.register = function (req, res) {
         if (err) return res.apiError('database error', err)
         if (!privModel) return res.apiError('not found')
 
-        // If a previous port was being used, release it.
-        let usedPort = privModel.get('serverSSHPort');
-        if (usedPort) {
-          debugger;
-          // Release the used port.
-          await releasePort(usedPort);
-        }
+        let usedPort = privModel.get('serverSSHPort'); // Get any previously used port assignment.
 
         // Request new port, login, and password from Port Control.
         // Needs to reference localhost since it's calling itself.
-        request('http://localhost:3000/api/portcontrol/create', function (error, response, body) {
+        request('http://localhost:3000/api/portcontrol/create', async function (error, response, body) {
           // If the request was successfull.
           if (!error && response.statusCode === 200) {
             // debugger;
@@ -296,7 +290,16 @@ exports.register = function (req, res) {
             privModel.set('deviceUserName', deviceData.username);
             privModel.set('devicePassword', deviceData.password);
             privModel.set('serverSSHPort', deviceData.port);
-            privModel.save()
+            await privModel.save()
+
+            // If a previous port was being used, release it.
+            // Dev Note: Order of operation is important here. I want to release the old port
+            // *after* I request a new port. Otherwise I'll run into SSH issues.
+            if (usedPort) {
+              debugger;
+              // Release the used port.
+              await releasePort(usedPort);
+            }
 
             res.apiResponse({
               clientData: deviceData
