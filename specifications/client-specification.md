@@ -17,11 +17,11 @@ P2P VPS server. It plays the following roles:
 * It reads the deviceGUID.json file and registers the Client device with the P2P VPS server.
 * It builds the Docker container with information returned by the server after registration.
 * It launches the Docker container after being built.
-* It sents a heartbeat signal to the P2P VPS server every 10 minutes. The server responds with an expiration date.
+* It sends a heartbeat signal to the P2P VPS server every 10 minutes. The server responds with an expiration date.
 * When the expiration date is reached, the governor software stops the Docker container and wipes the flash drive.
 It then reregisters itself with the P2P VPS marketplace.
 
-This workflow diagram illustrates how transactions initiated and managed:
+This workflow diagram illustrates how transactions are initiated and managed:
 ![Transaction Worflow](images/workflow.jpg?raw=true "Transaction Worflow")
 
 
