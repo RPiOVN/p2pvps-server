@@ -1,4 +1,4 @@
-** 12/7/17 CT: This spec is out of date and no longer accurately reflects the UI **
+**12/7/17 CT: This spec is out of date and no longer accurately reflects the UI**
 
 # Marketplace Specification Overview
 This document contains the specifications for the **Marketplace** software. The Marketplace software is defined by the following
