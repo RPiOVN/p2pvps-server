@@ -40,12 +40,12 @@ exports.createMarketListing = function (req, res) {
           tags: [],
           title: item.get('title') + ' (' + item.get('clientDevice') + ')',
           images: [{
-            filename: 'pirate-skeleton.jpg',
-            large: 'zb2rheRJhM8S4fo8CycYh9Vfofki3dmfQnbgTrVeuoK1doz6n',
-            medium: 'zb2rhXQnaZws5QheZH8DSczWRqzqEURxwPsUe3tpeoojizFYm',
-            original: 'zb2rhnR5rHhxY8qtS6HgTzj7nErcSjoYtiWxsbRjcjveeqGNc',
-            small: 'zb2rhZeLDZuWtzTzPBWktkrHMt25ukggZEzj5ockcpLWE6chU',
-            tiny: 'zb2rhapeTgYHYVyo51J8UiNrLbT8J5cjdk14A3XeFcbXV3coP'
+            filename: 'p2pvp.org.png',
+            original: 'zb2rhdwvBAjky685CtiZHbA291rJGGAVpA7RhvY7vRrznX6Ne',
+            large: 'zb2rhoDG3RLMkFarDGajWALbgeXgGG6xmHCZAqiTYrdrdP8ew',
+            medium: 'zb2rhmdVqhZjnpw6Pwd4tCimB1L79ABcukcRnqDroP1C5B6GE',
+            small: 'zb2rhiBc94WnxN3eNtbnBU2CD9sJ1X1QiaemYFpAVFwQVPDsq',
+            tiny: 'zb2rhYBN6k6udcF86NWaPr1GBB8HpPYLcL1HwFtJZE7gGEpT8'
           }],
           skus: [{
             quantity: 1,
