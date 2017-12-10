@@ -507,7 +507,7 @@ function submitToMarket (device) {
 
       options = {
         method: 'GET',
-        uri: `http://localhost:3000/api/ob/createMarketListing/${obContractModel._id}`,
+        uri: `http://localhost:3000/api/ob/createMarketListing/${obContractModel.collection._id}`,
         // body: listingData,
         json: true // Automatically stringifies the body to JSON
         // resolveWithFullResponse: true
