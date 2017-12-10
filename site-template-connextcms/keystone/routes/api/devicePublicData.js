@@ -399,6 +399,7 @@ exports.getExpiration = function (req, res) {
 
     if (item.expiration < now) {
       // Remove the listing from the OB store
+      console.log(`Removing listing for ${item._id}`);
       removeOBListing(item);
     }
 
