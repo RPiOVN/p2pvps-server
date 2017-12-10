@@ -302,7 +302,16 @@ exports.register = function (req, res) {
             }
 
             debugger;
-            submitToMarket(devicePublicModel);
+            submitToMarket(devicePublicModel)
+            .then(data => {
+              debugger;
+              // Update the devicePublicModel with the newly created obContract model GUID.
+            })
+            .catch(err => {
+              debugger;
+              console.error('Error trying to execute submitToMarket:');
+              console.error(JSON.stringify(err, null, 2));
+            })
 
             res.apiResponse({
               clientData: deviceData
@@ -337,7 +346,8 @@ exports.register = function (req, res) {
     } catch (err) {
       debugger;
 
-      console.error('Error while trying to process registration data: ', err);
+      console.error('Error while trying to process registration data:');
+      console.error(JSON.stringify(err, null, 2));
     }
   })
 }
@@ -460,21 +470,19 @@ function submitToMarket (device) {
   return new Promise(function (resolve, reject) {
     debugger
 
-    // if (this.device) return
-
     var now = new Date()
     var oneMonth = 1000 * 60 * 60 * 24 * 30
     var oneMonthFromNow = new Date(now.getTime() + oneMonth)
 
     // Create new obContract model
     var obj = {
-      clientDevice: this.device._id,
-      ownerUser: this.$store.state.userInfo.GUID,
+      clientDevice: device._id.toString(),
+      ownerUser: device.ownerUser.toString(),
       renterUser: '',
-      price: 115,
+      price: 30,
       experation: oneMonthFromNow.toISOString(),
-      title: this.device.deviceName,
-      description: this.device.deviceDesc,
+      title: device.deviceName,
+      description: device.deviceDesc,
       listingUri: '',
       imageHash: '',
       listingState: 'Listed',
@@ -482,53 +490,45 @@ function submitToMarket (device) {
       updatedAt: now.toISOString()
     }
 
-    // Generate a new obContract model on the server.
-    var createModelPromise = $.post('/api/obContract/create', obj, (data) => {
-      // debugger
-      var obContractModel = data.collection
+    let options = {
+      method: 'POST',
+      uri: '/api/obContract/create',
+      body: obj,
+      json: true // Automatically stringifies the body to JSON
+      // resolveWithFullResponse: true
+    }
 
-      console.log('New model created. ID: ' + obContractModel._id)
-      return obContractModel
-    })
-    .fail(function (xhr, status, error) {
-      // debugger
-      console.error('Error trying to create new obContract model: ', error)
-    }).promise()
+    // Create the obContract model.
+    return rp(options)
 
-    // Update the devicePublicData model with the obContract model ID.
-    createModelPromise.then((obContractModelId) => {
-      // debugger
-
-      var publicDeviceModel = this.device
-      publicDeviceModel.obContract = obContractModelId.collection._id
-
-      this.$store.dispatch('persistPublicDeviceModel', publicDeviceModel)
-
-      return obContractModelId
-    })
-
-    // submit the contract to OpenBazaar
+    // Use the new obContract model to create a listing on OpenBazaar.
     .then(obContractModel => {
-      var createObListingPromise = $.get('/api/ob/createMarketListing/' + obContractModel.collection._id, '', (data) => {
-        // debugger
+      debugger
 
-        if (data.success) console.log('Successfully created OB listing.')
-        else console.log('OB listing creation failed.')
-      })
-      .fail(function (xhr, status, error) {
-        // debugger
-        console.error('Error trying to create new OpenBazaar listing: ', error)
-      }).promise()
+      options = {
+        method: 'GET',
+        uri: `/api/ob/createMarketListing/${obContractModel._id}`,
+        // body: listingData,
+        json: true // Automatically stringifies the body to JSON
+        // resolveWithFullResponse: true
+      }
 
-      createObListingPromise.then(data => {
-        // debugger
-      })
+      return rp(options)
+      .then(data => {
+        if (data.success) console.log('Successfully created OB listing.');
+        else console.log('OB listing creation failed.');
+
+        return resolve(obContractModel._id);
+      });
     })
 
-    // .catch(err => {
-    //  debugger
-    //  console.error('Error trying to update device model with obContract model ID: ', err)
-    // })
+    // Catch any errors.
+    .catch(function (err) {
+      debugger
+      console.error('Error trying to create OB listing in submitToMarket():');
+      console.error(JSON.stringify(err, null, 2));
+      return reject(err);
+    })
   });
 }
 
