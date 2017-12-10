@@ -29,6 +29,7 @@ module.exports = {
     'no-debugger': 0,
     'no-extra-semi': 0,
     'new-cap': 0,
-    'semi': 0
+    'semi': 0,
+    'no-throw-literal': 0
   }
 }

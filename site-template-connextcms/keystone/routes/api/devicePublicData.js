@@ -395,11 +395,12 @@ exports.getExpiration = function (req, res) {
     if (err) return res.apiError('database error', err)
     if (!item) return res.apiError('not found')
 
-    // var now = new Date()
-    // var timeStamp = now.toISOString()
+    const now = new Date();
 
-    // item.set('checkinTimeStamp', timeStamp)
-    // item.save()
+    if (item.expiration < now) {
+      // Remove the listing from the OB store
+      removeOBListing(item);
+    }
 
     res.apiResponse({
       expiration: item.expiration
@@ -530,6 +531,40 @@ function submitToMarket (device) {
       return reject(err);
     })
   });
+}
+
+// This function remove the associated listing from the OB store.
+function removeOBListing (deviceData) {
+  // debugger;
+
+  const obContractId = deviceData.obContract;
+
+  // Validation/Error Handling
+  if (obContractId === undefined || obContractId === null) {
+    throw `no obContract model associated with device ${deviceData._id}`;
+  }
+
+  const options = {
+    method: 'GET',
+    uri: `http://p2pvps.net/api/ob/removeMarketListing/${obContractId}`,
+    json: true // Automatically stringifies the body to JSON
+  };
+
+  return rp(options)
+    .then(function (data) {
+      // debugger;
+
+      if (!data.success) { throw `Could not remove device ${obContractId} from rentedDevices list model.`; }
+
+      console.log(
+        `Successfully removed listing on OB store with obContract model ID ${obContractId}`
+      );
+      return true;
+    })
+    .catch(err => {
+      console.error(`Could not remove device ${obContractId} from rentedDevices list model.`);
+      throw err;
+    });
 }
 
 /** ** END PROMISE AND UTILITY FUNCTIONS ****/
