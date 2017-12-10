@@ -1,9 +1,10 @@
-var keystone = require('keystone')
-var request = require('request')
+const keystone = require('keystone');
+const request = require('request');
 // var Promise = require('node-promise') // Promises to handle asynchonous callbacks.
+const rp = require('request-promise');
 
-var DevicePublicModel = keystone.list('DevicePublicModel')
-var DevicePrivateModel = keystone.list('DevicePrivateModel')
+const DevicePublicModel = keystone.list('DevicePublicModel');
+const DevicePrivateModel = keystone.list('DevicePrivateModel');
 
 /**
  * List Devices
@@ -220,7 +221,7 @@ exports.remove = function (req, res) {
 exports.register = function (req, res) {
   // const DEFAULT_EXPIRATION = 60000 * 60 * 24 * 30; // Thirty Days
   // const DEFAULT_EXPIRATION = 60000 * 60; // One Hour
-  const DEFAULT_EXPIRATION = 60000 * 15; // 15 minutes
+  const DEFAULT_EXPIRATION = 60000 * 6; // 15 minutes
 
   // Ensure the user has a valid CSRF token
   // if (!security.csrf.validate(req)) {
@@ -299,6 +300,8 @@ exports.register = function (req, res) {
               // Release the used port.
               await releasePort(usedPort);
             }
+
+            debugger;
 
             res.apiResponse({
               clientData: deviceData
@@ -406,8 +409,6 @@ function getOwnerModels (userId) {
       if (err) reject(err)
       else resolve(items)
     })
-
-  // return promise
   });
 }
 
@@ -451,6 +452,82 @@ function releasePort (port) {
         return reject(msg);
       }
     })
+  });
+}
+
+function submitToMarket () {
+  return new Promise(function (resolve, reject) {
+    debugger
+
+    // if (this.device) return
+
+    var now = new Date()
+    var oneMonth = 1000 * 60 * 60 * 24 * 30
+    var oneMonthFromNow = new Date(now.getTime() + oneMonth)
+
+    // Create new obContract model
+    var obj = {
+      clientDevice: this.device._id,
+      ownerUser: this.$store.state.userInfo.GUID,
+      renterUser: '',
+      price: 115,
+      experation: oneMonthFromNow.toISOString(),
+      title: this.device.deviceName,
+      description: this.device.deviceDesc,
+      listingUri: '',
+      imageHash: '',
+      listingState: 'Listed',
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString()
+    }
+
+    // Generate a new obContract model on the server.
+    var createModelPromise = $.post('/api/obContract/create', obj, (data) => {
+      // debugger
+      var obContractModel = data.collection
+
+      console.log('New model created. ID: ' + obContractModel._id)
+      return obContractModel
+    })
+    .fail(function (xhr, status, error) {
+      // debugger
+      console.error('Error trying to create new obContract model: ', error)
+    }).promise()
+
+    // Update the devicePublicData model with the obContract model ID.
+    createModelPromise.then((obContractModelId) => {
+      // debugger
+
+      var publicDeviceModel = this.device
+      publicDeviceModel.obContract = obContractModelId.collection._id
+
+      this.$store.dispatch('persistPublicDeviceModel', publicDeviceModel)
+
+      return obContractModelId
+    })
+
+    // submit the contract to OpenBazaar
+    .then(obContractModel => {
+      var createObListingPromise = $.get('/api/ob/createMarketListing/' + obContractModel.collection._id, '', (data) => {
+        // debugger
+
+        if (data.success) console.log('Successfully created OB listing.')
+        else console.log('OB listing creation failed.')
+      })
+      .fail(function (xhr, status, error) {
+        // debugger
+        console.error('Error trying to create new OpenBazaar listing: ', error)
+      }).promise()
+
+      createObListingPromise.then(data => {
+        // debugger
+      })
+    })
+
+    // .catch(err => {
+    //  debugger
+    //  console.error('Error trying to update device model with obContract model ID: ', err)
+    // })
   });
 }
 
