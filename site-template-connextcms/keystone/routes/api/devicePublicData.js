@@ -219,8 +219,8 @@ exports.remove = function (req, res) {
  */
 exports.register = function (req, res) {
   // const DEFAULT_EXPIRATION = 60000 * 60 * 24 * 30; // Thirty Days
-  const DEFAULT_EXPIRATION = 60000 * 60; // One Hour
-  // const DEFAULT_EXPIRATION = 60000 * 10; // 10 minutes
+  // const DEFAULT_EXPIRATION = 60000 * 60; // One Hour
+  const DEFAULT_EXPIRATION = 60000 * 15; // 15 minutes
 
   // Ensure the user has a valid CSRF token
   // if (!security.csrf.validate(req)) {
@@ -251,8 +251,7 @@ exports.register = function (req, res) {
 
     try {
       const now = new Date()
-      const thirtyDays = DEFAULT_EXPIRATION;
-      const expiration = new Date(now.getTime() + thirtyDays)
+      const expiration = new Date(now.getTime() + DEFAULT_EXPIRATION)
 
       devicePublicModel.set('memory', data.memory)
       devicePublicModel.set('diskSpace', data.diskSpace)

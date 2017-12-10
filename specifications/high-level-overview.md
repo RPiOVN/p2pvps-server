@@ -1,6 +1,6 @@
 # Overview
 This document contains a high-level technical overview of the P2P VPS suit of software. The suit consists of a
-set of server and client software. 
+set of server and client software.
 
 The client software is targeted for Raspberry Pi's minicomputers, but can be operated on
 any device that is capable of running Docker. The focus of the client software is to:
@@ -58,9 +58,9 @@ interested in contributing, [please let us know](http://p2pvps.org):
 See more details in the [Client Specification](client-specification.md).
 
 ## Server Overview
-The primary purpose of the server software is to orchastrate the network of devices and facilitate financial 
-transations via OpenBazaar. 
-Its secondary purpose is to connect with other servers, in order to establish a peer-to-peer (P2P) marketplace, 
+The primary purpose of the server software is to orchastrate the network of devices and facilitate financial
+transations via OpenBazaar.
+Its secondary purpose is to connect with other servers, in order to establish a peer-to-peer (P2P) marketplace,
 with no central point of failure. These goals are achieved by splitting the server into two software stacks:
 *The Marketplace* and the *The Server*.
 
@@ -88,27 +88,27 @@ See more details in the [Server Specification](server-specification.md).
 
 # High Level System Overview
 The sections below give additional details on how the system-as-a-whole works. Lower level specifications will
-be captured in the respective specification document for [Client](client-specification.md), 
+be captured in the respective specification document for [Client](client-specification.md),
 [Server](server-specification.md), and [Marketplace](marketplace-specification.md).
 
 ## Network Orchestration
-A client device registers with a server by making a REST API call and passing a server-generated key (GUID). 
-Upon recieving a valid registration call, the server opens new ports, generates login details, and returns this 
-information to the client. 
+A client device registers with a server by making a REST API call and passing a server-generated key (GUID).
+Upon recieving a valid registration call, the server opens new ports, generates login details, and returns this
+information to the client.
 The client then launches a Docker container with a minimal Linux environment. The container makes a
-reverse SSH connection to forward its local SSH port to the server's new port, tunneling through any firewalls, and creating 
+reverse SSH connection to forward its local SSH port to the server's new port, tunneling through any firewalls, and creating
 a command line interface accessible to the renter.
 
-The Server operates a minimal SSH server running inside a Docker container and another [LocalTunnel server](https://github.com/localtunnel/server) 
+The Server operates a minimal SSH server running inside a Docker container and another [LocalTunnel server](https://github.com/localtunnel/server)
 running inside it's own Docker container.
 This SSH shell allows connection to the client device via SSH.
 The LocalTunnel server also forwards port 80 (http) and port 443 (https) from the client device. A subdomain is created
-on the server allowing access to these three ports. This allows renters to connect to the command line on the 
+on the server allowing access to these three ports. This allows renters to connect to the command line on the
 client device and also
 serve web pages and web apps from a human-readable URL.
 
 ## Financial Transactions
-Transactions between Owners and Renters will take place over the [OpenBazaar](http://openbazaar.org/) 
+Transactions between Owners and Renters will take place over the [OpenBazaar](http://openbazaar.org/)
 (**OB**) network.
 This requires that the buyer and seller each have a local installation of OpenBazaar capable of
 sending a receiving cryptocurrency. Cryptocurrencies have the
@@ -117,13 +117,13 @@ connect Owners and Renters without having any liability with regard to finanical
 
 Owners will fill out a form to register their device, be given a key, and
 then install the software on the client hardware along with the key. Rental of devices will be billed by the hour.
-When a device is registered, its hardware (memory, CPU, hard-drive space) will be verified. 
+When a device is registered, its hardware (memory, CPU, hard-drive space) will be verified.
 Owners can then place the device for rent on the P2P VPS marketplace, or simply reserve it for personal use.
 The device owner can set the hourly rate they are willing to rent the device for on the marketplace.
 
-A renter agrees to the rental contract by purchase the contract on the OpenBazaar network for 
+A renter agrees to the rental contract by purchase the contract on the OpenBazaar network for
 a fixed length of time.
-The device is then taken off the P2P VPS OpenBazaar store. 
+The device is then taken off the P2P VPS OpenBazaar store.
 A random username and password generated for the device will be emailed to the renter at that time.
 As long as the device is connect to the internet, the device will be dedicated for the renters use.
 Once the length of the contract expires, the client device is reset and placed back on the marketplace.
@@ -136,10 +136,10 @@ This workflow diagram illustrates how transactions initiated and managed:
 
 
 ## Federated Servers
-Server software will be able to establish connections with other servers at the desire of the server administrator. 
+Server software will be able to establish connections with other servers at the desire of the server administrator.
 This API will allow P2P VPS servers to link to one another. The link will appear on their website as a designated
 place. A link to the servers OpenBazaar store will also appear on their OpenBazaar store page.
-By creating a federation of marketplaces, the overall network has no single point of failure. 
+By creating a federation of marketplaces, the overall network has no single point of failure.
 
 ![Federated network of servers](images/federated-diagram.jpg?raw=true "Federated network of servers")
 
@@ -156,12 +156,12 @@ uses to identify itself to the Server.
 
 3. The Client software makes a REST API call to the Server. It passes in the hash and the Server responds with
 a computer-generated username, password, and a port number. The port number is used to establish an reverse SSH
-tunnel to the Client device. A subdomain is also set up on the server using [LocalTunnel](https://github.com/localtunnel/server) 
+tunnel to the Client device. A subdomain is also set up on the server using [LocalTunnel](https://github.com/localtunnel/server)
 to forward ports 80 (http) and 443 (https) from the Client device to the new subdomain on the Server.
 
 4. When a Renter rents the device, they are emailed the username and password for the device.
 
-5. When the rental contract ends, the ports and subdomains are released by the server. 
+5. When the rental contract ends, the ports and subdomains are released by the server.
 The Client software destroys the Docker container the Renter was using and wipes any peristant storage.
 The Client re-registers itself back into the marketplace by repeating the process from Step 3.
 
@@ -169,3 +169,18 @@ The Client re-registers itself back into the marketplace by repeating the proces
 the connection to a minimal Ubuntu Docker image, the server can be better protected against malicious users.
 One area of improvement is to research a way of establishing an SSH server capable of doing
 reverse tunneling without giving command line access.
+
+
+## Rough Draft Specs
+
+### Rebooting:
+* In the flash-shell client, people need to be able to reboot the device without wiping the flash storage or re-registering the device.
+* On reboot, the client could check the expiration date on the server and decide whether to re-register or not.
+
+### Refunds and pro-rating of contracts
+* If the Listing Manager triggers an expiration date reset, it could also trigger a refund in OpenBazaar for the current contract. The trick is calculating the pro-rated fee. Would this also require all sales to use multi-sig contracts and a moderator?
+* This scheme would also require the server to hold payment until the terms of the contract are complete. Then it could distribute the money to the Owner.
+
+### Extensions to the expiration date
+* This would best be handled within the Vue application. Renters could log in and request an extension.
+* This request would generate an OB contract that they would then purchase.
