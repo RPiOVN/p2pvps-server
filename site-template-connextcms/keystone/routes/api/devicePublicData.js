@@ -492,7 +492,7 @@ function submitToMarket (device) {
 
     let options = {
       method: 'POST',
-      uri: '/api/obContract/create',
+      uri: 'http://localhost/api/obContract/create',
       body: obj,
       json: true // Automatically stringifies the body to JSON
       // resolveWithFullResponse: true
@@ -507,7 +507,7 @@ function submitToMarket (device) {
 
       options = {
         method: 'GET',
-        uri: `/api/ob/createMarketListing/${obContractModel._id}`,
+        uri: `http://localhost/api/ob/createMarketListing/${obContractModel._id}`,
         // body: listingData,
         json: true // Automatically stringifies the body to JSON
         // resolveWithFullResponse: true
