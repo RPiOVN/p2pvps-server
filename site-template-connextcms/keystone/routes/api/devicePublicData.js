@@ -538,7 +538,7 @@ function submitToMarket (device) {
 
 // This function remove the associated listing from the OB store.
 function removeOBListing (deviceData) {
-  // debugger;
+  debugger;
 
   const obContractId = deviceData.obContract;
 
@@ -555,7 +555,7 @@ function removeOBListing (deviceData) {
 
   return rp(options)
     .then(function (data) {
-      // debugger;
+      debugger;
 
       if (!data.success) { throw `Could not remove device ${obContractId} from rentedDevices list model.`; }
 
@@ -565,6 +565,7 @@ function removeOBListing (deviceData) {
       return true;
     })
     .catch(err => {
+      debugger;
       console.error(`Could not remove device ${obContractId} from rentedDevices list model.`);
       throw err;
     });
