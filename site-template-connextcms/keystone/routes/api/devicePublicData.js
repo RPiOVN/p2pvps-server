@@ -248,7 +248,7 @@ exports.register = function (req, res) {
 
     let data = req.method === 'POST' ? req.body : req.query
 
-    debugger
+    debugger;
 
     try {
       const now = new Date()
@@ -267,7 +267,7 @@ exports.register = function (req, res) {
       // Get the private data associated with this public model.
       var privateDeviceId = devicePublicModel.get('privateData')
       DevicePrivateModel.model.findById(privateDeviceId).exec(async function (err, privModel) {
-        debugger;
+        // debugger;
 
         // Validation & Error handling.
         if (err) return res.apiError('database error', err)
@@ -302,6 +302,7 @@ exports.register = function (req, res) {
             }
 
             debugger;
+            submitToMarket(devicePublicModel);
 
             res.apiResponse({
               clientData: deviceData
@@ -436,7 +437,7 @@ function releasePort (port) {
     request(`http://localhost:3000/api/portcontrol/${port}/remove`, function (error, response, body) {
       // If the request was successfull.
       if (!error && response.statusCode === 200) {
-        debugger;
+        // debugger;
         console.log(`Port ${port} successfully released from Port Control`);
         resolve(true);
 
@@ -455,7 +456,7 @@ function releasePort (port) {
   });
 }
 
-function submitToMarket () {
+function submitToMarket (device) {
   return new Promise(function (resolve, reject) {
     debugger
 

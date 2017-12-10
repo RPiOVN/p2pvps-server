@@ -81,13 +81,13 @@ exports.create = function (req, res) {
 // This function removes a port from the portControl array.
 // The ID of the port to be released is passed in the URI.
 exports.remove = function (req, res) {
-  debugger;
+  // debugger;
 
   const port = req.params.id;
 
   // Retrieve the list of used ports from the database.
   PortsUsedModel.model.find(function (err, items) {
-    debugger;
+    // debugger;
 
     if (err) return res.apiError('database error', err);
 
