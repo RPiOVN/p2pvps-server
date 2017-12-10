@@ -395,14 +395,14 @@ exports.getExpiration = function (req, res) {
     if (err) return res.apiError('database error', err)
     if (!item) return res.apiError('not found')
 
-    var now = new Date()
-    var timeStamp = now.toISOString()
+    //var now = new Date()
+    //var timeStamp = now.toISOString()
 
-    item.set('checkinTimeStamp', timeStamp)
-    item.save()
+    //item.set('checkinTimeStamp', timeStamp)
+    //item.save()
 
     res.apiResponse({
-      success: true
+      expiration: item.expiration;
     })
   })
 }
