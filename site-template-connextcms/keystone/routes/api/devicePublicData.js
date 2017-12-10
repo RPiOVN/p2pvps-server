@@ -476,8 +476,8 @@ function submitToMarket (device) {
 
     // Create new obContract model
     var obj = {
-      clientDevice: device._id.toString(),
-      ownerUser: device.ownerUser.toString(),
+      clientDevice: device._id,
+      ownerUser: device.ownerUser,
       renterUser: '',
       price: 30,
       experation: oneMonthFromNow.toISOString(),
