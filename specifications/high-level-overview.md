@@ -184,3 +184,7 @@ reverse tunneling without giving command line access.
 ### Extensions to the expiration date
 * This would best be handled within the Vue application. Renters could log in and request an extension.
 * This request would generate an OB contract that they would then purchase.
+
+### Logging
+* The NPM package `winston` needs to be implemented into all aspects of the server and client. Right now
+there is no logging and it will be needed to scale up tests and usage of the software.

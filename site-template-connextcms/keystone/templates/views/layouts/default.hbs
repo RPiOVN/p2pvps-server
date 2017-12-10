@@ -19,7 +19,7 @@
       gtag('config', 'UA-108742318-2');
     </script>
 
-    
+
     <!-- Google Fonts -->
     <!-- <link href="//fonts.googleapis.com/css?family=Neucha" rel="stylesheet"> -->
     <style>
@@ -42,7 +42,7 @@
         unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
       }
     </style>
-    
+
 		{{!-- This file provides the default styling for the KeystoneJS Content Editor
 			- only renders when user is logged in and admin--}}
 		{{{isAdminEditorCSS user}}}
@@ -61,37 +61,37 @@
     <div id="loader-wrapper">
       <div id="loader"></div>
     </div>
-    
+
 		<div id="header">
 			<div class="container">
 				<div role="navigation" class="navbar navbar-default navbar-static-top">
 					<div class="container-fluid" role='navigation'>
 						<div class="navbar-header">
-              
+
 							<a href='/' class='navbar-brand'>P2PVPS.net</a>
               <a href='/'><img src="/images/skagit-connext-logo-50x50.png" style="height: 45px;" /></a>
-              
+
               <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='.navbar-collapse'>
                 <span class='sr-only'>Toggle navigation</span>
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
               </button>
-              
+
 						</div>
-						
+
             <ul class='nav navbar-nav navbar-right collapse navbar-collapse'>
               <li><a href='/'>Home</a></li>
-              
+
               <li class='dropdown' id="menuSection">
                 <!-- <a href='/#' data-target='#' class='dropdown-toggle' data-toggle='dropdown' data-hover='dropdown'>About <span class='caret'></span></a> -->
                 <a href='/#' data-target='#' class='dropdown-toggle' data-toggle='dropdown'>About <span class='caret'></span></a>
                 <ul class='dropdown-menu' role='menu'>
-                  <li id="menuPage"><a href='#'>Our Story</a></li>                  
+                  <li id="menuPage"><a href='#'>Our Story</a></li>
                 </ul>
               </li>
 
-              <!-- KeystoneJS default menu items. 
+              <!-- KeystoneJS default menu items.
               <li class='dropdown'>
                 <a href='/#' data-target='#' class='dropdown-toggle' data-toggle='dropdown'>KeystoneLinks <span class='caret'></span></a>
                 <ul class='dropdown-menu' role='menu'>
@@ -99,32 +99,32 @@
 									<li {{#ifeq ../section key}}class="active"{{else}}{{/ifeq}}>
 										<a href="{{ href }}">{{ label }}</a>
 									</li>
-								  {{/each}}                  
+								  {{/each}}
                 </ul>
-              </li> 
+              </li>
               -->
-              
+
               <!-- Sign-Out and Sign-In Menu link. -->
               {{#if user}}
               <li><a href="/keystone/signout">Sign Out</a></li>
               {{else}}
               <li><a href="/keystone/signin">Sign In</a></li>
               {{/if}}
-              
+
             </ul>
-            
+
 					</div>
 				</div>
 			</div>
 		</div>
-    
+
     {{!--
 			//- jQuery 1.11.3 is included by default, and required by both Bootstrap
 			//- and the KeystoneJS Content Editor. If you are not targeting IE8,
 			//- you can upgrade to 2.1.4 (also bundled) for better performance.
 		--}}
 		<script src="/js/jquery/jquery-1.11.3.min.js"></script>
-    
+
 		<div id="body">
 			<!--
 				Flash messages allow you to display once-off status messages to users, e.g. form
@@ -159,10 +159,10 @@
 		</div>
 		<div class="container">
 			<div id="footer">
-				<p>Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> and <a href="http://connextcms.com" target="_blank">ConnextCMS.</a></p>
+				<p>Learn more at <a href="http://p2pvps.org">P2PVPS.org</a></p>
 			</div>
 		</div>
-		
+
 		{{!--
 			//- Customise which Bootstrap javascript files are served by including
 			//- them specifically here, instead of bootstrap-3.3.5.min.js
@@ -172,14 +172,14 @@
     <!-- https://github.com/CWSpear/bootstrap-hover-dropdown -->
     <script src="/js/bootstrap-hover-dropdown.min.js"></script>
 		{{{isAdminEditorJS user}}}
-    
+
     <!-- Import server settings -->
     <!-- <script src="/js/serversettings.js"></script> -->
-    
+
     <!-- Generate the navigation menu -->
     <script type="text/javascript">var section = {{{JSON section}}};</script>
     <script src="/js/navMenu.js" type="text/javascript"></script>
-    
+
     <!-- Hide the preloader after the page has loaded -->
     <script type="text/javascript">
       //Hide the preloader after everything finished loading and document is ready.
@@ -187,6 +187,6 @@
         $('#loader-wrapper').hide();
       });
     </script>
-    
+
 	</body>
 </html>
