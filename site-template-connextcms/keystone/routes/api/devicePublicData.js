@@ -401,6 +401,7 @@ exports.getExpiration = function (req, res) {
 
     let expiration = new Date(item.expiration);
 
+    // If the expiration time has passed.
     if (expiration.getTime() < now.getTime()) {
       // Remove the listing from the OB store
       console.log(`Removing listing for ${item._id}`);
@@ -410,7 +411,12 @@ exports.getExpiration = function (req, res) {
       })
       .catch(err => {
         console.error(`Error trying to remove the OB listing for ${item._id}`);
-        console.error(JSON.stringify(err, null, 2));
+
+        if (err.statusCode >= 500) {
+          console.error(`There was an issue with finding the listing on the OpenBazaar server. Skipping.`);
+        } else {
+          console.error(JSON.stringify(err, null, 2));
+        }
       });
     }
 
@@ -567,7 +573,9 @@ function removeOBListing (deviceData) {
     .then(function (data) {
       debugger;
 
-      if (!data.success) { throw `Could not remove device ${obContractId} from rentedDevices list model.`; }
+      if (!data.success) {
+        throw `Could not remove device ${obContractId} from rentedDevices list model.`;
+      }
 
       console.log(
         `Successfully removed listing on OB store with obContract model ID ${obContractId}`
