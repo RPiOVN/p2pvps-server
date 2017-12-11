@@ -192,7 +192,16 @@ exports.removeMarketListing = function (req, res) {
       .then(function (data) {
         debugger
 
-        return res.apiResponse({success: true})
+        // return res.apiResponse({success: true})
+
+        // Also delete the obContract model
+        item.remove(function (err) {
+          if (err) return res.apiError('database error', err);
+
+          return res.apiResponse({
+            success: true
+          });
+        });
       })
       .catch(function (err) {
         debugger
