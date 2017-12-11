@@ -404,7 +404,14 @@ exports.getExpiration = function (req, res) {
     if (expiration.getTime() < now.getTime()) {
       // Remove the listing from the OB store
       console.log(`Removing listing for ${item._id}`);
-      removeOBListing(item);
+      removeOBListing(item)
+      .then(() => {
+        console.log(`OB Listing for ${item._id} successfully removed.`);
+      })
+      .catch(err => {
+        console.error(`Error trying to remove the OB listing for ${item._id}`);
+        console.error(JSON.stringify(err, null, 2));
+      });
     }
 
     res.apiResponse({
