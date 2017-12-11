@@ -306,6 +306,7 @@ exports.register = function (req, res) {
             .then(data => {
               debugger;
               // Update the devicePublicModel with the newly created obContract model GUID.
+              // devicePublicModel.set('obContract', data.id);
             })
             .catch(err => {
               debugger;
@@ -472,7 +473,7 @@ function releasePort (port) {
 
 function submitToMarket (device) {
   return new Promise(function (resolve, reject) {
-    debugger
+    // debugger
 
     var now = new Date()
     var oneMonth = 1000 * 60 * 60 * 24 * 30
@@ -507,7 +508,7 @@ function submitToMarket (device) {
 
     // Use the new obContract model to create a listing on OpenBazaar.
     .then(obContractModel => {
-      debugger
+      // debugger
 
       options = {
         method: 'GET',
@@ -519,6 +520,7 @@ function submitToMarket (device) {
 
       return rp(options)
       .then(data => {
+        debugger;
         if (data.success) console.log('Successfully created OB listing.');
         else console.log('OB listing creation failed.');
 

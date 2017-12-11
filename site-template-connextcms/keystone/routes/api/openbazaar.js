@@ -10,13 +10,11 @@ var obContractModel = keystone.list('obContractModel')
 // Creates a listing on OpenBazaar based on an obContractModel.
 // An obContractModel GUID is passed in the URI.
 exports.createMarketListing = function (req, res) {
-  debugger
+  // debugger
 
   obContractModel.model.findById(req.params.id).exec(function (err, item) {
     if (err) return res.apiError('database error', err)
     if (!item) return res.apiError('not found')
-
-    debugger
 
     try {
       var listingData = {
@@ -69,7 +67,7 @@ exports.createMarketListing = function (req, res) {
 
       rp(options)
       .then(function (data) {
-        debugger
+        // debugger
 
         item.set('listingSlug', data.slug)
         item.set('imageHash', 'zb2rhe8p68xzhqVnVBPTELk2Sc9RuPSck3dkyJuRpM7LNfEYf')
@@ -488,7 +486,7 @@ exports.register = function (req, res) {
 /** ** BEGIN PROMISE AND UTILITY FUNCTIONS ****/
 
 function getOBAuth () {
-  debugger
+  // debugger
 
   var clientID = 'yourUsername'
   var clientSecret = 'yourPassword'
