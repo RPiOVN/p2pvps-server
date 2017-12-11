@@ -487,7 +487,13 @@ function releasePort (port) {
 
 function submitToMarket (device) {
   return new Promise(function (resolve, reject) {
-    // debugger
+    debugger
+
+    // Check if device already has an obContract GUID associated with it.
+    const obContractId = device.get('obContract');
+    if (obContractId) {
+      debugger;
+    }
 
     var now = new Date()
     var oneMonth = 1000 * 60 * 60 * 24 * 30
