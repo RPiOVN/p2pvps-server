@@ -486,13 +486,14 @@ function releasePort (port) {
 }
 
 function submitToMarket (device) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     debugger
 
     // Check if device already has an obContract GUID associated with it.
     const obContractId = device.get('obContract');
-    if (obContractId) {
+    if (obContractId !== '') {
       debugger;
+      await removeOBListing(device);
     }
 
     var now = new Date()
