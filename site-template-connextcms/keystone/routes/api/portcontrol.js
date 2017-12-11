@@ -66,7 +66,6 @@ exports.create = function (req, res) {
 
       portList.push(newPort)
       portsModel.set('usedPorts', portList)
-      console.log('Dev Note: Sometimes an error will appear here. Not sure why.');
       portsModel.save()
     }
 
