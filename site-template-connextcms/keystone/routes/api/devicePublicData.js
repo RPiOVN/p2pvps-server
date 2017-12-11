@@ -296,12 +296,12 @@ exports.register = function (req, res) {
             // Dev Note: Order of operation is important here. I want to release the old port
             // *after* I request a new port. Otherwise I'll run into SSH issues.
             if (usedPort) {
-              debugger;
+              // debugger;
               // Release the used port.
               await releasePort(usedPort);
             }
 
-            debugger;
+            // Create an OB store listing for this device.
             submitToMarket(devicePublicModel)
             .then(obContractId => {
               debugger;
@@ -491,7 +491,7 @@ function submitToMarket (device) {
 
     // Check if device already has an obContract GUID associated with it.
     const obContractId = device.get('obContract');
-    if (obContractId !== '') {
+    if (obContractId !== '' && obContractId !== null) {
       debugger;
       await removeOBListing(device);
     }
