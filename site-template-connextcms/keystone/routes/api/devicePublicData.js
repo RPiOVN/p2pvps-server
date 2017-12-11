@@ -524,7 +524,7 @@ function submitToMarket (device) {
         if (data.success) console.log('Successfully created OB listing.');
         else console.log('OB listing creation failed.');
 
-        return resolve(obContractModel._id);
+        return resolve(obContractModel.collection._id);
       });
     })
 
