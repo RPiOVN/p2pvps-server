@@ -303,10 +303,11 @@ exports.register = function (req, res) {
 
             debugger;
             submitToMarket(devicePublicModel)
-            .then(data => {
+            .then(obContractId => {
               debugger;
               // Update the devicePublicModel with the newly created obContract model GUID.
-              // devicePublicModel.set('obContract', data.id);
+              devicePublicModel.set('obContract', obContractId);
+              devicePublicModel.save();
             })
             .catch(err => {
               debugger;
