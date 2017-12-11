@@ -493,7 +493,19 @@ function submitToMarket (device) {
     const obContractId = device.get('obContract');
     if (obContractId !== '' && obContractId !== null) {
       debugger;
-      await removeOBListing(device);
+      await removeOBListing(device)
+      .then(() => {
+        console.log(`OB Listing for ${device._id} successfully removed.`);
+      })
+      .catch(err => {
+        console.error(`Error trying to remove the OB listing for ${device._id}`);
+
+        if (err.statusCode >= 500) {
+          console.error(`There was an issue with finding the listing on the OpenBazaar server. Skipping.`);
+        } else {
+          console.error(JSON.stringify(err, null, 2));
+        }
+      });
     }
 
     var now = new Date()
@@ -581,7 +593,7 @@ function removeOBListing (deviceData) {
       debugger;
 
       if (!data.success) {
-        throw `Could not remove device ${obContractId} from rentedDevices list model.`;
+        throw `Could not remove OB store listing for device ${obContractId}`;
       }
 
       console.log(
@@ -591,7 +603,7 @@ function removeOBListing (deviceData) {
     })
     .catch(err => {
       debugger;
-      console.error(`Could not remove device ${obContractId} from rentedDevices list model.`);
+      console.error(`Could not remove OB store listing for device ${obContractId}.`);
       throw err;
     });
 }
