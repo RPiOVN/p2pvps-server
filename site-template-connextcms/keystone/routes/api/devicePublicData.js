@@ -220,8 +220,8 @@ exports.remove = function (req, res) {
  */
 exports.register = function (req, res) {
   // const DEFAULT_EXPIRATION = 60000 * 60 * 24 * 30; // Thirty Days
-  // const DEFAULT_EXPIRATION = 60000 * 60; // One Hour
-  const DEFAULT_EXPIRATION = 60000 * 15; // 15 minutes
+  const DEFAULT_EXPIRATION = 60000 * 60; // One Hour
+  // const DEFAULT_EXPIRATION = 60000 * 15; // 15 minutes
 
   // Ensure the user has a valid CSRF token
   // if (!security.csrf.validate(req)) {
